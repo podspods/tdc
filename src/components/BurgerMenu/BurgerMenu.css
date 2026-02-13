@@ -1,0 +1,146 @@
+/* Burger menu container */
+.burger-menu {
+  position: relative;
+  z-index: 200;
+}
+
+/* Burger button styles */
+.burger-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 210;
+}
+
+/* Burger icon lines */
+.burger-line {
+  width: 30px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animation for open state - transforms lines into X */
+.burger-button.open .burger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.burger-button.open .burger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-button.open .burger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Menu overlay - covers the screen when menu is open */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
+  z-index: 150;
+}
+
+.menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Menu content - slides in from left */
+.menu-content {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: left 0.3s ease-in-out;
+  z-index: 200;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.menu-content.open {
+  left: 0;
+}
+
+/* Menu header */
+.menu-header {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.menu-header h2 {
+  color: #2563eb;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.menu-header p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Navigation menu */
+.menu-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-nav li {
+  margin-bottom: 15px;
+}
+
+.menu-nav a {
+  display: block;
+  padding: 10px 15px;
+  color: #4b5563;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.menu-nav a:hover {
+  background-color: #f3f4f6;
+  color: #2563eb;
+}
+
+/* Responsive adjustments for larger screens */
+@media (min-width: 768px) {
+  .burger-button {
+    display: none; /* Hide burger button on larger screens */
+  }
+
+  .menu-overlay {
+    display: none;
+  }
+
+  .menu-content {
+    left: 0; /* Always visible on desktop */
+    width: 240px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .layout {
+    margin-left: 240px; /* Make room for fixed sidebar */
+  }
+}
