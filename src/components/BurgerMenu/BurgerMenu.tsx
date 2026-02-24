@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./BurgerMenu.css";
 
 // BurgerMenu component - Handles the mobile navigation menu
@@ -6,6 +7,7 @@ import "./BurgerMenu.css";
 const BurgerMenu: React.FC = () => {
   // State to manage menu open/close status
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // Effect to handle body scroll locking when menu is open on mobile
   useEffect(() => {
@@ -26,6 +28,12 @@ const BurgerMenu: React.FC = () => {
   // Toggle menu open/close state
   const toggleMenu = (): void => {
     setIsOpen(!isOpen);
+  };
+
+  // Close menu and navigate to the specified path
+  const handleNavigation = (path: string): void => {
+    setIsOpen(false);
+    navigate(path);
   };
 
   // Close menu handler
@@ -63,19 +71,19 @@ const BurgerMenu: React.FC = () => {
 
         <ul className="menu-nav">
           <li>
-            <a href="/" onClick={closeMenu}>
+            <Link to="/" onClick={closeMenu} className="nav-link">
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/about" onClick={closeMenu}>
+            <button onClick={() => handleNavigation("/about")} className="nav-button">
               About
-            </a>
+            </button>
           </li>
           <li>
-            <a href="/contact" onClick={closeMenu}>
+            <Link to="/contact" onClick={closeMenu} className="nav-link">
               Contact
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

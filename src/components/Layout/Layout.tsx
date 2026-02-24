@@ -1,7 +1,6 @@
 import React from "react";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import "./Layout.css";
-import { HelloWorld } from "../HelloWord/Helloword";
+import BurgerMenu from "../BurgerMenu/BurgerMenu2";
 
 // Props interface for Layout component
 interface LayoutProps {
@@ -15,10 +14,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="layout">
       <header className="header">
         <BurgerMenu />
-        <h1 className="header-title">TDC</h1>
+        <h1 className="header-title">Hello World App</h1>
       </header>
 
-      <main className="main-content">{children || <HelloWorld />}</main>
+      <main className="main-content">{children}</main>
     </div>
   );
 };
