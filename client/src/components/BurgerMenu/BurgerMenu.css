@@ -1,0 +1,42 @@
+/* Add these styles to the existing BurgerMenu.css */
+
+/* Navigation menu */
+.menu-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-nav li {
+  margin-bottom: 15px;
+}
+
+.menu-nav a,
+.menu-nav .nav-button {
+  display: block;
+  padding: 10px 15px;
+  color: #4b5563;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.menu-nav a:hover,
+.menu-nav .nav-button:hover {
+  background-color: #f3f4f6;
+  color: #2563eb;
+}
+
+/* Active link styles */
+.menu-nav a.active {
+  background-color: #e5e7eb;
+  color: #2563eb;
+  font-weight: 600;
+}
