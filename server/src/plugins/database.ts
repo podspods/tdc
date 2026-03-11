@@ -51,42 +51,42 @@ async function databasePlugin(fastify: FastifyInstance) {
   });
 
   // Créer la table clients si elle n'existe pas
-  await fastify.pg.query(`
-    CREATE TABLE IF NOT EXISTS clients (
-      id SERIAL PRIMARY KEY,
-      client_code VARCHAR(20) UNIQUE NOT NULL,
-      last_name VARCHAR(100) NOT NULL,
-      first_name VARCHAR(100) NOT NULL,
-      email VARCHAR(255) UNIQUE NOT NULL,
-      phone VARCHAR(20) NOT NULL,
-      address TEXT,
-      city VARCHAR(100),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+  // await fastify.pg.query(`
+  //   CREATE TABLE IF NOT EXISTS clients (
+  //     id SERIAL PRIMARY KEY,
+  //     client_code VARCHAR(20) UNIQUE NOT NULL,
+  //     last_name VARCHAR(100) NOT NULL,
+  //     first_name VARCHAR(100) NOT NULL,
+  //     email VARCHAR(255) UNIQUE NOT NULL,
+  //     phone VARCHAR(20) NOT NULL,
+  //     address TEXT,
+  //     city VARCHAR(100),
+  //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  //   );
 
-    CREATE INDEX IF NOT EXISTS idx_clients_email ON clients(email);
-    CREATE INDEX IF NOT EXISTS idx_clients_client_code ON clients(client_code);
-  `);
+  //   CREATE INDEX IF NOT EXISTS idx_clients_email ON clients(email);
+  //   CREATE INDEX IF NOT EXISTS idx_clients_client_code ON clients(client_code);
+  // `);
 
   // Trigger pour mettre à jour updated_at
-  await fastify.pg.query(`
-    CREATE OR REPLACE FUNCTION update_updated_at_column()
-    RETURNS TRIGGER AS $$
-    BEGIN
-      NEW.updated_at = CURRENT_TIMESTAMP;
-      RETURN NEW;
-    END;
-    $$ language 'plpgsql';
+  // await fastify.pg.query(`
+  //   CREATE OR REPLACE FUNCTION update_updated_at_column()
+  //   RETURNS TRIGGER AS $$
+  //   BEGIN
+  //     NEW.updated_at = CURRENT_TIMESTAMP;
+  //     RETURN NEW;
+  //   END;
+  //   $$ language 'plpgsql';
 
-    DROP TRIGGER IF EXISTS update_clients_updated_at ON clients;
-    CREATE TRIGGER update_clients_updated_at
-      BEFORE UPDATE ON clients
-      FOR EACH ROW
-      EXECUTE FUNCTION update_updated_at_column();
-  `);
+  //   DROP TRIGGER IF EXISTS update_clients_updated_at ON clients;
+  //   CREATE TRIGGER update_clients_updated_at
+  //     BEFORE UPDATE ON clients
+  //     FOR EACH ROW
+  //     EXECUTE FUNCTION update_updated_at_column();
+  // `);
 
-  fastify.log.info("📦 Database schema initialized");
+  // fastify.log.info("📦 Database schema initialized");
 }
 
 export default fastifyPlugin(databasePlugin);

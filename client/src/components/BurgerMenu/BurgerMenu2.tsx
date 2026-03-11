@@ -18,12 +18,15 @@ const BurgerMenu: React.FC = () => {
   // Menu items data
   const menuItems: MenuItem[] = [
     { id: "home", label: "Home", path: "/" },
-    { id: "about", label: "About", path: "/about" },
-    { id: "services", label: "Services", path: "/services" },
+    { id: "models", label: "Model", path: "/models" },
+    { id: "ADM model", label: "ADM Model", path: "/admin/models" },
+    { id: "registrations", label: "registrations", path: "/registrations" },
+    { id: "ADM registrations", label: "ADM registrations", path: "/admin/registrations" },
     { id: "checkDatabase", label: "checkDatabase", path: "/checkDatabase" },
+    { id: "testApi", label: "testApi", path: "/testApi" },
+    { id: "about", label: "About", path: "/about" },
     { id: "contact", label: "Contact", path: "/contact" },
   ];
-
   // Toggle menu function
   const toggleMenu = (): void => {
     setIsOpen(!isOpen);

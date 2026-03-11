@@ -59,3 +59,9 @@ export interface ListQueryParams {
   country?: string;
   search?: string;
 }
+
+export interface BrandOption {
+  brandId: number;
+  brandName: string;
+  countryOfOrigin: string;
+}

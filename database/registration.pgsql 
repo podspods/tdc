@@ -1,0 +1,94 @@
+-- =====================================================
+-- TABLE: registrations (simplified version)
+-- Description: Motorcycle registrations with plate number as unique key
+-- =====================================================
+
+CREATE TABLE registrations (
+    registration_id SERIAL PRIMARY KEY,
+    plate_number VARCHAR(20) UNIQUE NOT NULL,
+    owner_name VARCHAR(200) NOT NULL,
+    owner_phone VARCHAR(20),
+    owner_email VARCHAR(255),
+    color VARCHAR(50),
+    
+    -- Relations
+    brand_id INTEGER NOT NULL REFERENCES motorcycle_brands(brand_id),
+    model_id INTEGER REFERENCES motorcycle_models(model_id),
+    
+    -- Metadata
+    created_by VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT valid_email CHECK (owner_email IS NULL OR owner_email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    CONSTRAINT valid_phone CHECK (owner_phone IS NULL OR owner_phone ~ '^[0-9+\-\s]{10,15}$')
+);
+
+-- Indexes
+CREATE INDEX idx_registrations_plate ON registrations(plate_number);
+CREATE INDEX idx_registrations_owner ON registrations(owner_name);
+CREATE INDEX idx_registrations_brand ON registrations(brand_id);
+CREATE INDEX idx_registrations_model ON registrations(model_id);
+
+-- Trigger for updated_at
+CREATE TRIGGER trigger_registrations_updated_at
+    BEFORE UPDATE ON registrations
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Insert sample data
+INSERT INTO registrations (
+    plate_number, owner_name, owner_phone, owner_email, color,
+    brand_id, model_id, created_by
+) VALUES
+-- Honda registrations
+('59A1-12345', 'Nguyen Van A', '0901234567', 'nguyenvana@email.com', 'Red',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Honda'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'CB 650 R' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Honda')),
+ 'system'),
+
+('59B2-67890', 'Tran Thi B', '0912345678', 'tranthib@email.com', 'Black',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Honda'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'CBR 600 RR' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Honda')),
+ 'system'),
+
+-- Yamaha registrations
+('59C3-24680', 'Le Van C', '0923456789', 'levanc@email.com', 'Blue',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Yamaha'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'MT-07' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Yamaha')),
+ 'system'),
+
+('59D4-13579', 'Pham Thi D', '0934567890', 'phamthid@email.com', 'Grey',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Yamaha'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'MT-09' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Yamaha')),
+ 'system'),
+
+-- BMW registrations
+('59E5-97531', 'Hoang Van E', '0945678901', 'hoangvane@email.com', 'White',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'BMW'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'R 1250 GS' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'BMW')),
+ 'system'),
+
+('59F6-86420', 'Nguyen Thi F', '0956789012', 'nguyenthif@email.com', 'Blue',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'BMW'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'S 1000 RR' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'BMW')),
+ 'system'),
+
+-- Suzuki registration
+('59G7-11223', 'Tran Van G', '0967890123', 'tranvang@email.com', 'Yellow',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Suzuki'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'V-Strom 650' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Suzuki')),
+ 'system'),
+
+-- Ducati registration
+('59H8-33445', 'Le Thi H', '0978901234', 'lethih@email.com', 'Red',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Ducati'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'Monster' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Ducati')),
+ 'system'),
+
+-- Kawasaki registration
+('59I9-55667', 'Pham Van I', '0989012345', 'phamvani@email.com', 'Green',
+ (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Kawasaki'),
+ (SELECT model_id FROM motorcycle_models WHERE model_name = 'Ninja ZX-10R' AND brand_id = (SELECT brand_id FROM motorcycle_brands WHERE brand_name = 'Kawasaki')),
+ 'system');

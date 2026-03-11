@@ -42,28 +42,48 @@ postgres-demo/
 ├── server/
 │   ├── src/
 │   │   ├── routes/
-│   │   │   └── motorcycleBrand.routes.ts
+│   │   │   ├── motorcycleBrand.routes.ts
+│   │   │   ├── registration.routes.ts
+│   │   │   └── motorcycleModel.routes.ts
 │   │   ├── controllers/
-│   │   │   └── motorcycleBrand.controller.ts
+│   │   │   ├── motorcycleBrand.controller.ts
+│   │   │   ├── registration.controller.ts
+│   │   │   └── motorcycleModel.controller.ts
 │   │   ├── services/
-│   │   │   └── motorcycleBrand.service.ts
+│   │   │   ├── motorcycleBrand.service.ts
+│   │   │   ├── registration.service.ts
+│   │   │   ├── motorcycleModel.service.ts
 │   │   ├── repositories/
-│   │   │   └── motorcycleBrand.repository.ts
+│   │   │   ├── motorcycleBrand.repository.ts
+│   │   │   ├── registration.repository.ts
+│   │   │   ├── motorcycleModel.repository.ts
 │   │   ├── models/
-│   │   │   └── motorcycleBrand.model.ts
+│   │   │   ├── motorcycleBrand.model.ts
+│   │   │   ├── registration.model.ts
+│   │   │   ├── motorcycleModel.model.ts
 │   │   └── types/
-│   │       └── motorcycleBrand.types.ts
+│   │       ├── motorcycleBrand.types.ts
+│   │       ├── registration.types.ts
+│   │       ├── motorcycleModel.types.ts
 │   └── server.ts
 ├── client/
 │   ├── src/
 │   │   ├── common/
-│   │   │   └── motorcycleBrand.service.ts
+│   │   │   ├── motorcycleBrand.common.ts
+│   │   │   ├── registration.common.ts
+│   │   │   ├── motorcycleModel.common.ts
 │   │   ├── types/
-│   │   │   └── motorcycleBrand.types.ts
+│   │   │   ├── motorcycleBrand.types.ts
+│   │   │   ├── registration.types.ts
+│   │   │   ├── motorcycleModel.types.ts
 │   │   ├── styles/
-│   │   │   └── motorcycleBrand.style.ts
+│   │   │   ├── motorcycleBrand.style.ts
+│   │   │   ├── registration.style.ts
+│   │   │   ├── motorcycleModel.style.ts
 │   │   ├── services/
-│   │   │   └── motorcycleBrand.service.ts
+│   │   │   ├── motorcycleBrand.service.ts
+│   │   │   ├── registration.service.ts
+│   │   │   ├── motorcycleModel.service.ts
 │   │   ├── components/
 │   │   │   ├── Layout
 │   │   │   ├── Navigation
@@ -73,6 +93,8 @@ postgres-demo/
 │   │       ├── Home.tsx
 │   │       ├── About.tsx
 │   │       ├── Test.tsx
+│   │       ├── motorcycleModel.page.tsx
+│   │       ├── registration.page.tsx
 │   │       └── MotorcycleBrand.page.tsx
 └── database.sql
 ```
@@ -95,4 +117,7 @@ vehicule
 - créer la basede donnée tdc2026
 - créer la table region par une requette SQL
 - faire une API REST pour CRUD de cette table.
+
 # tdc
+
+![diagrame entite](public/diagrame-entite.drawio.png)
