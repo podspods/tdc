@@ -44,26 +44,56 @@ postgres-demo/
 │   │   ├── routes/
 │   │   │   ├── motorcycleBrand.routes.ts
 │   │   │   ├── registration.routes.ts
+│   │   │   ├── invoice.routes.ts
+│   │   │   ├── owner.routes.ts
+│   │   │   ├── labor.routes.ts
+│   │   │   ├── consumable.routes.ts
+│   │   │   ├── sparePart.routes.ts
 │   │   │   └── motorcycleModel.routes.ts
 │   │   ├── controllers/
 │   │   │   ├── motorcycleBrand.controller.ts
 │   │   │   ├── registration.controller.ts
+│   │   │   ├── invoice.controller.ts
+│   │   │   ├── owner.controller.ts
+│   │   │   ├── labor.controller.ts
+│   │   │   ├── consumable.controller.ts
+│   │   │   ├── sparePart.controller.ts
 │   │   │   └── motorcycleModel.controller.ts
 │   │   ├── services/
 │   │   │   ├── motorcycleBrand.service.ts
 │   │   │   ├── registration.service.ts
+│   │   │   ├── invoice.service.ts
+│   │   │   ├── owner.service.ts
+│   │   │   ├── labor.service.ts
+│   │   │   ├── consumable.service.ts
+│   │   │   ├── sparePart.service.ts
 │   │   │   ├── motorcycleModel.service.ts
 │   │   ├── repositories/
 │   │   │   ├── motorcycleBrand.repository.ts
 │   │   │   ├── registration.repository.ts
+│   │   │   ├── invoice.repository.ts
+│   │   │   ├── owner.repository.ts
+│   │   │   ├── labor.repository.ts
+│   │   │   ├── consumable.repository.ts
+│   │   │   ├── sparePart.repository.ts
 │   │   │   ├── motorcycleModel.repository.ts
 │   │   ├── models/
 │   │   │   ├── motorcycleBrand.model.ts
 │   │   │   ├── registration.model.ts
+│   │   │   ├── invoice.model.ts
+│   │   │   ├── owner.model.ts
+│   │   │   ├── labor.model.ts
+│   │   │   ├── consumable.model.ts
+│   │   │   ├── sparePart.model.ts
 │   │   │   ├── motorcycleModel.model.ts
 │   │   └── types/
 │   │       ├── motorcycleBrand.types.ts
 │   │       ├── registration.types.ts
+│   │       ├── invoice.types.ts
+│   │       ├── owner.types.ts
+│   │       ├── labor.types.ts
+│   │       ├── consumable.types.ts
+│   │       ├── sparePart.types.ts
 │   │       ├── motorcycleModel.types.ts
 │   └── server.ts
 ├── client/
@@ -71,18 +101,38 @@ postgres-demo/
 │   │   ├── common/
 │   │   │   ├── motorcycleBrand.common.ts
 │   │   │   ├── registration.common.ts
+│   │   │   ├── invoice.common.ts
+│   │   │   ├── owner.common.ts
+│   │   │   ├── labor.common.ts
+│   │   │   ├── consumable.common.ts
+│   │   │   ├── sparePart.common.ts
 │   │   │   ├── motorcycleModel.common.ts
 │   │   ├── types/
 │   │   │   ├── motorcycleBrand.types.ts
 │   │   │   ├── registration.types.ts
+│   │   │   ├── invoice.types.ts
+│   │   │   ├── owner.types.ts
+│   │   │   ├── labor.types.ts
+│   │   │   ├── consumable.types.ts
+│   │   │   ├── sparePart.types.ts
 │   │   │   ├── motorcycleModel.types.ts
 │   │   ├── styles/
 │   │   │   ├── motorcycleBrand.style.ts
 │   │   │   ├── registration.style.ts
+│   │   │   ├── invoice.style.ts
+│   │   │   ├── owner.style.ts
+│   │   │   ├── consumable.style.ts
+│   │   │   ├── labor.style.ts
+│   │   │   ├── sparePart.style.ts
 │   │   │   ├── motorcycleModel.style.ts
 │   │   ├── services/
 │   │   │   ├── motorcycleBrand.service.ts
 │   │   │   ├── registration.service.ts
+│   │   │   ├── invoice.service.ts
+│   │   │   ├── owner.service.ts
+│   │   │   ├── consumable.service.ts
+│   │   │   ├── labor.service.ts
+│   │   │   ├── sparePart.service.ts
 │   │   │   ├── motorcycleModel.service.ts
 │   │   ├── components/
 │   │   │   ├── Layout
@@ -95,6 +145,16 @@ postgres-demo/
 │   │       ├── Test.tsx
 │   │       ├── motorcycleModel.page.tsx
 │   │       ├── registration.page.tsx
+│   │       ├── owner.page.tsx
+│   │       ├── ownerAdm.page.tsx
+│   │       ├── invoice.page.tsx
+│   │       ├── invoiceAdm.page.tsx
+│   │       ├── labor.page.tsx
+│   │       ├── laborAdm.page.tsx
+│   │       ├── consumable.page.tsx
+│   │       ├── consumableAdm.page.tsx
+│   │       ├── sparePart.page.tsx
+│   │       ├── sparePartAdm.page.tsx
 │   │       └── MotorcycleBrand.page.tsx
 └── database.sql
 ```

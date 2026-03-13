@@ -23,6 +23,7 @@ export interface UpdateMotorcycleBrandDto {
 }
 
 export interface ApiResponse<T = any> {
+  pagination: any;
   success: boolean;
   data?: T;
   error?: string;

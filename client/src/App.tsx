@@ -10,6 +10,10 @@ import MotorcycleModelList from "./components/MotorcycleModelList";
 import MotorcycleModelAdmin from "./components/MotorcycleModelAdmin";
 import RegistrationPage from "./pages/Registration/Registration";
 import RegistrationAdminPage from "./client/src/pages/Registration/Registration";
+import OwnersPage from "./pages/OwnersPage";
+import OwnerAdminPage from "./pages/OwnerAdminPage";
+import InvoicesPage from "./pages/InvoicesPage";
+import InvoiceAdminPage from "./pages/InvoiceAdminPage";
 
 // Main App component with routing configuration
 const App: React.FC = () => {
@@ -27,6 +31,10 @@ const App: React.FC = () => {
             <Route path="/admin/models" element={<MotorcycleModelAdmin />} />
             <Route path="/registrations" element={<RegistrationPage />} />
             <Route path="/admin/registrations" element={<RegistrationAdminPage />} />
+            <Route path="/owners" element={<OwnersPage />} />
+            <Route path="/admin/owners" element={<OwnerAdminPage />} />
+            <Route path="/invoices" element={<InvoicesPage />} />
+            <Route path="/admin/invoices" element={<InvoiceAdminPage />} />
             <Route path="*" element={<Home />} /> {/* Redirect unknown routes to Home */}
           </Routes>
         </Layout>

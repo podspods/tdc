@@ -1,0 +1,327 @@
+-- =====================================================
+-- ENUM TYPES
+-- =====================================================
+CREATE TYPE invoice_status AS ENUM ('draft', 'pending', 'paid', 'partially_paid', 'overdue', 'cancelled');
+
+-- =====================================================
+-- TABLE: invoices
+-- Description: Main invoice table
+-- =====================================================
+CREATE TABLE invoices (
+    invoice_id SERIAL PRIMARY KEY,
+    invoice_number VARCHAR(50) UNIQUE NOT NULL,
+    
+    -- Relations
+    registration_id INTEGER NOT NULL REFERENCES registrations(registration_id) ON DELETE RESTRICT,
+    owner_id INTEGER NOT NULL REFERENCES owners(owner_id) ON DELETE RESTRICT,
+    
+    -- Dates
+    issue_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    due_date DATE NOT NULL,
+    closed_date DATE,
+    
+    -- Status
+    status invoice_status NOT NULL DEFAULT 'pending',
+    
+    -- Totals
+    subtotal_labor DECIMAL(12,2) NOT NULL DEFAULT 0,
+    subtotal_parts DECIMAL(12,2) NOT NULL DEFAULT 0,
+    subtotal_consumables DECIMAL(12,2) NOT NULL DEFAULT 0,
+    subtotal DECIMAL(12,2) GENERATED ALWAYS AS (subtotal_labor + subtotal_parts + subtotal_consumables) STORED,
+    
+    tax_rate DECIMAL(5,2) DEFAULT 10.0,
+    tax_amount DECIMAL(12,2) GENERATED ALWAYS AS (subtotal * tax_rate / 100) STORED,
+    total_amount DECIMAL(12,2) GENERATED ALWAYS AS (subtotal + (subtotal * tax_rate / 100)) STORED,
+    
+    -- Payment tracking
+    amount_paid DECIMAL(12,2) NOT NULL DEFAULT 0,
+    amount_due DECIMAL(12,2) GENERATED ALWAYS AS (total_amount - amount_paid) STORED,
+    
+    -- Payment method
+    payment_method VARCHAR(50), -- 'cash', 'card', 'bank_transfer', 'e_wallet'
+    payment_reference VARCHAR(100),
+    payment_date DATE,
+    
+    -- Notes
+    notes TEXT,
+    internal_notes TEXT,
+    
+    -- Metadata
+    created_by VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- TABLE: invoice_labor_items
+-- Description: Labor items for invoices
+-- =====================================================
+CREATE TABLE invoice_labor_items (
+    labor_item_id SERIAL PRIMARY KEY,
+    invoice_id INTEGER NOT NULL REFERENCES invoices(invoice_id) ON DELETE CASCADE,
+    
+    description VARCHAR(255) NOT NULL,
+    hours DECIMAL(10,2) NOT NULL,
+    rate_per_hour DECIMAL(12,2) NOT NULL,
+    amount DECIMAL(12,2) GENERATED ALWAYS AS (hours * rate_per_hour) STORED,
+    
+    mechanic_name VARCHAR(100),
+    notes TEXT,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- TABLE: invoice_parts_items
+-- Description: Parts items for invoices
+-- =====================================================
+CREATE TABLE invoice_parts_items (
+    parts_item_id SERIAL PRIMARY KEY,
+    invoice_id INTEGER NOT NULL REFERENCES invoices(invoice_id) ON DELETE CASCADE,
+    
+    part_name VARCHAR(255) NOT NULL,
+    part_reference VARCHAR(100),
+    quantity INTEGER NOT NULL DEFAULT 1,
+    unit_price DECIMAL(12,2) NOT NULL,
+    amount DECIMAL(12,2) GENERATED ALWAYS AS (quantity * unit_price) STORED,
+    
+    supplier VARCHAR(100),
+    warranty_months INTEGER,
+    notes TEXT,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- TABLE: invoice_consumable_items
+-- Description: Consumable items for invoices
+-- =====================================================
+CREATE TABLE invoice_consumable_items (
+    consumable_item_id SERIAL PRIMARY KEY,
+    invoice_id INTEGER NOT NULL REFERENCES invoices(invoice_id) ON DELETE CASCADE,
+    
+    consumable_name VARCHAR(255) NOT NULL,
+    quantity DECIMAL(10,2) NOT NULL DEFAULT 1,
+    unit VARCHAR(20), -- 'liter', 'kg', 'piece', etc.
+    unit_price DECIMAL(12,2) NOT NULL,
+    amount DECIMAL(12,2) GENERATED ALWAYS AS (quantity * unit_price) STORED,
+    
+    notes TEXT,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- TABLE: invoice_payments
+-- Description: Track partial payments
+-- =====================================================
+CREATE TABLE invoice_payments (
+    payment_id SERIAL PRIMARY KEY,
+    invoice_id INTEGER NOT NULL REFERENCES invoices(invoice_id) ON DELETE CASCADE,
+    
+    payment_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    amount DECIMAL(12,2) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL, -- 'cash', 'card', 'bank_transfer', 'e_wallet'
+    reference VARCHAR(100),
+    notes TEXT,
+    
+    created_by VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- INDEXES
+-- =====================================================
+CREATE INDEX idx_invoices_number ON invoices(invoice_number);
+CREATE INDEX idx_invoices_registration ON invoices(registration_id);
+CREATE INDEX idx_invoices_owner ON invoices(owner_id);
+CREATE INDEX idx_invoices_status ON invoices(status);
+CREATE INDEX idx_invoices_due_date ON invoices(due_date);
+CREATE INDEX idx_invoices_issue_date ON invoices(issue_date);
+
+CREATE INDEX idx_labor_invoice ON invoice_labor_items(invoice_id);
+CREATE INDEX idx_parts_invoice ON invoice_parts_items(invoice_id);
+CREATE INDEX idx_consumables_invoice ON invoice_consumable_items(invoice_id);
+CREATE INDEX idx_payments_invoice ON invoice_payments(invoice_id);
+
+-- =====================================================
+-- TRIGGER for updated_at
+-- =====================================================
+CREATE TRIGGER trigger_invoices_updated_at
+    BEFORE UPDATE ON invoices
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- =====================================================
+-- FUNCTION: Update invoice totals when items change
+-- =====================================================
+CREATE OR REPLACE FUNCTION update_invoice_totals()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_invoice_id INTEGER;
+    v_labor_total DECIMAL(12,2);
+    v_parts_total DECIMAL(12,2);
+    v_consumables_total DECIMAL(12,2);
+BEGIN
+    -- Determine which invoice to update
+    IF TG_OP = 'DELETE' THEN
+        v_invoice_id = OLD.invoice_id;
+    ELSE
+        v_invoice_id = NEW.invoice_id;
+    END IF;
+    
+    -- Calculate totals
+    SELECT COALESCE(SUM(amount), 0) INTO v_labor_total
+    FROM invoice_labor_items WHERE invoice_id = v_invoice_id;
+    
+    SELECT COALESCE(SUM(amount), 0) INTO v_parts_total
+    FROM invoice_parts_items WHERE invoice_id = v_invoice_id;
+    
+    SELECT COALESCE(SUM(amount), 0) INTO v_consumables_total
+    FROM invoice_consumable_items WHERE invoice_id = v_invoice_id;
+    
+    -- Update invoice
+    UPDATE invoices SET
+        subtotal_labor = v_labor_total,
+        subtotal_parts = v_parts_total,
+        subtotal_consumables = v_consumables_total,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE invoice_id = v_invoice_id;
+    
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Triggers for each item table
+CREATE TRIGGER trigger_update_labor_totals
+    AFTER INSERT OR UPDATE OR DELETE ON invoice_labor_items
+    FOR EACH ROW
+    EXECUTE FUNCTION update_invoice_totals();
+
+CREATE TRIGGER trigger_update_parts_totals
+    AFTER INSERT OR UPDATE OR DELETE ON invoice_parts_items
+    FOR EACH ROW
+    EXECUTE FUNCTION update_invoice_totals();
+
+CREATE TRIGGER trigger_update_consumables_totals
+    AFTER INSERT OR UPDATE OR DELETE ON invoice_consumable_items
+    FOR EACH ROW
+    EXECUTE FUNCTION update_invoice_totals();
+
+-- =====================================================
+-- FUNCTION: Generate invoice number
+-- =====================================================
+CREATE OR REPLACE FUNCTION generate_invoice_number()
+RETURNS TRIGGER AS $$
+DECLARE
+    year_prefix VARCHAR(4);
+    sequence_num INTEGER;
+    new_number VARCHAR(50);
+BEGIN
+    year_prefix := TO_CHAR(NEW.issue_date, 'YYYY');
+    
+    SELECT COALESCE(MAX(CAST(SUBSTRING(invoice_number FROM 9) AS INTEGER)), 0) + 1
+    INTO sequence_num
+    FROM invoices
+    WHERE invoice_number LIKE 'INV-' || year_prefix || '-%';
+    
+    NEW.invoice_number := 'INV-' || year_prefix || '-' || LPAD(sequence_num::TEXT, 5, '0');
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_generate_invoice_number
+    BEFORE INSERT ON invoices
+    FOR EACH ROW
+    EXECUTE FUNCTION generate_invoice_number();
+
+-- =====================================================
+-- SAMPLE DATA
+-- =====================================================
+
+-- Invoices
+INSERT INTO invoices (
+    registration_id, owner_id, issue_date, due_date, status,
+    tax_rate, amount_paid, payment_method, payment_date,
+    notes, created_by
+) VALUES
+-- Invoice 1: Fully paid
+(1, 1, '2026-02-15', '2026-03-15', 'paid', 10.0, 2145000, 'cash', '2026-03-01', 'Regular maintenance', 'system'),
+-- Invoice 2: Partially paid
+(2, 2, '2026-02-20', '2026-03-20', 'partially_paid', 10.0, 1500000, NULL, NULL, 'Engine repair', 'system'),
+-- Invoice 3: Pending
+(3, 3, '2026-03-01', '2026-04-01', 'pending', 10.0, 0, NULL, NULL, 'Full service', 'system'),
+-- Invoice 4: Overdue
+(4, 4, '2026-01-10', '2026-02-10', 'overdue', 10.0, 0, NULL, NULL, 'Major repairs', 'system'),
+-- Invoice 5: Paid
+(5, 5, '2026-03-05', '2026-04-05', 'paid', 10.0, 3850000, 'card', '2026-03-10', 'Parts replacement', 'system');
+
+-- Labor items for Invoice 1
+INSERT INTO invoice_labor_items (invoice_id, description, hours, rate_per_hour, mechanic_name) VALUES
+(1, 'Oil change', 0.5, 500000, 'Nguyen Van A'),
+(1, 'Brake inspection', 0.5, 500000, 'Nguyen Van A'),
+(1, 'Chain cleaning and lubrication', 0.5, 500000, 'Tran Van B');
+
+-- Parts items for Invoice 1
+INSERT INTO invoice_parts_items (invoice_id, part_name, part_reference, quantity, unit_price, supplier) VALUES
+(1, 'Oil filter', 'OF-123', 1, 150000, 'PartsCo'),
+(1, 'Brake pads (front)', 'BP-456', 1, 450000, 'PartsCo'),
+(1, 'Chain lubricant', 'CL-789', 1, 120000, 'MotoShop');
+
+-- Consumable items for Invoice 1
+INSERT INTO invoice_consumable_items (invoice_id, consumable_name, quantity, unit, unit_price) VALUES
+(1, 'Engine oil 10W40', 1.5, 'liter', 120000),
+(1, 'Brake cleaner', 0.5, 'liter', 80000),
+(1, 'Shop towels', 2, 'piece', 5000);
+
+-- Labor items for Invoice 2
+INSERT INTO invoice_labor_items (invoice_id, description, hours, rate_per_hour, mechanic_name) VALUES
+(2, 'Engine diagnostic', 1.0, 600000, 'Le Van C'),
+(2, 'Valve adjustment', 1.5, 600000, 'Le Van C');
+
+-- Parts items for Invoice 2
+INSERT INTO invoice_parts_items (invoice_id, part_name, part_reference, quantity, unit_price) VALUES
+(2, 'Spark plugs (set)', 'SP-321', 1, 350000),
+(2, 'Air filter', 'AF-654', 1, 180000);
+
+-- Labor items for Invoice 3
+INSERT INTO invoice_labor_items (invoice_id, description, hours, rate_per_hour) VALUES
+(3, 'Full service', 3.0, 500000);
+
+-- Parts items for Invoice 3
+INSERT INTO invoice_parts_items (invoice_id, part_name, part_reference, quantity, unit_price) VALUES
+(3, 'Drive chain kit', 'CK-987', 1, 1200000),
+(3, 'Sprockets set', 'SS-456', 1, 800000),
+(3, 'Brake fluid', 'BF-111', 1, 150000);
+
+-- Labor items for Invoice 4
+INSERT INTO invoice_labor_items (invoice_id, description, hours, rate_per_hour) VALUES
+(4, 'Engine rebuild', 8.0, 600000),
+(4, 'Clutch replacement', 2.0, 600000);
+
+-- Parts items for Invoice 4
+INSERT INTO invoice_parts_items (invoice_id, part_name, part_reference, quantity, unit_price) VALUES
+(4, 'Piston kit', 'PK-222', 1, 1800000),
+(4, 'Gasket set', 'GS-333', 1, 450000),
+(4, 'Clutch plates', 'CP-444', 1, 650000),
+(4, 'Oil pump', 'OP-555', 1, 890000);
+
+-- Invoice 5 items
+INSERT INTO invoice_labor_items (invoice_id, description, hours, rate_per_hour) VALUES
+(5, 'Tire change', 1.0, 500000),
+(5, 'Wheel balancing', 0.5, 500000);
+
+INSERT INTO invoice_parts_items (invoice_id, part_name, part_reference, quantity, unit_price) VALUES
+(5, 'Front tire', 'FT-777', 1, 1200000),
+(5, 'Rear tire', 'RT-888', 1, 1500000),
+(5, 'Valve stems', 'VS-999', 2, 25000);
+
+INSERT INTO invoice_consumable_items (invoice_id, consumable_name, quantity, unit, unit_price) VALUES
+(5, 'Tire mounting paste', 0.1, 'kg', 50000),
+(5, 'Balancing weights', 4, 'piece', 5000);
+
+-- Partial payment for Invoice 2
+INSERT INTO invoice_payments (invoice_id, payment_date, amount, payment_method, reference, created_by) VALUES
+(2, '2026-02-25', 1000000, 'cash', NULL, 'system'),
+(2, '2026-03-05', 500000, 'card', 'TRX123456', 'system');

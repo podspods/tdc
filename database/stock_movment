@@ -1,0 +1,22 @@
+-- Table for stock movement history
+CREATE TABLE stock_movements (
+    movement_id SERIAL PRIMARY KEY,
+    part_id INTEGER REFERENCES spare_part_catalog(part_id) ON DELETE CASCADE,
+    consumable_id INTEGER REFERENCES consumable_catalog(consumable_id) ON DELETE CASCADE,
+    quantity INTEGER NOT NULL,
+    type VARCHAR(20) NOT NULL CHECK (type IN ('in', 'out', 'adjustment')),
+    reason TEXT,
+    new_stock INTEGER NOT NULL,
+    created_by VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Ensure at least one of part_id or consumable_id is set
+    CHECK (
+        (part_id IS NOT NULL AND consumable_id IS NULL) OR
+        (part_id IS NULL AND consumable_id IS NOT NULL)
+    )
+);
+
+CREATE INDEX idx_stock_movements_part ON stock_movements(part_id);
+CREATE INDEX idx_stock_movements_consumable ON stock_movements(consumable_id);
+CREATE INDEX idx_stock_movements_date ON stock_movements(created_at);

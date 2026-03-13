@@ -22,6 +22,8 @@ const BurgerMenu: React.FC = () => {
     { id: "ADM model", label: "ADM Model", path: "/admin/models" },
     { id: "registrations", label: "registrations", path: "/registrations" },
     { id: "ADM registrations", label: "ADM registrations", path: "/admin/registrations" },
+    { id: "owners", label: "owners", path: "/owners" },
+    { id: "ADM owners", label: "ADM owners", path: "/admin/owners" },
     { id: "checkDatabase", label: "checkDatabase", path: "/checkDatabase" },
     { id: "testApi", label: "testApi", path: "/testApi" },
     { id: "about", label: "About", path: "/about" },

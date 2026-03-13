@@ -6,6 +6,8 @@ import clientRoutes from "./routes/clients";
 import motorcycleBrandRoutes from "./routes/motorcycleBrand.routes";
 // Ajouter après les autres imports
 import registrationRoutes from "./routes/registration.routes";
+import laborRoutes from "./routes/labor.routes";
+import consumableRoutes from "./routes/consumable.routes";
 dotenv.config();
 
 const fastify = Fastify({
@@ -33,7 +35,9 @@ fastify.register(databasePlugin);
 fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
 // Ajouter après les autres registrations
 fastify.register(registrationRoutes, { prefix: "/api/registrations" });
-
+fastify.register(laborRoutes, { prefix: "/api/labor" });
+fastify.register(consumableRoutes, { prefix: "/api/consumables" });
+fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" });
 // Health check
 fastify.get("/health", async () => {
   return {
