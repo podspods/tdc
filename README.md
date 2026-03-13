@@ -138,6 +138,7 @@ postgres-demo/
 │   │   │   ├── Layout
 │   │   │   ├── Navigation
 │   │   │   ├── UI
+│   │   │   ├── LaborEdit.tsx
 │   │   │   └── MotorcycleBrandList.tsx
 │   │   └── pages/
 │   │       ├── Home.tsx

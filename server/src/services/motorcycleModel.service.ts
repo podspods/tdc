@@ -56,13 +56,18 @@ export const createModelService = (fastify: FastifyInstance) => {
    */
   const createModel = async (data: CreateMotorcycleModelDto) => {
     // Validate year range
-    if (data.yearEnd && data.yearEnd < data.yearStart) {
+    if (data.yearEnd !== undefined && data.yearEnd !== null && data.yearEnd < data.yearStart) {
       throw new Error("Year end cannot be before year start");
     }
 
     // Set isCurrent based on yearEnd
-    if (data.yearEnd === null || data.yearEnd >= new Date().getFullYear()) {
+    // ✅ CORRECTION: Vérifier explicitement undefined et null
+    if (data.yearEnd === null || data.yearEnd === undefined) {
       data.isCurrent = true;
+    } else if (data.yearEnd >= new Date().getFullYear()) {
+      data.isCurrent = true;
+    } else {
+      data.isCurrent = false;
     }
 
     return await repository.create(data);
@@ -78,15 +83,15 @@ export const createModelService = (fastify: FastifyInstance) => {
     }
 
     // Validate year range if both are provided
-    if (data.yearStart && data.yearEnd) {
+    if (data.yearStart !== undefined && data.yearEnd !== undefined && data.yearEnd !== null) {
       if (data.yearEnd < data.yearStart) {
         throw new Error("Year end cannot be before year start");
       }
-    } else if (data.yearStart && model.yearEnd) {
+    } else if (data.yearStart !== undefined && model.yearEnd !== null) {
       if (model.yearEnd < data.yearStart) {
         throw new Error("Year end cannot be before year start");
       }
-    } else if (data.yearEnd && model.yearStart) {
+    } else if (data.yearEnd !== undefined && data.yearEnd !== null && model.yearStart) {
       if (data.yearEnd < model.yearStart) {
         throw new Error("Year end cannot be before year start");
       }

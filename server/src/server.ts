@@ -1,43 +1,44 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import dotenv from "dotenv";
+import pinoPretty from "pino-pretty";
 import databasePlugin from "./plugins/database";
-import clientRoutes from "./routes/clients";
+
+// Import des routes
 import motorcycleBrandRoutes from "./routes/motorcycleBrand.routes";
-// Ajouter après les autres imports
+import motorcycleModelRoutes from "./routes/motorcycleModel.routes";
 import registrationRoutes from "./routes/registration.routes";
+import ownerRoutes from "./routes/owner.routes";
+import invoiceRoutes from "./routes/invoice.routes";
 import laborRoutes from "./routes/labor.routes";
 import consumableRoutes from "./routes/consumable.routes";
+import sparePartRoutes from "./routes/sparePart.routes"; // ← IMPORT MANQUANT
+
 dotenv.config();
+
+// Créer un stream pretty directement
+const prettyStream = pinoPretty({
+  colorize: true,
+  translateTime: "HH:MM:ss.l",
+  ignore: "pid,hostname",
+  levelFirst: false,
+});
 
 const fastify = Fastify({
   logger: {
     level: process.env.NODE_ENV === "development" ? "debug" : "info",
-    transport: {
-      target: "pino-pretty",
-      options: {
-        translateTime: "HH:MM:ss Z",
-        ignore: "pid,hostname",
-      },
-    },
+    stream: prettyStream,
   },
 });
 
 // Register plugins
 fastify.register(cors, {
-  // origin: process.env.CLIENT_URL || "http://localhost:5173",
-  origin: "*",
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true,
 });
 
 fastify.register(databasePlugin);
 
-fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
-// Ajouter après les autres registrations
-fastify.register(registrationRoutes, { prefix: "/api/registrations" });
-fastify.register(laborRoutes, { prefix: "/api/labor" });
-fastify.register(consumableRoutes, { prefix: "/api/consumables" });
-fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" });
 // Health check
 fastify.get("/health", async () => {
   return {
@@ -47,73 +48,54 @@ fastify.get("/health", async () => {
   };
 });
 
-// ✅ NOUVELLE ROUTE: Récupérer la date courante de PostgreSQL
-fastify.get("/api/current-date", async (request, reply) => {
-  try {
-    // Exécuter la requête SELECT CURRENT_DATE
-    const result = await fastify.pg.query("SELECT CURRENT_DATE as current_date");
+// Register all routes
+fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
+fastify.register(motorcycleModelRoutes, { prefix: "/api/motorcycle-models" });
+fastify.register(registrationRoutes, { prefix: "/api/registrations" });
+fastify.register(ownerRoutes, { prefix: "/api/owners" });
+fastify.register(invoiceRoutes, { prefix: "/api/invoices" });
+fastify.register(laborRoutes, { prefix: "/api/labor" });
+fastify.register(consumableRoutes, { prefix: "/api/consumables" });
+fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" }); // ← MAINTENANT RECONNU
 
-    return {
-      success: true,
-      data: {
-        current_date: result.rows[0].current_date,
-        server_time: new Date().toISOString(),
-        database: process.env.DB_NAME || "tdc",
-      },
-      message: "Date retrieved successfully",
-    };
-  } catch (error) {
-    fastify.log.error(error);
-
-    const errorMessage = error instanceof Error ? error.message : String(error);
-
-    reply.status(500).send({
-      success: false,
-      error: "Failed to get current date from database",
-      details: errorMessage,
-    });
-  }
+// 404 handler
+fastify.setNotFoundHandler((request, reply) => {
+  reply.status(404).send({
+    success: false,
+    error: `Route ${request.method}:${request.url} not found`,
+  });
 });
 
-// // Register routes
-// fastify.register(clientRoutes, { prefix: "/api/clients" });
+// Error handler
+fastify.setErrorHandler((error, request, reply) => {
+  fastify.log.error(error);
 
-// // 404 handler
-// fastify.setNotFoundHandler((request, reply) => {
-//   reply.status(404).send({
-//     success: false,
-//     error: `Route ${request.method}:${request.url} not found`,
-//   });
-// });
+  const statusCode =
+    error && typeof error === "object" && "statusCode" in error ? (error as any).statusCode : 500;
 
-// // Error handler - CORRIGÉ avec type guard
-// fastify.setErrorHandler((error, request, reply) => {
-//   fastify.log.error(error);
+  const errorMessage = error instanceof Error ? error.message : "Internal server error";
 
-//   // Type guard pour gérer l'erreur de type 'unknown'
-//   const statusCode =
-//     error && typeof error === "object" && "statusCode" in error ? (error as any).statusCode : 500;
-
-//   const errorMessage = error instanceof Error ? error.message : "Internal server error";
-
-//   reply.status(statusCode).send({
-//     success: false,
-//     error: errorMessage,
-//   });
-// });
+  reply.status(statusCode).send({
+    success: false,
+    error: errorMessage,
+  });
+});
 
 // Start server
-
-async function start() {
+const start = async () => {
   try {
-    const port = parseInt(process.env.PORT || "3001");
-    const host = process.env.HOST || "127.0.0.1";
+    const port = parseInt(process.env.PORT || "3002");
+    const host = process.env.HOST || "localhost";
+
     await fastify.listen({ port, host });
+
     fastify.log.info(`🚀 Server running on http://${host}:${port}`);
+    fastify.log.info(`📋 Registered routes:`);
+    fastify.log.info(fastify.printRoutes());
   } catch (error) {
-    console.error(error);
+    fastify.log.error(error);
     process.exit(1);
   }
-}
+};
 
 start();

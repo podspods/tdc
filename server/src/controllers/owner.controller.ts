@@ -23,15 +23,17 @@ export const createOwnerController = (fastify: FastifyInstance) => {
     reply: FastifyReply,
   ) => {
     try {
+      const pageStr = request.query.page ?? 0;
       const params: OwnerQueryParams = {
-        page: request.query.page ? parseInt(request.query.page as any) : 1,
-        limit: request.query.limit ? parseInt(request.query.limit as any) : 20,
-        search: request.query.search as string,
+        page: request.query.page ?? 0,
+        limit: request.query.limit ?? 20,
+        search: request.query.search,
         category: request.query.category as any,
-        city: request.query.city as string,
-        minSpent: request.query.minSpent ? parseInt(request.query.minSpent as any) : undefined,
-        maxSpent: request.query.maxSpent ? parseInt(request.query.maxSpent as any) : undefined,
-        hasOutstandingInvoices: request.query.hasOutstandingInvoices === "true",
+        city: request.query.city,
+        minSpent: request.query.minSpent ?? 0,
+        maxSpent: request.query.maxSpent ?? 0,
+        // ✅ CORRECTION: Convertir le string en boolean correctement
+        hasOutstandingInvoices: request.query.hasOutstandingInvoices ?? false,
       };
 
       const result = await ownerService.getAllOwners(params);

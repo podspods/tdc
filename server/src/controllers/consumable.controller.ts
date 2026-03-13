@@ -39,7 +39,7 @@ export const createConsumableController = (fastify: FastifyInstance) => {
         page: request.query.page ? parseInt(request.query.page as any) : 1,
         limit: request.query.limit ? parseInt(request.query.limit as any) : 20,
         category: request.query.category,
-        lowStock: request.query.lowStock === "true",
+        lowStock: request.query.lowStock ?? false,
         search: request.query.search,
         minPrice: request.query.minPrice ? parseInt(request.query.minPrice as any) : undefined,
         maxPrice: request.query.maxPrice ? parseInt(request.query.maxPrice as any) : undefined,

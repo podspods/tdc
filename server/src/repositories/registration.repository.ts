@@ -155,7 +155,7 @@ export const createRegistrationRepository = (fastify: FastifyInstance) => {
    * Update registration
    */
   const update = async (id: number, data: UpdateRegistrationDto): Promise<Registration | null> => {
-    const fields = [];
+    const fields: string[] = [];
     const values = [];
     let paramCount = 1;
 

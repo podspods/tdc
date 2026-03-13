@@ -14,6 +14,7 @@ import OwnersPage from "./pages/OwnersPage";
 import OwnerAdminPage from "./pages/OwnerAdminPage";
 import InvoicesPage from "./pages/InvoicesPage";
 import InvoiceAdminPage from "./pages/InvoiceAdminPage";
+import LaborEdit from "./components/LaborEdit";
 
 // Main App component with routing configuration
 const App: React.FC = () => {
@@ -35,6 +36,7 @@ const App: React.FC = () => {
             <Route path="/admin/owners" element={<OwnerAdminPage />} />
             <Route path="/invoices" element={<InvoicesPage />} />
             <Route path="/admin/invoices" element={<InvoiceAdminPage />} />
+            <Route path="/admin/labor" element={<LaborEdit />} />
             <Route path="*" element={<Home />} /> {/* Redirect unknown routes to Home */}
           </Routes>
         </Layout>

@@ -51,7 +51,7 @@ export const createSparePartController = (fastify: FastifyInstance) => {
         partType: request.query.partType,
         brand: request.query.brand,
         model: request.query.model,
-        lowStock: request.query.lowStock === "true",
+        lowStock: request.query.lowStock ?? false,
         search: request.query.search,
         minPrice: request.query.minPrice ? parseInt(request.query.minPrice as any) : undefined,
         maxPrice: request.query.maxPrice ? parseInt(request.query.maxPrice as any) : undefined,

@@ -125,6 +125,7 @@ export interface CreateSparePartDto {
 }
 
 export interface UpdateSparePartDto {
+  partCode?: string; // ← Ajouter cette ligne
   partName?: string;
   description?: string;
   category?: PartCategory;
@@ -184,12 +185,13 @@ export interface SparePartQueryParams {
 export type StockMovementType = "in" | "out" | "adjustment";
 
 export interface StockMovement {
-  consumableId: number;
+  partId: number;
   quantity: number;
   type: StockMovementType;
   reason: string;
   createdBy: string;
   notes?: string;
+  reference?: string;
 }
 
 export interface StockMovementHistory extends StockMovement {

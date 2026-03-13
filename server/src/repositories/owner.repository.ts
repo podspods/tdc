@@ -229,7 +229,7 @@ export const createOwnerRepository = (fastify: FastifyInstance) => {
    * Update owner
    */
   const update = async (id: number, data: UpdateOwnerDto): Promise<Owner | null> => {
-    const fields = [];
+    const fields: string[] = [];
     const values = [];
     let paramCount = 1;
 
