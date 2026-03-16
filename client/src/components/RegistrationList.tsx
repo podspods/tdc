@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { registrationService } from "../services/registration.service";
 import type { Registration } from "../types/registration.types";
-import { formatDateFR } from "../commun/tools";
+import { formatDateFR } from "../common/tools";
 
 const RegistrationList: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);

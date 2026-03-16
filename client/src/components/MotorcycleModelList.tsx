@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motorcycleModelService } from "../services/motorcycleModel.service";
-import { formatDateFR } from "../commun/tools";
+import { formatDateFR } from "../common/tools";
+
 import type { MotorcycleModel } from "../types/motorcycleModel.types";
 
 const MotorcycleModelList: React.FC = () => {

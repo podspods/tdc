@@ -7,8 +7,10 @@ import type {
   ApiResponse,
 } from "../types/labor.types";
 
-export const createLaborService = (baseUrl: string = "/api/labor") => {
+export const createLaborService = (baseUrl: string = "labor") => {
   const getAll = async (params: LaborQueryParams = {}): Promise<ApiResponse<Labor[]>> => {
+    console.log("Calling URL:", `${apiClient.defaults.baseURL}${baseUrl}`);
+    console.log("Full request:", `${apiClient.defaults.baseURL}${baseUrl}`, { params });
     const response = await apiClient.get(baseUrl, { params });
     return response.data;
   };

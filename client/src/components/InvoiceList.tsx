@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { invoiceService } from "../services/invoice.service";
 import type { Invoice, InvoiceStatus } from "../types/invoice.types";
-import { formatCurrency, formatDateFR } from "../commun/tools";
+import { formatCurrency, formatDateFR } from "../common/tools";
 
 const InvoiceList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);

@@ -10,7 +10,7 @@ import type {
   CreateInvoiceDto,
   InvoiceStatus,
 } from "../types/invoice.types";
-import { formatCurrency, formatDateFR } from "../commun/tools";
+import { formatCurrency, formatDateFR } from "../common/tools";
 import { ownerService } from "../services/owner.service";
 
 interface RegistrationOption {

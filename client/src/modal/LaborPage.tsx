@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import LaborEdit from "../components/LaborEdit";
 
 export type LaborPageProps = {};

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import  { ownerService } from "../services/owner.service";
 import type { CreateOwnerDto, Owner, OwnerCategory } from "../types/owner.types";
-import { formatDateFR } from "../commun/tools";
+import { formatDateFR } from "../common/tools";
+
 import { ownerService } from "../services/owner.service";
 
 const OwnerAdmin: React.FC = () => {

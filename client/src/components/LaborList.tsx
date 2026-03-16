@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { laborService } from "../services/labor.service";
 import type { Labor, LaborCategory } from "../types/labor.types";
-import { formatCurrency } from "../commun/tools";
+import { formatCurrency } from "../common/tools";
 
 const LaborList: React.FC = () => {
   const [laborItems, setLaborItems] = useState<Labor[]>([]);

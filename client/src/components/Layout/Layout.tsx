@@ -1,6 +1,7 @@
 import React from "react";
 import "./Layout.css";
-import BurgerMenu from "../BurgerMenu/BurgerMenu2";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import { API_NAME } from "../../common/constant";
 
 // Props interface for Layout component
 interface LayoutProps {
@@ -14,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="layout">
       <header className="header">
         <BurgerMenu />
-        <h1 className="header-title">Tommi's Ducati crew</h1>
+        <h1 className="header-title">{API_NAME}</h1>
       </header>
 
       <main className="main-content">{children}</main>

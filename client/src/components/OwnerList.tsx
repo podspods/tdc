@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { formatDateFR } from "../commun/tools";
+import { formatDateFR } from "../common/tools";
+
 import type { Owner, OwnerCategory } from "../types/owner.types";
+import { ownerService } from "../services/owner.service";
 
 const OwnerList: React.FC = () => {
   const [owners, setOwners] = useState<Owner[]>([]);

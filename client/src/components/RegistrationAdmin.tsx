@@ -4,7 +4,7 @@ import { motorcycleBrandService } from "../services/motorcycleBrand.service";
 import { motorcycleModelService } from "../services/motorcycleModel.service";
 import type { MotorcycleModel } from "../types/motorcycleModel.types";
 import type { CreateRegistrationDto, Registration } from "../types/registration.types";
-import { formatDateFR } from "../commun/tools";
+import { formatDateFR } from "../common/tools";
 
 interface BrandOption {
   brandId: number;

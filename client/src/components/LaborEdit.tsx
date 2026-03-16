@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { laborService } from "../services/labor.service";
 import type { Labor, LaborCategory, SkillLevel, CreateLaborDto } from "../types/labor.types";
-import { formatCurrency } from "../commun/tools";
+import { formatCurrency } from "../common/tools";
 
 interface LaborEditProps {
   laborId?: number; // Optional: if provided, edit mode, else create mode
