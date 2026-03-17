@@ -1,0 +1,111 @@
+{
+  "title": "Khách hàng",
+  "singular": "Khách hàng",
+  "plural": "Khách hàng",
+
+  "fields": {
+    "id": "Mã KH",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "fullName": "Họ và tên",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "address": "Địa chỉ",
+    "city": "Thành phố",
+    "category": "Phân loại",
+    "notes": "Ghi chú",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày cập nhật",
+    "createdBy": "Người tạo"
+  },
+
+  "categories": {
+    "basic": "Cơ bản",
+    "important": "Quan trọng",
+    "vip": "VIP",
+    "gold": "Vàng",
+    "platinum": "Bạch kim"
+  },
+
+  "statistics": {
+    "title": "Thống kê",
+    "totalOwners": "Tổng khách hàng",
+    "totalSpent": "Tổng chi tiêu",
+    "averageSpent": "Chi tiêu trung bình",
+    "motorcycles": "Xe máy",
+    "invoices": "Hóa đơn",
+    "lastVisit": "Lần cuối",
+    "byCategory": "Theo phân loại",
+    "topCities": "Thành phố hàng đầu"
+  },
+
+  "motorcycles": {
+    "title": "Xe máy",
+    "count": "Số lượng xe",
+    "plate": "Biển số",
+    "brand": "Hãng xe",
+    "model": "Mẫu xe",
+    "year": "Năm sản xuất",
+    "color": "Màu sắc",
+    "noMotorcycles": "Chưa đăng ký xe nào"
+  },
+
+  "invoices": {
+    "title": "Hóa đơn",
+    "count": "Số hóa đơn",
+    "outstanding": "Hóa đơn chưa thanh toán",
+    "paid": "Hóa đơn đã thanh toán",
+    "total": "Tổng tiền",
+    "lastInvoice": "Hóa đơn gần nhất",
+    "noInvoices": "Không có hóa đơn"
+  },
+
+  "actions": {
+    "add": "Thêm khách hàng",
+    "edit": "Sửa thông tin",
+    "delete": "Xóa khách hàng",
+    "view": "Xem chi tiết",
+    "viewMotorcycles": "Xem xe",
+    "viewInvoices": "Xem hóa đơn",
+    "sendMessage": "Gửi tin nhắn",
+    "call": "Gọi điện",
+    "email": "Gửi email"
+  },
+
+  "messages": {
+    "confirmDelete": "Bạn có chắc muốn xóa khách hàng này?",
+    "deleteSuccess": "Xóa khách hàng thành công",
+    "deleteError": "Không thể xóa khách hàng",
+    "saveSuccess": "Lưu thông tin thành công",
+    "saveError": "Không thể lưu thông tin",
+    "phoneExists": "Số điện thoại đã tồn tại",
+    "emailExists": "Email đã tồn tại"
+  },
+
+  "filters": {
+    "search": "Tìm theo tên, SĐT, email...",
+    "category": "Lọc theo phân loại",
+    "city": "Lọc theo thành phố",
+    "hasOutstanding": "Có hóa đơn chưa thanh toán",
+    "recent": "Khách hàng gần đây"
+  },
+
+  "details": {
+    "personalInfo": "Thông tin cá nhân",
+    "contactInfo": "Thông tin liên hệ",
+    "statistics": "Thống kê",
+    "motorcycles": "Xe đã đăng ký",
+    "invoices": "Hóa đơn",
+    "activity": "Lịch sử hoạt động",
+    "notes": "Ghi chú"
+  },
+
+  "activity": {
+    "title": "Hoạt động",
+    "lastLogin": "Đăng nhập cuối",
+    "lastPurchase": "Mua hàng cuối",
+    "lastService": "Sửa chữa cuối",
+    "visitCount": "Số lần ghé thăm",
+    "memberSince": "Thành viên từ"
+  }
+}

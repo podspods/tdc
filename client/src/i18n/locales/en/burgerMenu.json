@@ -1,0 +1,17 @@
+{
+  "home": "Home",
+  "dashboard": "Dashboard",
+  "labor": "Labor Catalog",
+  "spareParts": "Spare Parts",
+  "consumables": "Consumables",
+  "owners": "Owners",
+  "registrations": "Registrations",
+  "invoices": "Invoices",
+  "reports": "Reports",
+  "settings": "Settings",
+  "admin": "Administration",
+  "profile": "Profile",
+  "logout": "Logout",
+  "login": "Login",
+  "language": "Language"
+}

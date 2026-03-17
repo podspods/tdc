@@ -1,0 +1,138 @@
+{
+  "title": "Spare Parts Catalog",
+  "code": "Part Code",
+  "name": "Part Name",
+  "description": "Description",
+  "category": "Category",
+  "subcategory": "Subcategory",
+  "partType": "Part Type",
+  "oem": "OEM",
+  "aftermarket": "Aftermarket",
+  "performance": "Performance",
+  "reconditioned": "Reconditioned",
+
+  "categories": {
+    "engine": "Engine",
+    "transmission": "Transmission",
+    "brakes": "Brakes",
+    "suspension": "Suspension",
+    "electrical": "Electrical",
+    "body": "Body",
+    "other": "Other"
+  },
+
+  "compatibility": {
+    "title": "Compatibility",
+    "brands": "Compatible Brands",
+    "models": "Compatible Models",
+    "years": "Years",
+    "engineTypes": "Engine Types",
+    "from": "From",
+    "to": "To"
+  },
+
+  "partNumbers": {
+    "title": "Part Numbers",
+    "oem": "OEM Part Number",
+    "manufacturer": "Manufacturer Part Number",
+    "alternatives": "Alternative Part Numbers"
+  },
+
+  "specifications": {
+    "title": "Specifications",
+    "material": "Material",
+    "weight": "Weight (g)",
+    "dimensions": "Dimensions",
+    "color": "Color"
+  },
+
+  "pricing": {
+    "title": "Pricing",
+    "unitPrice": "Unit Price",
+    "purchasePrice": "Purchase Price",
+    "wholesalePrice": "Wholesale Price",
+    "taxRate": "Tax Rate",
+    "margin": "Margin",
+    "profit": "Profit"
+  },
+
+  "supplier": {
+    "title": "Supplier Information",
+    "primary": "Primary Supplier",
+    "secondary": "Secondary Suppliers",
+    "manufacturer": "Manufacturer",
+    "country": "Country of Origin"
+  },
+
+  "warranty": {
+    "title": "Warranty",
+    "months": "Warranty (months)",
+    "terms": "Warranty Terms"
+  },
+
+  "stock": {
+    "title": "Stock Management",
+    "current": "Current Stock",
+    "minimum": "Minimum Stock",
+    "maximum": "Maximum Stock",
+    "reorder": "Reorder Point",
+    "location": "Location",
+    "bin": "Bin Number",
+    "status": "Stock Status",
+    "inStock": "In Stock",
+    "lowStock": "Low Stock",
+    "outOfStock": "Out of Stock",
+    "overstock": "Overstock"
+  },
+
+  "media": {
+    "title": "Media",
+    "images": "Images",
+    "technicalDrawing": "Technical Drawing",
+    "installationGuide": "Installation Guide"
+  },
+
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "discontinued": "Discontinued"
+  },
+
+  "actions": {
+    "add": "Add Part",
+    "edit": "Edit Part",
+    "delete": "Delete Part",
+    "view": "View Details",
+    "duplicate": "Duplicate",
+    "updateStock": "Update Stock",
+    "print": "Print Label"
+  },
+
+  "messages": {
+    "confirmDelete": "Are you sure you want to delete this part?",
+    "deleteSuccess": "Part deleted successfully",
+    "deleteError": "Failed to delete part",
+    "saveSuccess": "Part saved successfully",
+    "saveError": "Failed to save part",
+    "stockUpdated": "Stock updated successfully",
+    "lowStockAlert": "Low stock alert!",
+    "outOfStockAlert": "Out of stock!"
+  },
+
+  "filters": {
+    "search": "Search parts...",
+    "category": "Filter by category",
+    "type": "Filter by type",
+    "stock": "Stock status",
+    "supplier": "Filter by supplier"
+  },
+
+  "details": {
+    "overview": "Overview",
+    "specs": "Specifications",
+    "compatibility": "Compatibility",
+    "pricing": "Pricing",
+    "stock": "Stock",
+    "supplier": "Supplier"
+  }
+}

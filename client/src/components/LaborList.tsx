@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { laborService } from "../services/labor.service";
 import type { Labor, LaborCategory } from "../types/labor.types";
 import { formatCurrency } from "../common/tools";
+import { useTranslation } from "react-i18next";
+import useLanguage from "../hooks/useLanguage";
 
 const LaborList: React.FC = () => {
   const [laborItems, setLaborItems] = useState<Labor[]>([]);
@@ -9,6 +11,8 @@ const LaborList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<LaborCategory | "">("");
+  const { t } = useTranslation(["labor", "common"]);
+  const { formatCurrency } = useLanguage();
 
   useEffect(() => {
     loadLabor();
@@ -38,15 +42,15 @@ const LaborList: React.FC = () => {
   const getCategoryLabel = (category?: LaborCategory) => {
     switch (category) {
       case "maintenance":
-        return "🔧 Maintenance";
+        return "🔧" + t("labor:maintenance");
       case "repair":
-        return "⚙️ Repair";
+        return "⚙️" + t("labor:Repair");
       case "diagnostic":
-        return "🔍 Diagnostic";
+        return "🔍" + t("labor:Diagnostic");
       case "customization":
-        return "🎨 Customization";
+        return "🎨" + t("labor:Customization");
       default:
-        return "Other";
+        return t("labor:Other");
     }
   };
 
@@ -138,7 +142,7 @@ const LaborList: React.FC = () => {
         <input
           type="text"
           style={styles.input}
-          placeholder="Search by name or code..."
+          placeholder={t("Search by name or code...")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -148,11 +152,11 @@ const LaborList: React.FC = () => {
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value as LaborCategory | "")}
         >
-          <option value="">All Categories</option>
-          <option value="maintenance">Maintenance</option>
-          <option value="repair">Repair</option>
-          <option value="diagnostic">Diagnostic</option>
-          <option value="customization">Customization</option>
+          <option value="">{t("All Categories")}</option>
+          <option value="maintenance">{t("Maintenance")}</option>
+          <option value="repair">{t("Repair")}</option>
+          <option value="diagnostic">{t("Diagnostic")}</option>
+          <option value="customization">{t("Customization")}</option>
         </select>
         <button style={styles.button} onClick={handleSearch}>
           Search
@@ -167,14 +171,14 @@ const LaborList: React.FC = () => {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.th}>Code</th>
-              <th style={styles.th}>Name</th>
-              <th style={styles.th}>Category</th>
-              <th style={styles.th}>Rate/Hour</th>
-              <th style={styles.th}>Est. Hours</th>
-              <th style={styles.th}>Min Charge</th>
-              <th style={styles.th}>Skill Level</th>
-              <th style={styles.th}>Status</th>
+              <th style={styles.th}>{t("Code")}</th>
+              <th style={styles.th}>{t("Name")}</th>
+              <th style={styles.th}>{t("Category")}</th>
+              <th style={styles.th}>{t("Rate/Hour")}</th>
+              <th style={styles.th}>{t("Est. Hours")}</th>
+              <th style={styles.th}>{t("Min Charge")}</th>
+              <th style={styles.th}>{t("Skill Level")}</th>
+              <th style={styles.th}>{t("Status")}</th>
             </tr>
           </thead>
           <tbody>
@@ -183,8 +187,8 @@ const LaborList: React.FC = () => {
                 <td style={styles.td}>
                   <strong>{item.laborCode}</strong>
                 </td>
-                <td style={styles.td}>{item.laborName}</td>
-                <td style={styles.td}>{getCategoryLabel(item.category)}</td>
+                <td style={styles.td}>{t(item.laborName)}</td>
+                <td style={styles.td}>{t(getCategoryLabel(item.category))}</td>
                 <td style={styles.td}>{formatCurrency(item.defaultRatePerHour)}</td>
                 <td style={styles.td}>{item.estimatedHours ? `${item.estimatedHours}h` : "-"}</td>
                 <td style={styles.td}>{item.minCharge ? formatCurrency(item.minCharge) : "-"}</td>

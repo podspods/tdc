@@ -1,0 +1,17 @@
+{
+  "home": "Accueil",
+  "dashboard": "Tableau de bord",
+  "labor": "Catalogue main d'œuvre",
+  "spareParts": "Pièces détachées",
+  "consumables": "Consommables",
+  "owners": "Propriétaires",
+  "registrations": "Immatriculations",
+  "invoices": "Factures",
+  "reports": "Rapports",
+  "settings": "Paramètres",
+  "admin": "Administration",
+  "profile": "Profil",
+  "logout": "Déconnexion",
+  "login": "Connexion",
+  "language": "Langue"
+}

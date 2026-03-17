@@ -1,0 +1,111 @@
+{
+  "title": "Owners / Clients",
+  "singular": "Owner",
+  "plural": "Owners",
+
+  "fields": {
+    "id": "ID",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "email": "Email",
+    "address": "Address",
+    "city": "City",
+    "category": "Category",
+    "notes": "Notes",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "createdBy": "Created By"
+  },
+
+  "categories": {
+    "basic": "Basic",
+    "important": "Important",
+    "vip": "VIP",
+    "gold": "Gold",
+    "platinum": "Platinum"
+  },
+
+  "statistics": {
+    "title": "Statistics",
+    "totalOwners": "Total Owners",
+    "totalSpent": "Total Spent",
+    "averageSpent": "Average Spent",
+    "motorcycles": "Motorcycles",
+    "invoices": "Invoices",
+    "lastVisit": "Last Visit",
+    "byCategory": "By Category",
+    "topCities": "Top Cities"
+  },
+
+  "motorcycles": {
+    "title": "Motorcycles",
+    "count": "Number of motorcycles",
+    "plate": "Plate Number",
+    "brand": "Brand",
+    "model": "Model",
+    "year": "Year",
+    "color": "Color",
+    "noMotorcycles": "No motorcycles registered"
+  },
+
+  "invoices": {
+    "title": "Invoices",
+    "count": "Number of invoices",
+    "outstanding": "Outstanding Invoices",
+    "paid": "Paid Invoices",
+    "total": "Total Amount",
+    "lastInvoice": "Last Invoice",
+    "noInvoices": "No invoices found"
+  },
+
+  "actions": {
+    "add": "Add Owner",
+    "edit": "Edit Owner",
+    "delete": "Delete Owner",
+    "view": "View Details",
+    "viewMotorcycles": "View Motorcycles",
+    "viewInvoices": "View Invoices",
+    "sendMessage": "Send Message",
+    "call": "Call",
+    "email": "Send Email"
+  },
+
+  "messages": {
+    "confirmDelete": "Are you sure you want to delete this owner?",
+    "deleteSuccess": "Owner deleted successfully",
+    "deleteError": "Failed to delete owner",
+    "saveSuccess": "Owner saved successfully",
+    "saveError": "Failed to save owner",
+    "phoneExists": "Phone number already exists",
+    "emailExists": "Email already exists"
+  },
+
+  "filters": {
+    "search": "Search by name, phone, email...",
+    "category": "Filter by category",
+    "city": "Filter by city",
+    "hasOutstanding": "Has outstanding invoices",
+    "recent": "Recent visitors"
+  },
+
+  "details": {
+    "personalInfo": "Personal Information",
+    "contactInfo": "Contact Information",
+    "statistics": "Statistics",
+    "motorcycles": "Registered Motorcycles",
+    "invoices": "Invoices",
+    "activity": "Activity History",
+    "notes": "Notes"
+  },
+
+  "activity": {
+    "title": "Activity",
+    "lastLogin": "Last Login",
+    "lastPurchase": "Last Purchase",
+    "lastService": "Last Service",
+    "visitCount": "Visit Count",
+    "memberSince": "Member Since"
+  }
+}

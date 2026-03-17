@@ -1,0 +1,111 @@
+{
+  "title": "Propriétaires / Clients",
+  "singular": "Propriétaire",
+  "plural": "Propriétaires",
+
+  "fields": {
+    "id": "ID",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "fullName": "Nom complet",
+    "phone": "Téléphone",
+    "email": "Email",
+    "address": "Adresse",
+    "city": "Ville",
+    "category": "Catégorie",
+    "notes": "Notes",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le",
+    "createdBy": "Créé par"
+  },
+
+  "categories": {
+    "basic": "Standard",
+    "important": "Important",
+    "vip": "VIP",
+    "gold": "Or",
+    "platinum": "Platine"
+  },
+
+  "statistics": {
+    "title": "Statistiques",
+    "totalOwners": "Total propriétaires",
+    "totalSpent": "Total dépensé",
+    "averageSpent": "Moyenne dépensée",
+    "motorcycles": "Motos",
+    "invoices": "Factures",
+    "lastVisit": "Dernière visite",
+    "byCategory": "Par catégorie",
+    "topCities": "Principales villes"
+  },
+
+  "motorcycles": {
+    "title": "Motos",
+    "count": "Nombre de motos",
+    "plate": "Immatriculation",
+    "brand": "Marque",
+    "model": "Modèle",
+    "year": "Année",
+    "color": "Couleur",
+    "noMotorcycles": "Aucune moto enregistrée"
+  },
+
+  "invoices": {
+    "title": "Factures",
+    "count": "Nombre de factures",
+    "outstanding": "Factures impayées",
+    "paid": "Factures payées",
+    "total": "Montant total",
+    "lastInvoice": "Dernière facture",
+    "noInvoices": "Aucune facture trouvée"
+  },
+
+  "actions": {
+    "add": "Ajouter un propriétaire",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir détails",
+    "viewMotorcycles": "Voir les motos",
+    "viewInvoices": "Voir les factures",
+    "sendMessage": "Envoyer un message",
+    "call": "Appeler",
+    "email": "Envoyer un email"
+  },
+
+  "messages": {
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce propriétaire ?",
+    "deleteSuccess": "Propriétaire supprimé avec succès",
+    "deleteError": "Échec de la suppression",
+    "saveSuccess": "Propriétaire enregistré avec succès",
+    "saveError": "Échec de l'enregistrement",
+    "phoneExists": "Ce numéro de téléphone existe déjà",
+    "emailExists": "Cet email existe déjà"
+  },
+
+  "filters": {
+    "search": "Rechercher par nom, téléphone, email...",
+    "category": "Filtrer par catégorie",
+    "city": "Filtrer par ville",
+    "hasOutstanding": "A des factures impayées",
+    "recent": "Visiteurs récents"
+  },
+
+  "details": {
+    "personalInfo": "Informations personnelles",
+    "contactInfo": "Coordonnées",
+    "statistics": "Statistiques",
+    "motorcycles": "Motos enregistrées",
+    "invoices": "Factures",
+    "activity": "Historique d'activité",
+    "notes": "Notes"
+  },
+
+  "activity": {
+    "title": "Activité",
+    "lastLogin": "Dernière connexion",
+    "lastPurchase": "Dernier achat",
+    "lastService": "Dernière révision",
+    "visitCount": "Nombre de visites",
+    "memberSince": "Membre depuis"
+  }
+}

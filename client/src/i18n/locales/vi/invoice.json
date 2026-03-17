@@ -1,0 +1,175 @@
+{
+  "title": "Hóa đơn",
+  "singular": "Hóa đơn",
+  "plural": "Hóa đơn",
+
+  "fields": {
+    "number": "Số hóa đơn",
+    "date": "Ngày",
+    "dueDate": "Ngày đến hạn",
+    "closedDate": "Ngày đóng",
+    "status": "Trạng thái",
+    "owner": "Khách hàng",
+    "motorcycle": "Xe",
+    "plateNumber": "Biển số",
+    "subtotal": "Tạm tính",
+    "tax": "Thuế",
+    "total": "Tổng cộng",
+    "paid": "Đã thanh toán",
+    "due": "Còn lại",
+    "paymentMethod": "Phương thức TT",
+    "paymentReference": "Mã tham chiếu",
+    "notes": "Ghi chú",
+    "internalNotes": "Ghi chú nội bộ"
+  },
+
+  "statuses": {
+    "draft": "Nháp",
+    "pending": "Chờ thanh toán",
+    "paid": "Đã thanh toán",
+    "partially_paid": "Thanh toán một phần",
+    "overdue": "Quá hạn",
+    "cancelled": "Đã hủy"
+  },
+
+  "items": {
+    "labor": "Dịch vụ",
+    "parts": "Phụ tùng",
+    "consumables": "Vật tư",
+    "description": "Mô tả",
+    "quantity": "Số lượng",
+    "unitPrice": "Đơn giá",
+    "amount": "Thành tiền",
+    "hours": "Giờ công",
+    "rate": "Đơn giá/giờ",
+    "mechanic": "Thợ",
+    "partNumber": "Mã phụ tùng",
+    "supplier": "Nhà cung cấp"
+  },
+
+  "labor": {
+    "title": "Dịch vụ",
+    "add": "Thêm dịch vụ",
+    "edit": "Sửa dịch vụ",
+    "delete": "Xóa dịch vụ",
+    "description": "Mô tả công việc",
+    "hours": "Số giờ",
+    "rate": "Đơn giá/giờ",
+    "mechanic": "Thợ phụ trách",
+    "total": "Tổng dịch vụ"
+  },
+
+  "parts": {
+    "title": "Phụ tùng",
+    "add": "Thêm phụ tùng",
+    "edit": "Sửa phụ tùng",
+    "delete": "Xóa phụ tùng",
+    "name": "Tên phụ tùng",
+    "reference": "Mã số",
+    "quantity": "Số lượng",
+    "price": "Đơn giá",
+    "supplier": "Nhà cung cấp",
+    "warranty": "Bảo hành (tháng)",
+    "total": "Tổng phụ tùng"
+  },
+
+  "consumables": {
+    "title": "Vật tư",
+    "add": "Thêm vật tư",
+    "edit": "Sửa vật tư",
+    "delete": "Xóa vật tư",
+    "name": "Tên vật tư",
+    "quantity": "Số lượng",
+    "unit": "Đơn vị",
+    "price": "Đơn giá",
+    "total": "Tổng vật tư"
+  },
+
+  "payments": {
+    "title": "Thanh toán",
+    "add": "Thêm thanh toán",
+    "date": "Ngày thanh toán",
+    "amount": "Số tiền",
+    "method": "Phương thức",
+    "reference": "Mã tham chiếu",
+    "notes": "Ghi chú",
+    "history": "Lịch sử thanh toán",
+    "totalPaid": "Đã thanh toán",
+    "remaining": "Còn lại"
+  },
+
+  "paymentMethods": {
+    "cash": "Tiền mặt",
+    "card": "Thẻ",
+    "bank_transfer": "Chuyển khoản",
+    "e_wallet": "Ví điện tử",
+    "check": "Séc",
+    "other": "Khác"
+  },
+
+  "totals": {
+    "subtotal": "Tạm tính",
+    "taxRate": "Thuế suất",
+    "taxAmount": "Tiền thuế",
+    "total": "Tổng cộng",
+    "paid": "Đã thanh toán",
+    "balance": "Còn nợ",
+    "summary": "Tóm tắt"
+  },
+
+  "actions": {
+    "create": "Tạo hóa đơn",
+    "edit": "Sửa hóa đơn",
+    "delete": "Xóa hóa đơn",
+    "view": "Xem hóa đơn",
+    "print": "In hóa đơn",
+    "email": "Gửi email",
+    "download": "Tải PDF",
+    "addPayment": "Thêm thanh toán",
+    "addItem": "Thêm mục",
+    "markAsPaid": "Đánh dấu đã thanh toán",
+    "cancel": "Hủy hóa đơn"
+  },
+
+  "messages": {
+    "confirmDelete": "Bạn có chắc muốn xóa hóa đơn này?",
+    "deleteSuccess": "Xóa hóa đơn thành công",
+    "deleteError": "Không thể xóa hóa đơn",
+    "saveSuccess": "Lưu hóa đơn thành công",
+    "saveError": "Không thể lưu hóa đơn",
+    "paymentAdded": "Thêm thanh toán thành công",
+    "paymentError": "Không thể thêm thanh toán",
+    "markPaidSuccess": "Đã đánh dấu hóa đơn đã thanh toán",
+    "markPaidError": "Không thể đánh dấu đã thanh toán",
+    "overdueWarning": "Hóa đơn này đã quá hạn!",
+    "dueSoonWarning": "Hóa đơn này sắp đến hạn"
+  },
+
+  "filters": {
+    "search": "Tìm theo số HĐ, khách hàng, biển số...",
+    "status": "Lọc theo trạng thái",
+    "dateRange": "Khoảng thời gian",
+    "owner": "Lọc theo khách hàng",
+    "overdue": "Chỉ hiện quá hạn",
+    "pending": "Chỉ hiện chờ thanh toán"
+  },
+
+  "details": {
+    "summary": "Tóm tắt hóa đơn",
+    "items": "Chi tiết",
+    "payments": "Thanh toán",
+    "history": "Lịch sử",
+    "notes": "Ghi chú",
+    "terms": "Điều khoản"
+  },
+
+  "history": {
+    "title": "Lịch sử hóa đơn",
+    "created": "Hóa đơn được tạo",
+    "updated": "Hóa đơn được cập nhật",
+    "paymentAdded": "Đã thêm thanh toán",
+    "statusChanged": "Trạng thái thay đổi thành {status}",
+    "itemAdded": "Đã thêm: {description}",
+    "itemRemoved": "Đã xóa mục"
+  }
+}

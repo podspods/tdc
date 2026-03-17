@@ -1,0 +1,138 @@
+{
+  "title": "Danh mục phụ tùng",
+  "code": "Mã phụ tùng",
+  "name": "Tên phụ tùng",
+  "description": "Mô tả",
+  "category": "Danh mục",
+  "subcategory": "Danh mục con",
+  "partType": "Loại phụ tùng",
+  "oem": "OEM",
+  "aftermarket": "Hậu mãi",
+  "performance": "Hiệu suất cao",
+  "reconditioned": "Tân trang",
+
+  "categories": {
+    "engine": "Động cơ",
+    "transmission": "Hộp số",
+    "brakes": "Phanh",
+    "suspension": "Hệ thống treo",
+    "electrical": "Điện",
+    "body": "Thân xe",
+    "other": "Khác"
+  },
+
+  "compatibility": {
+    "title": "Tương thích",
+    "brands": "Thương hiệu tương thích",
+    "models": "Mẫu xe tương thích",
+    "years": "Năm sản xuất",
+    "engineTypes": "Loại động cơ",
+    "from": "Từ",
+    "to": "Đến"
+  },
+
+  "partNumbers": {
+    "title": "Mã phụ tùng",
+    "oem": "Mã OEM",
+    "manufacturer": "Mã nhà sản xuất",
+    "alternatives": "Mã thay thế"
+  },
+
+  "specifications": {
+    "title": "Thông số kỹ thuật",
+    "material": "Chất liệu",
+    "weight": "Trọng lượng (g)",
+    "dimensions": "Kích thước",
+    "color": "Màu sắc"
+  },
+
+  "pricing": {
+    "title": "Giá cả",
+    "unitPrice": "Đơn giá",
+    "purchasePrice": "Giá nhập",
+    "wholesalePrice": "Giá sỉ",
+    "taxRate": "Thuế suất",
+    "margin": "Biên lợi nhuận",
+    "profit": "Lợi nhuận"
+  },
+
+  "supplier": {
+    "title": "Nhà cung cấp",
+    "primary": "Nhà cung cấp chính",
+    "secondary": "Nhà cung cấp phụ",
+    "manufacturer": "Nhà sản xuất",
+    "country": "Xuất xứ"
+  },
+
+  "warranty": {
+    "title": "Bảo hành",
+    "months": "Bảo hành (tháng)",
+    "terms": "Điều khoản bảo hành"
+  },
+
+  "stock": {
+    "title": "Quản lý kho",
+    "current": "Tồn kho hiện tại",
+    "minimum": "Tồn kho tối thiểu",
+    "maximum": "Tồn kho tối đa",
+    "reorder": "Điểm đặt hàng lại",
+    "location": "Vị trí",
+    "bin": "Số kệ",
+    "status": "Trạng thái kho",
+    "inStock": "Còn hàng",
+    "lowStock": "Sắp hết hàng",
+    "outOfStock": "Hết hàng",
+    "overstock": "Tồn kho nhiều"
+  },
+
+  "media": {
+    "title": "Hình ảnh",
+    "images": "Hình ảnh",
+    "technicalDrawing": "Bản vẽ kỹ thuật",
+    "installationGuide": "Hướng dẫn lắp đặt"
+  },
+
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Ngừng hoạt động",
+    "discontinued": "Ngừng sản xuất"
+  },
+
+  "actions": {
+    "add": "Thêm phụ tùng",
+    "edit": "Sửa phụ tùng",
+    "delete": "Xóa phụ tùng",
+    "view": "Xem chi tiết",
+    "duplicate": "Nhân bản",
+    "updateStock": "Cập nhật kho",
+    "print": "In nhãn"
+  },
+
+  "messages": {
+    "confirmDelete": "Bạn có chắc muốn xóa phụ tùng này?",
+    "deleteSuccess": "Xóa phụ tùng thành công",
+    "deleteError": "Không thể xóa phụ tùng",
+    "saveSuccess": "Lưu phụ tùng thành công",
+    "saveError": "Không thể lưu phụ tùng",
+    "stockUpdated": "Cập nhật kho thành công",
+    "lowStockAlert": "Cảnh báo sắp hết hàng!",
+    "outOfStockAlert": "Hết hàng!"
+  },
+
+  "filters": {
+    "search": "Tìm phụ tùng...",
+    "category": "Lọc theo danh mục",
+    "type": "Lọc theo loại",
+    "stock": "Trạng thái kho",
+    "supplier": "Lọc theo nhà cung cấp"
+  },
+
+  "details": {
+    "overview": "Tổng quan",
+    "specs": "Thông số",
+    "compatibility": "Tương thích",
+    "pricing": "Giá cả",
+    "stock": "Kho",
+    "supplier": "Nhà cung cấp"
+  }
+}

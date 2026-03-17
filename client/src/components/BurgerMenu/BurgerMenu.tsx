@@ -1,35 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BurgerMenu.css";
+import { useTranslation } from "react-i18next";
+import { menuItems } from "../../common/constant";
 
 // Interface for menu items
-interface MenuItem {
-  id: string;
-  label: string;
-  path: string;
-}
 
-// BurgerMenu component with modern design
-const BurgerMenu: React.FC = () => {
+export type BurgerMenuProps = {};
+export default function BurgerMenu({ ...props }: BurgerMenuProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // Menu items data
-  const menuItems: MenuItem[] = [
-    { id: "home", label: "Home", path: "/" },
-    { id: "models", label: "Model", path: "/models" },
-    { id: "ADM model", label: "ADM Model", path: "/admin/models" },
-    { id: "registrations", label: "registrations", path: "/registrations" },
-    { id: "ADM registrations", label: "ADM registrations", path: "/admin/registrations" },
-    { id: "owners", label: "owners", path: "/owners" },
-    { id: "ADM owners", label: "ADM owners", path: "/admin/owners" },
-    { id: "ADM Labor", label: "ADM Labor", path: "/admin/labor" },
-    { id: "checkDatabase", label: "checkDatabase", path: "/checkDatabase" },
-    { id: "testApi", label: "testApi", path: "/testApi" },
-    { id: "about", label: "About", path: "/about" },
-    { id: "contact", label: "Contact", path: "/contact" },
-  ];
+  const { t } = useTranslation(["burgerMenu"]);
+
   // Toggle menu function
   const toggleMenu = (): void => {
     setIsOpen(!isOpen);
@@ -106,7 +90,7 @@ const BurgerMenu: React.FC = () => {
             {menuItems.map((item) => (
               <li key={item.id}>
                 <button onClick={() => handleItemClick(item.path)} className="menu-item">
-                  {item.label}
+                  {t(item.label)}
                 </button>
               </li>
             ))}
@@ -115,6 +99,4 @@ const BurgerMenu: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default BurgerMenu;
+}

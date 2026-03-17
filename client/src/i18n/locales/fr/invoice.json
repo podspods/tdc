@@ -1,0 +1,175 @@
+{
+  "title": "Factures",
+  "singular": "Facture",
+  "plural": "Factures",
+
+  "fields": {
+    "number": "N° Facture",
+    "date": "Date",
+    "dueDate": "Date d'échéance",
+    "closedDate": "Date de clôture",
+    "status": "Statut",
+    "owner": "Propriétaire",
+    "motorcycle": "Moto",
+    "plateNumber": "Immatriculation",
+    "subtotal": "Sous-total",
+    "tax": "TVA",
+    "total": "Total",
+    "paid": "Payé",
+    "due": "Dû",
+    "paymentMethod": "Mode de paiement",
+    "paymentReference": "Référence",
+    "notes": "Notes",
+    "internalNotes": "Notes internes"
+  },
+
+  "statuses": {
+    "draft": "Brouillon",
+    "pending": "En attente",
+    "paid": "Payée",
+    "partially_paid": "Partiellement payée",
+    "overdue": "En retard",
+    "cancelled": "Annulée"
+  },
+
+  "items": {
+    "labor": "Main d'œuvre",
+    "parts": "Pièces",
+    "consumables": "Consommables",
+    "description": "Description",
+    "quantity": "Quantité",
+    "unitPrice": "Prix unitaire",
+    "amount": "Montant",
+    "hours": "Heures",
+    "rate": "Taux/horaire",
+    "mechanic": "Mécanicien",
+    "partNumber": "N° de pièce",
+    "supplier": "Fournisseur"
+  },
+
+  "labor": {
+    "title": "Main d'œuvre",
+    "add": "Ajouter main d'œuvre",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "description": "Description du travail",
+    "hours": "Heures",
+    "rate": "Taux horaire",
+    "mechanic": "Mécanicien",
+    "total": "Total main d'œuvre"
+  },
+
+  "parts": {
+    "title": "Pièces",
+    "add": "Ajouter une pièce",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "name": "Nom de la pièce",
+    "reference": "Référence",
+    "quantity": "Quantité",
+    "price": "Prix unitaire",
+    "supplier": "Fournisseur",
+    "warranty": "Garantie (mois)",
+    "total": "Total pièces"
+  },
+
+  "consumables": {
+    "title": "Consommables",
+    "add": "Ajouter un consommable",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "name": "Nom",
+    "quantity": "Quantité",
+    "unit": "Unité",
+    "price": "Prix unitaire",
+    "total": "Total consommables"
+  },
+
+  "payments": {
+    "title": "Paiements",
+    "add": "Ajouter un paiement",
+    "date": "Date de paiement",
+    "amount": "Montant",
+    "method": "Mode de paiement",
+    "reference": "Référence",
+    "notes": "Notes",
+    "history": "Historique des paiements",
+    "totalPaid": "Total payé",
+    "remaining": "Solde restant"
+  },
+
+  "paymentMethods": {
+    "cash": "Espèces",
+    "card": "Carte",
+    "bank_transfer": "Virement",
+    "e_wallet": "Porte-monnaie électronique",
+    "check": "Chèque",
+    "other": "Autre"
+  },
+
+  "totals": {
+    "subtotal": "Sous-total",
+    "taxRate": "Taux de TVA",
+    "taxAmount": "Montant TVA",
+    "total": "Total",
+    "paid": "Payé",
+    "balance": "Solde dû",
+    "summary": "Récapitulatif"
+  },
+
+  "actions": {
+    "create": "Créer une facture",
+    "edit": "Modifier la facture",
+    "delete": "Supprimer la facture",
+    "view": "Voir la facture",
+    "print": "Imprimer",
+    "email": "Envoyer par email",
+    "download": "Télécharger PDF",
+    "addPayment": "Ajouter un paiement",
+    "addItem": "Ajouter un article",
+    "markAsPaid": "Marquer comme payée",
+    "cancel": "Annuler la facture"
+  },
+
+  "messages": {
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette facture ?",
+    "deleteSuccess": "Facture supprimée avec succès",
+    "deleteError": "Échec de la suppression",
+    "saveSuccess": "Facture enregistrée avec succès",
+    "saveError": "Échec de l'enregistrement",
+    "paymentAdded": "Paiement ajouté avec succès",
+    "paymentError": "Échec de l'ajout du paiement",
+    "markPaidSuccess": "Facture marquée comme payée",
+    "markPaidError": "Échec du marquage",
+    "overdueWarning": "Cette facture est en retard !",
+    "dueSoonWarning": "Cette facture arrive à échéance prochainement"
+  },
+
+  "filters": {
+    "search": "Rechercher par n° facture, propriétaire, plaque...",
+    "status": "Filtrer par statut",
+    "dateRange": "Période",
+    "owner": "Filtrer par propriétaire",
+    "overdue": "Afficher uniquement les retards",
+    "pending": "Afficher uniquement les impayées"
+  },
+
+  "details": {
+    "summary": "Récapitulatif",
+    "items": "Articles",
+    "payments": "Paiements",
+    "history": "Historique",
+    "notes": "Notes",
+    "terms": "Conditions générales"
+  },
+
+  "history": {
+    "title": "Historique",
+    "created": "Facture créée",
+    "updated": "Facture modifiée",
+    "paymentAdded": "Paiement ajouté",
+    "statusChanged": "Statut changé en {status}",
+    "itemAdded": "Article ajouté : {description}",
+    "itemRemoved": "Article supprimé"
+  }
+}

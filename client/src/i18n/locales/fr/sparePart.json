@@ -1,0 +1,138 @@
+{
+  "title": "Catalogue pièces détachées",
+  "code": "Code pièce",
+  "name": "Nom de la pièce",
+  "description": "Description",
+  "category": "Catégorie",
+  "subcategory": "Sous-catégorie",
+  "partType": "Type de pièce",
+  "oem": "OEM",
+  "aftermarket": "Adaptable",
+  "performance": "Performance",
+  "reconditioned": "Reconditionné",
+
+  "categories": {
+    "engine": "Moteur",
+    "transmission": "Transmission",
+    "brakes": "Freins",
+    "suspension": "Suspension",
+    "electrical": "Électrique",
+    "body": "Carrosserie",
+    "other": "Autre"
+  },
+
+  "compatibility": {
+    "title": "Compatibilité",
+    "brands": "Marques compatibles",
+    "models": "Modèles compatibles",
+    "years": "Années",
+    "engineTypes": "Types de moteur",
+    "from": "De",
+    "to": "À"
+  },
+
+  "partNumbers": {
+    "title": "Numéros de pièce",
+    "oem": "Numéro OEM",
+    "manufacturer": "Numéro fabricant",
+    "alternatives": "Numéros alternatifs"
+  },
+
+  "specifications": {
+    "title": "Spécifications",
+    "material": "Matériau",
+    "weight": "Poids (g)",
+    "dimensions": "Dimensions",
+    "color": "Couleur"
+  },
+
+  "pricing": {
+    "title": "Prix",
+    "unitPrice": "Prix unitaire",
+    "purchasePrice": "Prix d'achat",
+    "wholesalePrice": "Prix de gros",
+    "taxRate": "Taux de TVA",
+    "margin": "Marge",
+    "profit": "Bénéfice"
+  },
+
+  "supplier": {
+    "title": "Fournisseur",
+    "primary": "Fournisseur principal",
+    "secondary": "Fournisseurs secondaires",
+    "manufacturer": "Fabricant",
+    "country": "Pays d'origine"
+  },
+
+  "warranty": {
+    "title": "Garantie",
+    "months": "Garantie (mois)",
+    "terms": "Conditions de garantie"
+  },
+
+  "stock": {
+    "title": "Gestion de stock",
+    "current": "Stock actuel",
+    "minimum": "Stock minimum",
+    "maximum": "Stock maximum",
+    "reorder": "Seuil de réapprovisionnement",
+    "location": "Emplacement",
+    "bin": "Numéro de casier",
+    "status": "État du stock",
+    "inStock": "En stock",
+    "lowStock": "Stock faible",
+    "outOfStock": "Rupture de stock",
+    "overstock": "Surstock"
+  },
+
+  "media": {
+    "title": "Médias",
+    "images": "Images",
+    "technicalDrawing": "Dessin technique",
+    "installationGuide": "Guide d'installation"
+  },
+
+  "status": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "discontinued": "Arrêté"
+  },
+
+  "actions": {
+    "add": "Ajouter une pièce",
+    "edit": "Modifier la pièce",
+    "delete": "Supprimer la pièce",
+    "view": "Voir détails",
+    "duplicate": "Dupliquer",
+    "updateStock": "Mettre à jour le stock",
+    "print": "Imprimer l'étiquette"
+  },
+
+  "messages": {
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette pièce ?",
+    "deleteSuccess": "Pièce supprimée avec succès",
+    "deleteError": "Échec de la suppression",
+    "saveSuccess": "Pièce enregistrée avec succès",
+    "saveError": "Échec de l'enregistrement",
+    "stockUpdated": "Stock mis à jour avec succès",
+    "lowStockAlert": "Alerte stock faible !",
+    "outOfStockAlert": "Rupture de stock !"
+  },
+
+  "filters": {
+    "search": "Rechercher des pièces...",
+    "category": "Filtrer par catégorie",
+    "type": "Filtrer par type",
+    "stock": "État du stock",
+    "supplier": "Filtrer par fournisseur"
+  },
+
+  "details": {
+    "overview": "Aperçu",
+    "specs": "Spécifications",
+    "compatibility": "Compatibilité",
+    "pricing": "Prix",
+    "stock": "Stock",
+    "supplier": "Fournisseur"
+  }
+}

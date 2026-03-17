@@ -98,6 +98,26 @@ postgres-demo/
 │   └── server.ts
 ├── client/
 │   ├── src/
+│   │   ├── i18n/
+│   │   │   ├── index.ts
+│   │   │   ├── config.ts
+│   │   │   └── locales/
+│   │   │       ├── en/
+│   │   │       │   ├── common.json
+│   │   │       │   ├── navigation.json
+│   │   │       │   ├── labor.json
+│   │   │       │   ├── sparePart.json
+│   │   │       │   ├── owner.json
+│   │   │       │   └── invoice.json
+│   │   │       ├── vi/
+│   │   │       │   ├── common.json
+│   │   │       │   ├── navigation.json
+│   │   │       │   ├── labor.json
+│   │   │       │   └── ...
+│   │   │       └── fr/
+│   │   │           ├── common.json
+│   │   │           ├── navigation.json
+│   │   │           └── ...
 │   │   ├── common/
 │   │   │   ├── motorcycleBrand.common.ts
 │   │   │   ├── registration.common.ts
@@ -182,3 +202,39 @@ vehicule
 # tdc
 
 ![diagrame entite](public/diagrame-entite.drawio.png)
+
+# I18N
+
+## structure des fichiers
+
+```
+client/
+├── src/
+│   ├── i18n/
+│   │   ├── index.ts
+│   │   ├── config.ts
+│   │   └── locales/
+│   │       ├── en/
+│   │       │   ├── common.json
+│   │       │   ├── navigation.json
+│   │       │   ├── labor.json
+│   │       │   ├── sparePart.json
+│   │       │   ├── owner.json
+│   │       │   └── invoice.json
+│   │       ├── vi/
+│   │       │   ├── common.json
+│   │       │   ├── navigation.json
+│   │       │   ├── labor.json
+│   │       │   └── ...
+│   │       └── fr/
+│   │           ├── common.json
+│   │           ├── navigation.json
+│   │           └── ...
+│   ├── components/
+│   │   ├── LanguageSelector.tsx
+│   │   └── ...
+│   └── hooks/
+│       └── useLanguage.ts
+└── ...
+
+```
