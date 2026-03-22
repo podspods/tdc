@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "description": "Rate multipliers for different rate types",
+
+  "rateTypeMultipliers": {
+    "standard": 1.0,
+    "skill_based": 1.2,
+    "service_type": 1.0,
+    "brand_specific": 1.0,
+    "custom": 1.0
+  },
+
+  "skillLevelMultipliers": {
+    "basic": 1.0,
+    "intermediate": 1.2,
+    "advanced": 1.5,
+    "expert": 2.0,
+    "master": 2.5
+  },
+
+  "serviceCategoryMultipliers": {
+    "maintenance": 1.0,
+    "repair": 1.2,
+    "diagnostic": 1.5,
+    "customization": 1.8,
+    "emergency": 2.0
+  },
+
+  "brandMultipliers": {
+    "Honda": 1.0,
+    "Yamaha": 1.0,
+    "Suzuki": 1.0,
+    "Kawasaki": 1.0,
+    "BMW": 1.3,
+    "Ducati": 1.5,
+    "Triumph": 1.3,
+    "Harley-Davidson": 1.5,
+    "Indian": 1.5,
+    "VinFast": 0.95,
+    "SYM": 0.9,
+    "Default": 1.0
+  },
+
+  "timeMultipliers": {
+    "regular": 1.0,
+    "overtime": 1.5,
+    "weekend": 1.3,
+    "holiday": 2.0
+  }
+}

@@ -10,21 +10,18 @@ import Backend from "i18next-http-backend";
 
 // Import translations directly (optional - can also use HTTP backend)
 import enCommon from "./locales/en/common.json";
-import enNavigation from "./locales/en/navigation.json";
 import enLabor from "./locales/en/labor.json";
 import enSparePart from "./locales/en/sparePart.json";
 import enOwner from "./locales/en/owner.json";
 import enInvoice from "./locales/en/invoice.json";
 
 import viCommon from "./locales/vi/common.json";
-import viNavigation from "./locales/vi/navigation.json";
 import viLabor from "./locales/vi/labor.json";
 import viSparePart from "./locales/vi/sparePart.json";
 import viOwner from "./locales/vi/owner.json";
 import viInvoice from "./locales/vi/invoice.json";
 
 import frCommon from "./locales/fr/common.json";
-import frNavigation from "./locales/fr/navigation.json";
 import frLabor from "./locales/fr/labor.json";
 import frSparePart from "./locales/fr/sparePart.json";
 import frOwner from "./locales/fr/owner.json";
@@ -44,7 +41,6 @@ export const supportedLanguages = [
 const resources = {
   en: {
     common: enCommon,
-    navigation: enNavigation,
     labor: enLabor,
     sparePart: enSparePart,
     owner: enOwner,
@@ -52,7 +48,6 @@ const resources = {
   },
   vi: {
     common: viCommon,
-    navigation: viNavigation,
     labor: viLabor,
     sparePart: viSparePart,
     owner: viOwner,
@@ -60,7 +55,6 @@ const resources = {
   },
   fr: {
     common: frCommon,
-    navigation: frNavigation,
     labor: frLabor,
     sparePart: frSparePart,
     owner: frOwner,

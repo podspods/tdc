@@ -1,0 +1,232 @@
+{
+  "version": "1.0.0",
+  "description": "Hourly rate configuration for motorcycle workshop",
+
+  "baseRate": {
+    "value": 109000,
+    "currency": "VND",
+    "description": "Base hourly rate in Vietnamese Dong"
+  },
+
+  "rateTypes": {
+    "standard": {
+      "code": "std",
+      "name": "Standard Rate",
+      "multiplier": 1.0,
+      "description": "Base rate for standard services",
+      "priority": 10
+    },
+    "skill_based": {
+      "code": "skill_based",
+      "name": "Skill Based Rate",
+      "multiplier": 1.2,
+      "description": "Rate adjusted based on mechanic skill level",
+      "priority": 20
+    },
+    "service_type": {
+      "code": "service_type",
+      "name": "Service Type Rate",
+      "multiplier": 1.0,
+      "description": "Rate adjusted based on service category",
+      "priority": 30
+    },
+    "brand_specific": {
+      "code": "brand_specific",
+      "name": "Brand Specific Rate",
+      "multiplier": 1.0,
+      "description": "Rate adjusted based on motorcycle brand",
+      "priority": 40
+    },
+    "custom": {
+      "code": "custom",
+      "name": "Custom Rate",
+      "multiplier": 1.0,
+      "description": "Custom rate for special cases",
+      "priority": 50
+    }
+  },
+
+  "skillLevels": {
+    "basic": {
+      "code": "basic",
+      "name": "Basic",
+      "multiplier": 1.0,
+      "description": "Entry level mechanic - standard work",
+      "required_years_experience": 0,
+      "hourly_rate": 400000
+    },
+    "intermediate": {
+      "code": "intermediate",
+      "name": "Intermediate",
+      "multiplier": 1.2,
+      "description": "Experienced mechanic with proven skills",
+      "required_years_experience": 2,
+      "hourly_rate": 480000
+    },
+    "advanced": {
+      "code": "advanced",
+      "name": "Advanced",
+      "multiplier": 1.5,
+      "description": "Senior mechanic with specialized knowledge",
+      "required_years_experience": 5,
+      "hourly_rate": 600000
+    },
+    "expert": {
+      "code": "expert",
+      "name": "Expert",
+      "multiplier": 2.0,
+      "description": "Expert technician with advanced certifications",
+      "required_years_experience": 8,
+      "hourly_rate": 800000
+    },
+    "master": {
+      "code": "master",
+      "name": "Master",
+      "multiplier": 2.5,
+      "description": "Master technician - highest skill level",
+      "required_years_experience": 12,
+      "hourly_rate": 1000000
+    }
+  },
+
+  "serviceCategories": {
+    "maintenance": {
+      "code": "maintenance",
+      "name": "Maintenance",
+      "multiplier": 1.0,
+      "description": "Regular maintenance services (oil change, chain cleaning, etc.)",
+      "average_duration_hours": 1.0,
+      "examples": ["Oil change", "Chain cleaning", "Brake inspection", "Tire pressure check"]
+    },
+    "repair": {
+      "code": "repair",
+      "name": "Repair",
+      "multiplier": 1.2,
+      "description": "Repair services (engine, transmission, electrical)",
+      "average_duration_hours": 2.0,
+      "examples": [
+        "Engine repair",
+        "Transmission repair",
+        "Electrical system repair",
+        "Brake system repair"
+      ]
+    },
+    "diagnostic": {
+      "code": "diagnostic",
+      "name": "Diagnostic",
+      "multiplier": 1.5,
+      "description": "Diagnostic services using specialized equipment",
+      "average_duration_hours": 1.0,
+      "examples": [
+        "Engine diagnostic",
+        "Electrical diagnostic",
+        "ECU diagnostic",
+        "Performance testing"
+      ]
+    },
+    "customization": {
+      "code": "customization",
+      "name": "Customization",
+      "multiplier": 1.8,
+      "description": "Custom modification and tuning services",
+      "average_duration_hours": 3.0,
+      "examples": [
+        "Performance tuning",
+        "Custom exhaust installation",
+        "Body modification",
+        "Custom paint work"
+      ]
+    },
+    "emergency": {
+      "code": "emergency",
+      "name": "Emergency",
+      "multiplier": 2.0,
+      "description": "Emergency/urgent services outside regular hours",
+      "average_duration_hours": 1.5,
+      "examples": [
+        "Emergency roadside assistance",
+        "After-hours repair",
+        "Urgent breakdown service",
+        "Weekend service"
+      ]
+    }
+  },
+
+  "brandMultipliers": {
+    "default": {
+      "multiplier": 1.0,
+      "description": "Default multiplier for all brands"
+    },
+    "premium": {
+      "brands": ["BMW", "Ducati", "Triumph"],
+      "multiplier": 1.3,
+      "description": "Premium European brands"
+    },
+    "luxury": {
+      "brands": ["Harley-Davidson", "Indian Motorcycle"],
+      "multiplier": 1.5,
+      "description": "Luxury American brands"
+    },
+    "standard": {
+      "brands": ["Honda", "Yamaha", "Suzuki", "Kawasaki"],
+      "multiplier": 1.0,
+      "description": "Standard Japanese brands"
+    },
+    "budget": {
+      "brands": ["SYM", "Lifan", "Zongshen"],
+      "multiplier": 0.9,
+      "description": "Budget brands"
+    },
+    "vietnamese": {
+      "brands": ["VinFast", "Pega", "Detech"],
+      "multiplier": 0.95,
+      "description": "Vietnamese brands"
+    }
+  },
+
+  "roundingRules": {
+    "enabled": true,
+    "nearest": 1000,
+    "description": "Round final rate to nearest 1000 VND"
+  },
+
+  "minimumChargeRules": {
+    "enabled": true,
+    "default": 200000,
+    "per_category": {
+      "maintenance": 150000,
+      "repair": 250000,
+      "diagnostic": 300000,
+      "customization": 400000,
+      "emergency": 500000
+    },
+    "description": "Minimum charge regardless of time worked"
+  },
+
+  "maximumChargeRules": {
+    "enabled": false,
+    "default": null,
+    "description": "Maximum charge cap (disabled by default)"
+  },
+
+  "formula": {
+    "description": "Rate calculation formula",
+    "expression": "base_rate * skill_multiplier * category_multiplier * brand_multiplier",
+    "example": "500000 * 1.2 * 1.5 * 1.3 = 1,170,000 VND"
+  },
+
+  "timeRoundingRules": {
+    "enabled": true,
+    "increment": 0.25,
+    "description": "Round time to nearest 15 minutes (0.25 hours)"
+  },
+
+  "overtimeRules": {
+    "enabled": true,
+    "multiplier": 1.5,
+    "after_hours": 18,
+    "weekend_multiplier": 1.3,
+    "holiday_multiplier": 2.0,
+    "description": "Overtime and after-hours rates"
+  }
+}

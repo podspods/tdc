@@ -12,11 +12,12 @@ import ownerRoutes from "./routes/owner.routes";
 import invoiceRoutes from "./routes/invoice.routes";
 import laborRoutes from "./routes/labor.routes";
 import consumableRoutes from "./routes/consumable.routes";
-import sparePartRoutes from "./routes/sparePart.routes"; // ← IMPORT MANQUANT
+import sparePartRoutes from "./routes/sparePart.routes";
+import rateConfigRoutes from "./routes/rateConfig.routes";
 
 dotenv.config();
 
-// Créer un stream pretty directement
+// create directly pretty  stream
 const prettyStream = pinoPretty({
   colorize: true,
   translateTime: "HH:MM:ss.l",
@@ -57,6 +58,9 @@ fastify.register(invoiceRoutes, { prefix: "/api/invoices" });
 fastify.register(laborRoutes, { prefix: "/api/labor" });
 fastify.register(consumableRoutes, { prefix: "/api/consumables" });
 fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" }); // ← MAINTENANT RECONNU
+
+// Add to routes registration
+fastify.register(rateConfigRoutes, { prefix: "/api/rate-config" });
 
 // 404 handler
 fastify.setNotFoundHandler((request, reply) => {

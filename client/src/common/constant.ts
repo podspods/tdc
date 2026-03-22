@@ -5,6 +5,8 @@ export const API_NAME = "Tommi's Ducati club";
 // Menu items data
 export const menuItems: MenuItem[] = [
   { id: "home", label: "Home", path: "/" },
+  { id: "sest", label: "Test", path: "/test/rate-config" },
+
   { id: "models", label: "Model", path: "/models" },
   { id: "ADM model", label: "ADM Model", path: "/admin/models" },
   { id: "registrations", label: "registrations", path: "/registrations" },
