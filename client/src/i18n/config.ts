@@ -9,23 +9,29 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 
 // Import translations directly (optional - can also use HTTP backend)
+import enBurgerMenu from "./locales/en/burgerMenu.json";
 import enCommon from "./locales/en/common.json";
 import enLabor from "./locales/en/labor.json";
 import enSparePart from "./locales/en/sparePart.json";
 import enOwner from "./locales/en/owner.json";
 import enInvoice from "./locales/en/invoice.json";
+import enHome from "./locales/en/home.json";
 
+import viBurgerMenu from "./locales/vi/burgerMenu.json";
 import viCommon from "./locales/vi/common.json";
 import viLabor from "./locales/vi/labor.json";
 import viSparePart from "./locales/vi/sparePart.json";
 import viOwner from "./locales/vi/owner.json";
 import viInvoice from "./locales/vi/invoice.json";
+import viHome from "./locales/vi/home.json";
 
+import frBurgerMenu from "./locales/fr/burgerMenu.json";
 import frCommon from "./locales/fr/common.json";
 import frLabor from "./locales/fr/labor.json";
 import frSparePart from "./locales/fr/sparePart.json";
 import frOwner from "./locales/fr/owner.json";
 import frInvoice from "./locales/fr/invoice.json";
+import frHome from "./locales/fr/home.json";
 
 // Available languages
 export const supportedLanguages = [
@@ -40,25 +46,31 @@ export const supportedLanguages = [
 // Resources object with all translations
 const resources = {
   en: {
+    burgerMenu: enBurgerMenu,
     common: enCommon,
     labor: enLabor,
     sparePart: enSparePart,
     owner: enOwner,
     invoice: enInvoice,
+    home: enHome,
   },
   vi: {
+    burgerMenu: viBurgerMenu,
     common: viCommon,
     labor: viLabor,
     sparePart: viSparePart,
     owner: viOwner,
     invoice: viInvoice,
+    home: viHome,
   },
   fr: {
+    burgerMenu: frBurgerMenu,
     common: frCommon,
     labor: frLabor,
     sparePart: frSparePart,
     owner: frOwner,
     invoice: frInvoice,
+    home: frHome,
   },
 };
 
@@ -89,12 +101,12 @@ i18n
     supportedLngs: ["en", "vi", "fr"],
 
     // Default namespace
-    ns: ["common", "navigation", "labor", "sparePart", "owner", "invoice"],
+    ns: ["burgerMenu", "common", "navigation", "labor", "sparePart", "owner", "invoice", "home"],
     defaultNS: defaultNamespace,
 
     // Detection options
     detection: {
-      order: ["localStorage", "cookie", "navigator", "htmlTag", "path", "subdomain"],
+      order: ["localStorage", "cookie", "navigator", "htmlTag", "path", "subdomain", "home"],
       caches: ["localStorage", "cookie"],
     },
 
