@@ -21,5 +21,7 @@
   "editLabor": "Edit labor item",
   "deleteLabor": "Delete labor item",
   "laborDetails": "Labor details",
-  "confirmDeleteLabor": "Are you sure you want to delete this labor item?"
+  "confirmDeleteLabor": "Are you sure you want to delete this labor item?",
+  "status": "Status",
+  "action": "Action"
 }

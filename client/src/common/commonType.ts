@@ -3,3 +3,8 @@ export type MenuItem = {
   label: string;
   path: string;
 };
+
+export type OptionSelect = {
+  id: string;
+  value: string;
+};

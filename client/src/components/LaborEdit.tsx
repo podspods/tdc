@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react";
 import { laborService } from "../services/labor.service";
 import type { Labor, LaborCategory, SkillLevel, CreateLaborDto } from "../types/labor.types";
 import { formatCurrency } from "../common/tools";
+import { useTranslation } from "react-i18next";
+import { OptionSelect } from "../common/commonType";
+import { styles } from "./LaborEdit.style.ts";
+
+export const categoryList: OptionSelect[] = [
+  { id: "maintenance", value: "maintenance" },
+  { id: "repair", value: "repair" },
+  { id: "diagnostic", value: "diagnostic" },
+  { id: "v", value: "customization" },
+];
 
 interface LaborEditProps {
   laborId?: number; // Optional: if provided, edit mode, else create mode
@@ -10,6 +20,8 @@ interface LaborEditProps {
 }
 
 const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
+  const { t } = useTranslation(["labor"]);
+
   // State for form data
   const [formData, setFormData] = useState<CreateLaborDto>({
     laborCode: "",
@@ -112,17 +124,17 @@ const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
       if (isEditing && selectedLabor) {
         // Update existing labor
         await laborService.update(selectedLabor.laborId, formData);
-        setSuccess("Labor item updated successfully");
+        setSuccess(t("Labor item updated successfully"));
       } else {
         // Create new labor
         await laborService.create(formData);
-        setSuccess("Labor item created successfully");
+        setSuccess(t("Labor item created successfully"));
         resetForm();
       }
       loadLaborList();
       if (onSave) onSave();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to save labor item");
+      setError(err instanceof Error ? err.message : t("Failed to save labor item"));
     } finally {
       setLoading(false);
     }
@@ -133,13 +145,13 @@ const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
     setError(null);
     try {
       await laborService.delete(id);
-      setSuccess("Labor item deleted successfully");
+      setSuccess(t("Labor item updated successfully"));
       loadLaborList();
       if (selectedLabor?.laborId === id) {
         resetForm();
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete labor item");
+      setError(err instanceof Error ? err.message : t("Failed to delete labor item"));
     } finally {
       setLoading(false);
       setDeleteConfirm(null);
@@ -214,177 +226,11 @@ const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
     }
   };
 
-  const styles = {
-    container: {
-      maxWidth: "1200px",
-      margin: "0 auto",
-      padding: "20px",
-      fontFamily: "system-ui, -apple-system, sans-serif",
-    },
-    header: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: "20px",
-    },
-    title: {
-      color: "#2563eb",
-      margin: 0,
-    },
-    button: {
-      backgroundColor: "#2563eb",
-      color: "white",
-      padding: "10px 20px",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      fontSize: "14px",
-      transition: "background-color 0.2s",
-    },
-    buttonSuccess: {
-      backgroundColor: "#10b981",
-    },
-    buttonDanger: {
-      backgroundColor: "#ef4444",
-    },
-    buttonWarning: {
-      backgroundColor: "#f59e0b",
-    },
-    buttonSmall: {
-      padding: "5px 10px",
-      fontSize: "12px",
-      marginRight: "5px",
-    },
-    buttonGroup: {
-      display: "flex",
-      gap: "10px",
-      marginBottom: "20px",
-    },
-    form: {
-      backgroundColor: "white",
-      padding: "20px",
-      borderRadius: "8px",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-      marginBottom: "20px",
-    },
-    formGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-      gap: "15px",
-    },
-    formGroup: {
-      marginBottom: "15px",
-    },
-    label: {
-      display: "block",
-      marginBottom: "5px",
-      fontWeight: "500",
-      fontSize: "14px",
-      color: "#374151",
-    },
-    input: {
-      width: "100%",
-      padding: "8px 12px",
-      border: "1px solid #e5e7eb",
-      borderRadius: "5px",
-      fontSize: "14px",
-      transition: "border-color 0.2s",
-    },
-    select: {
-      width: "100%",
-      padding: "8px 12px",
-      border: "1px solid #e5e7eb",
-      borderRadius: "5px",
-      fontSize: "14px",
-      backgroundColor: "white",
-    },
-    textarea: {
-      width: "100%",
-      padding: "8px 12px",
-      border: "1px solid #e5e7eb",
-      borderRadius: "5px",
-      fontSize: "14px",
-      minHeight: "80px",
-      resize: "vertical" as const,
-    },
-    table: {
-      width: "100%",
-      borderCollapse: "collapse" as const,
-      backgroundColor: "white",
-      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-      borderRadius: "8px",
-      overflow: "hidden",
-    },
-    th: {
-      backgroundColor: "#f3f4f6",
-      padding: "12px",
-      textAlign: "left" as const,
-      fontWeight: "600",
-      fontSize: "14px",
-      borderBottom: "2px solid #e5e7eb",
-    },
-    td: {
-      padding: "12px",
-      borderBottom: "1px solid #e5e7eb",
-      fontSize: "14px",
-    },
-    trEven: {
-      backgroundColor: "#f9fafb",
-    },
-    trHover: {
-      transition: "background-color 0.2s",
-      cursor: "pointer",
-    },
-    badge: {
-      display: "inline-block",
-      padding: "4px 8px",
-      borderRadius: "9999px",
-      fontSize: "12px",
-      fontWeight: "500",
-      backgroundColor: "#e5e7eb",
-      color: "#374151",
-    },
-    badgeActive: {
-      backgroundColor: "#10b981",
-      color: "white",
-    },
-    badgeInactive: {
-      backgroundColor: "#ef4444",
-      color: "white",
-    },
-    alert: {
-      padding: "12px",
-      borderRadius: "5px",
-      marginBottom: "20px",
-    },
-    alertSuccess: {
-      backgroundColor: "#d1fae5",
-      color: "#065f46",
-      border: "1px solid #10b981",
-    },
-    alertError: {
-      backgroundColor: "#fee2e2",
-      color: "#ef4444",
-      border: "1px solid #ef4444",
-    },
-    loading: {
-      textAlign: "center" as const,
-      padding: "40px",
-      color: "#6b7280",
-    },
-    deleteConfirm: {
-      backgroundColor: "#fee2e2",
-      padding: "10px",
-      borderRadius: "5px",
-      marginTop: "5px",
-    },
-  };
-
   return (
     <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
-        <h1 style={styles.title}>Labor Catalog Management</h1>
+        <h1 style={styles.title}>{t("Labor Catalog Management")}</h1>
         <div style={styles.buttonGroup}>
           <button
             style={{ ...styles.button, ...styles.buttonSuccess }}
@@ -393,7 +239,7 @@ const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
               setShowForm(true);
             }}
           >
-            + New Labor Item
+            {t("+ New Labor Item")}
           </button>
           {onClose && (
             <button style={{ ...styles.button, backgroundColor: "#6b7280" }} onClick={onClose}>
@@ -420,132 +266,131 @@ const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
       {showForm && (
         <div style={styles.form}>
           <h3 style={{ marginTop: 0, marginBottom: "20px", color: "#2563eb" }}>
-            {isEditing ? "✏️ Edit Labor Item" : "➕ New Labor Item"}
+            {isEditing ? `✏️ ${t("Edit Labor Item")}` : `➕ ${t("New Labor Item")}`}
           </h3>
 
           <form onSubmit={handleSubmit}>
             <div style={styles.formGrid}>
-              {/* Labor Code */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Labor Code *</label>
-                <input
-                  type="text"
-                  name="laborCode"
-                  value={formData.laborCode}
-                  onChange={handleInputChange}
-                  style={styles.input}
-                  placeholder="e.g., LAB001"
-                  required
-                  disabled={isEditing} // Can't change code when editing
-                />
-              </div>
+              <label style={styles.label}>{t("Labor Code *")}</label>
+              <input
+                type="text"
+                name="laborCode"
+                value={formData.laborCode}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder={t("e.g., LAB001")}
+                required
+                disabled={isEditing} // Can't change code when editing
+              />
+            </div>
 
-              {/* Labor Name */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Labor Name *</label>
-                <input
-                  type="text"
-                  name="laborName"
-                  value={formData.laborName}
-                  onChange={handleInputChange}
-                  style={styles.input}
-                  placeholder="e.g., Oil Change"
-                  required
-                />
-              </div>
+            {/* Labor Name */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Labor Name *</label>
+              <input
+                type="text"
+                name="laborName"
+                value={formData.laborName}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder={t("e.g., Oil Change")}
+                required
+              />
+            </div>
 
-              {/* Category */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Category</label>
-                <select
-                  name="category"
-                  value={formData.category || ""}
-                  onChange={handleInputChange}
-                  style={styles.select}
-                >
-                  <option value="">Select category</option>
-                  <option value="maintenance">Maintenance</option>
-                  <option value="repair">Repair</option>
-                  <option value="diagnostic">Diagnostic</option>
-                  <option value="customization">Customization</option>
-                </select>
-              </div>
+            {/* Category */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>{t("Category")}</label>
 
-              {/* Default Rate Per Hour */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Rate per Hour (VND) *</label>
-                <input
-                  type="number"
-                  name="defaultRatePerHour"
-                  value={formData.defaultRatePerHour}
-                  onChange={handleInputChange}
-                  style={styles.input}
-                  placeholder="e.g., 350000"
-                  min="0"
-                  step="1000"
-                  required
-                />
-              </div>
+              <select
+                name="category"
+                value={formData.category || ""}
+                onChange={handleInputChange}
+                style={styles.select}
+              >
+                <option value="">{t("select_category")}</option>
+                {categoryList.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {t(cat.value)}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              {/* Estimated Hours */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Estimated Hours</label>
-                <input
-                  type="number"
-                  name="estimatedHours"
-                  value={formData.estimatedHours || ""}
-                  onChange={handleInputChange}
-                  style={styles.input}
-                  placeholder="e.g., 1.5"
-                  min="0"
-                  step="0.1"
-                />
-              </div>
+            {/* Default Rate Per Hour */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Rate per Hour (VND) *</label>
+              <input
+                type="number"
+                name="defaultRatePerHour"
+                value={formData.defaultRatePerHour}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="e.g., 350000"
+                min="0"
+                step="1000"
+                required
+              />
+            </div>
 
-              {/* Minimum Charge */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Minimum Charge (VND)</label>
-                <input
-                  type="number"
-                  name="minCharge"
-                  value={formData.minCharge || ""}
-                  onChange={handleInputChange}
-                  style={styles.input}
-                  placeholder="e.g., 200000"
-                  min="0"
-                  step="1000"
-                />
-              </div>
+            {/* Estimated Hours */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Estimated Hours</label>
+              <input
+                type="number"
+                name="estimatedHours"
+                value={formData.estimatedHours || ""}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="e.g., 1.5"
+                min="0"
+                step="0.1"
+              />
+            </div>
 
-              {/* Required Skill Level */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Required Skill Level</label>
-                <select
-                  name="requiredSkillLevel"
-                  value={formData.requiredSkillLevel || ""}
-                  onChange={handleInputChange}
-                  style={styles.select}
-                >
-                  <option value="">Select skill level</option>
-                  <option value="basic">Basic</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
-                  <option value="expert">Expert</option>
-                </select>
-              </div>
+            {/* Minimum Charge */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Minimum Charge (VND)</label>
+              <input
+                type="number"
+                name="minCharge"
+                value={formData.minCharge || ""}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="e.g., 200000"
+                min="0"
+                step="1000"
+              />
+            </div>
 
-              {/* Required Certification */}
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Required Certification</label>
-                <input
-                  type="text"
-                  name="requiredCertification"
-                  value={formData.requiredCertification}
-                  onChange={handleInputChange}
-                  style={styles.input}
-                  placeholder="e.g., Master Technician"
-                />
-              </div>
+            {/* Required Skill Level */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Required Skill Level</label>
+              <select
+                name="requiredSkillLevel"
+                value={formData.requiredSkillLevel || ""}
+                onChange={handleInputChange}
+                style={styles.select}
+              >
+                <option value="">Select skill level</option>
+                <option value="basic">Basic</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="expert">Expert</option>
+              </select>
+            </div>
+
+            {/* Required Certification */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Required Certification</label>
+              <input
+                type="text"
+                name="requiredCertification"
+                value={formData.requiredCertification}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder={t("e.g., Master Technician")}
+              />
             </div>
 
             {/* Description - Full Width */}
@@ -589,15 +434,15 @@ const LaborEdit: React.FC<LaborEditProps> = ({ laborId, onClose, onSave }) => {
           <table style={styles.table}>
             <thead>
               <tr>
-                <th style={styles.th}>Code</th>
-                <th style={styles.th}>Name</th>
-                <th style={styles.th}>Category</th>
-                <th style={styles.th}>Rate/Hour</th>
-                <th style={styles.th}>Est. Hours</th>
-                <th style={styles.th}>Min Charge</th>
-                <th style={styles.th}>Skill Level</th>
-                <th style={styles.th}>Status</th>
-                <th style={styles.th}>Actions</th>
+                <th style={styles.th}>{t("code")}</th>
+                <th style={styles.th}>{t("name")}</th>
+                <th style={styles.th}>{t("category")}</th>
+                <th style={styles.th}>{t("ratePerHour")}</th>
+                <th style={styles.th}>{t("estimatedHours")}</th>
+                <th style={styles.th}>{t("minCharge")}</th>
+                <th style={styles.th}>{t("skillLevel")}</th>
+                <th style={styles.th}>{t("status")}</th>
+                <th style={styles.th}>{t("actions")}</th>
               </tr>
             </thead>
             <tbody>

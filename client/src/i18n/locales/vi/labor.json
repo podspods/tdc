@@ -21,5 +21,7 @@
   "editLabor": "Sửa dịch vụ",
   "deleteLabor": "Xóa dịch vụ",
   "laborDetails": "Chi tiết dịch vụ",
-  "confirmDeleteLabor": "Bạn có chắc muốn xóa dịch vụ này?"
+  "confirmDeleteLabor": "Bạn có chắc muốn xóa dịch vụ này?",
+  "status": "Trạng thái",
+  "action": "Thực hiện"
 }

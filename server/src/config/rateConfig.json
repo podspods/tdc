@@ -87,20 +87,15 @@
   },
   "serviceCategories": {
     "maintenance": {
-      "code": "maintenance",
+      "code": "maint",
       "name": "Maintenance",
       "multiplier": 1,
       "description": "Regular maintenance services (oil change, chain cleaning, etc.)",
       "average_duration_hours": 1,
-      "examples": [
-        "Oil change",
-        "Chain cleaning",
-        "Brake inspection",
-        "Tire pressure check"
-      ]
+      "examples": ["Oil change", "Chain cleaning", "Brake inspection", "Tire pressure check"]
     },
     "repair": {
-      "code": "repair",
+      "code": "repa",
       "name": "Repair",
       "multiplier": 1.2,
       "description": "Repair services (engine, transmission, electrical)",
@@ -113,7 +108,7 @@
       ]
     },
     "diagnostic": {
-      "code": "diagnostic",
+      "code": "diag",
       "name": "Diagnostic",
       "multiplier": 1.5,
       "description": "Diagnostic services using specialized equipment",
@@ -126,7 +121,7 @@
       ]
     },
     "customization": {
-      "code": "customization",
+      "code": "custo",
       "name": "Customization",
       "multiplier": 1.8,
       "description": "Custom modification and tuning services",
@@ -139,7 +134,7 @@
       ]
     },
     "emergency": {
-      "code": "emergency",
+      "code": "emerg",
       "name": "Emergency",
       "multiplier": 2,
       "description": "Emergency/urgent services outside regular hours",
@@ -158,47 +153,27 @@
       "description": "Default multiplier for all brands"
     },
     "premium": {
-      "brands": [
-        "BMW",
-        "Ducati",
-        "Triumph"
-      ],
+      "brands": ["BMW", "Ducati", "Triumph"],
       "multiplier": 1.3,
       "description": "Premium European brands"
     },
     "luxury": {
-      "brands": [
-        "Harley-Davidson",
-        "Indian Motorcycle"
-      ],
+      "brands": ["Harley-Davidson", "Indian Motorcycle"],
       "multiplier": 1.5,
       "description": "Luxury American brands"
     },
     "standard": {
-      "brands": [
-        "Honda",
-        "Yamaha",
-        "Suzuki",
-        "Kawasaki"
-      ],
+      "brands": ["Honda", "Yamaha", "Suzuki", "Kawasaki"],
       "multiplier": 1,
       "description": "Standard Japanese brands"
     },
     "budget": {
-      "brands": [
-        "SYM",
-        "Lifan",
-        "Zongshen"
-      ],
+      "brands": ["SYM", "Lifan", "Zongshen"],
       "multiplier": 0.9,
       "description": "Budget brands"
     },
     "vietnamese": {
-      "brands": [
-        "VinFast",
-        "Pega",
-        "Detech"
-      ],
+      "brands": ["VinFast", "Pega", "Detech"],
       "multiplier": 0.95,
       "description": "Vietnamese brands"
     }

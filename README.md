@@ -281,3 +281,17 @@ DELETE /api/rate-config/service-categories/:code Delete service category
 GET /api/rate-config/brand-multipliers Get brand multipliers
 GET /api/rate-config/rounding-rules Get rounding rules
 GET /api/rate-config/minimum-charge Get minimum charge rules
+
+# déploiement
+
+Netlify
+
+Une excellente alternative, aussi réputée pour sa simplicité .
+
+    Méthode : Glissez-déposez votre dossier dist directement sur l'interface web, ou connectez votre dépôt GitHub.
+
+    Configuration : Configurez la commande de build (npm run build) et le dossier de publication (dist) si ce n'est pas automatique.
+
+    Avantages : Fonctionnalités supplémentaires comme les "Forms" (gestion de formulaires sans backend) et les "Functions" (serverless).
+
+    Prix : Free tier très complet.
