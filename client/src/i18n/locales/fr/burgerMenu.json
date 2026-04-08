@@ -1,5 +1,7 @@
 {
-  "home": "ZAccueil",
+  "home": "Accueil",
+  "test": "test-fr",
+
   "dashboard": "Tableau de bord",
   "labor": "Catalogue main d'œuvre",
   "spareParts": "Pièces détachées",

@@ -15,28 +15,28 @@
       "priority": 10
     },
     "skill_based": {
-      "code": "skill_based",
+      "code": "sbr",
       "name": "Skill Based Rate",
       "multiplier": 1.2,
       "description": "Rate adjusted based on mechanic skill level",
       "priority": 20
     },
     "service_type": {
-      "code": "service_type",
+      "code": "str",
       "name": "Service Type Rate",
       "multiplier": 1,
       "description": "Rate adjusted based on service category",
       "priority": 30
     },
     "brand_specific": {
-      "code": "brand_specific",
+      "code": "bsr",
       "name": "Brand Specific Rate",
       "multiplier": 1,
       "description": "Rate adjusted based on motorcycle brand",
       "priority": 40
     },
     "custom": {
-      "code": "custom",
+      "code": "ctr",
       "name": "Custom Rate",
       "multiplier": 1,
       "description": "Custom rate for special cases",
@@ -45,7 +45,7 @@
   },
   "skillLevels": {
     "basic": {
-      "code": "basic",
+      "code": "bas",
       "name": "Basic",
       "multiplier": 1,
       "description": "Entry level mechanic - standard work",
@@ -53,7 +53,7 @@
       "hourly_rate": 400000
     },
     "intermediate": {
-      "code": "intermediate",
+      "code": "int",
       "name": "Intermediate",
       "multiplier": 1.2,
       "description": "Experienced mechanic with proven skills",
@@ -61,7 +61,7 @@
       "hourly_rate": 480000
     },
     "advanced": {
-      "code": "advanced",
+      "code": "adv",
       "name": "Advanced",
       "multiplier": 1.5,
       "description": "Senior mechanic with specialized knowledge",
@@ -69,7 +69,7 @@
       "hourly_rate": 600000
     },
     "expert": {
-      "code": "expert",
+      "code": "exp",
       "name": "Expert",
       "multiplier": 2,
       "description": "Expert technician with advanced certifications",
@@ -77,7 +77,7 @@
       "hourly_rate": 800000
     },
     "master": {
-      "code": "master",
+      "code": "mas",
       "name": "Master",
       "multiplier": 2.5,
       "description": "Master technician - highest skill level",
@@ -87,7 +87,7 @@
   },
   "serviceCategories": {
     "maintenance": {
-      "code": "maint",
+      "code": "mnt",
       "name": "Maintenance",
       "multiplier": 1,
       "description": "Regular maintenance services (oil change, chain cleaning, etc.)",
@@ -95,7 +95,7 @@
       "examples": ["Oil change", "Chain cleaning", "Brake inspection", "Tire pressure check"]
     },
     "repair": {
-      "code": "repa",
+      "code": "rep",
       "name": "Repair",
       "multiplier": 1.2,
       "description": "Repair services (engine, transmission, electrical)",
@@ -108,7 +108,7 @@
       ]
     },
     "diagnostic": {
-      "code": "diag",
+      "code": "dia",
       "name": "Diagnostic",
       "multiplier": 1.5,
       "description": "Diagnostic services using specialized equipment",
@@ -121,7 +121,7 @@
       ]
     },
     "customization": {
-      "code": "custo",
+      "code": "cst",
       "name": "Customization",
       "multiplier": 1.8,
       "description": "Custom modification and tuning services",
@@ -134,7 +134,7 @@
       ]
     },
     "emergency": {
-      "code": "emerg",
+      "code": "emr",
       "name": "Emergency",
       "multiplier": 2,
       "description": "Emergency/urgent services outside regular hours",
@@ -149,30 +149,42 @@
   },
   "brandMultipliers": {
     "default": {
+      "code": "def",
+      "name": "Default",
       "multiplier": 1,
       "description": "Default multiplier for all brands"
     },
     "premium": {
+      "code": "pre",
+      "name": "premium",
       "brands": ["BMW", "Ducati", "Triumph"],
       "multiplier": 1.3,
       "description": "Premium European brands"
     },
     "luxury": {
+      "code": "lux",
+      "name": "luxury",
       "brands": ["Harley-Davidson", "Indian Motorcycle"],
       "multiplier": 1.5,
       "description": "Luxury American brands"
     },
     "standard": {
+      "code": "nor",
+      "name": "Normal",
       "brands": ["Honda", "Yamaha", "Suzuki", "Kawasaki"],
       "multiplier": 1,
       "description": "Standard Japanese brands"
     },
     "budget": {
+      "code": "bud",
+      "name": "Budget",
       "brands": ["SYM", "Lifan", "Zongshen"],
       "multiplier": 0.9,
       "description": "Budget brands"
     },
     "vietnamese": {
+      "code": "vie",
+      "name": "Vietnamese",
       "brands": ["VinFast", "Pega", "Detech"],
       "multiplier": 0.95,
       "description": "Vietnamese brands"

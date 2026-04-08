@@ -1,5 +1,5 @@
 import React from "react";
-import RegistrationAdmin from "../../../../components/RegistrationAdmin";
+import RegistrationAdmin from "../components/RegistrationAdmin";
 
 const RegistrationAdminPage: React.FC = () => {
   return (

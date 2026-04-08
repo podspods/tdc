@@ -9,13 +9,14 @@ import TestApi from "./pages/TestApi/TestApi";
 import MotorcycleModelList from "./components/MotorcycleModelList";
 import MotorcycleModelAdmin from "./components/MotorcycleModelAdmin";
 import RegistrationPage from "./pages/Registration/Registration";
-import RegistrationAdminPage from "./client/src/pages/Registration/Registration";
 import OwnersPage from "./pages/OwnersPage";
 import OwnerAdminPage from "./pages/OwnerAdminPage";
 import InvoicesPage from "./pages/InvoicesPage";
 import InvoiceAdminPage from "./pages/InvoiceAdminPage";
 import LaborEdit from "./components/LaborEdit";
 import RateConfigTester from "./pages/test/RateConfigTester";
+import TestPdf from "./pages/test/TestPdf";
+import RegistrationAdminPage from "./pages/Registration";
 
 // Main App component with routing configuration
 const App: React.FC = () => {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/test/pdf" element={<TestPdf />} />
             <Route path="/about" element={<About />} />
             <Route path="/checkDatabase" element={<CheckDatabase />} />
             <Route path="/testApi" element={<TestApi />} />

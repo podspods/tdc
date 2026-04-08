@@ -14,6 +14,7 @@ import laborRoutes from "./routes/labor.routes";
 import consumableRoutes from "./routes/consumable.routes";
 import sparePartRoutes from "./routes/sparePart.routes";
 import rateConfigRoutes from "./routes/rateConfig.routes";
+import invoiceHeaderRoutes from "./invoiceHeaders/invoiceHeader.routes";
 
 dotenv.config();
 
@@ -61,6 +62,9 @@ fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" }); // ← MAINTE
 
 // Add to routes registration
 fastify.register(rateConfigRoutes, { prefix: "/api/rate-config" });
+
+// Add to routes
+fastify.register(invoiceHeaderRoutes, { prefix: "/api/invoice-headers" });
 
 // 404 handler
 fastify.setNotFoundHandler((request, reply) => {
