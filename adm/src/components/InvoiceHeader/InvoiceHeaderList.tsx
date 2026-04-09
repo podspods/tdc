@@ -42,12 +42,16 @@ export function InvoiceHeaderList({ onEdit, onAdd, refreshTrigger }: InvoiceHead
         invoiceHeaderService.getAllInvoiceHeaders(),
         invoiceHeaderService.getInvoiceHeaderStats(),
       ]);
-      if (headersRes.success && headersRes.data) {
-        const headersArray = Array.isArray(headersRes.data) ? headersRes.data : [];
-        setHeaders(headersArray);
+      console.log(headersRes);
+
+      if (headersRes.length > 0) {
+        // const headersArray = Array.isArray(headersRes.data) ? headersRes.data : [];
+        setHeaders(headersRes);
+        console.log(headersRes);
       } else {
         setHeaders([]);
       }
+      console.log(statsRes.success);
 
       if (statsRes.success) {
         setStats(statsRes);
@@ -117,7 +121,7 @@ export function InvoiceHeaderList({ onEdit, onAdd, refreshTrigger }: InvoiceHead
         <Title>Invoice Headers</Title>
         <AddButton onClick={onAdd}>+ New Header</AddButton>
       </PageHeader>
-
+      <div>--------------[{stats?.total}]s-------------</div>
       {stats && (
         <StatsGrid>
           <StatCard>

@@ -9,7 +9,7 @@ import {
   StatsResponse,
 } from "./invoiceHeader.types";
 
-const DATA_PATH = path.join(__dirname, "../data/invoiceHeaders.json");
+const DATA_PATH = path.join(__dirname, "./invoiceHeaders.json");
 
 let cachedData: InvoiceHeadersData | null = null;
 
@@ -95,7 +95,7 @@ export function createInvoiceHeader(data: CreateInvoiceHeaderDto): InvoiceHeader
   const currentData = loadData();
 
   const id = generateId();
-  let isDefault = data.isDefault || false;
+  const isDefault = data.isDefault || false;
 
   // If this is default, unset other defaults
   if (isDefault) {

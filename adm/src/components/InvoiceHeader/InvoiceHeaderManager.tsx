@@ -1,13 +1,9 @@
-import styled from "styled-components";
 import { Modal } from "../UI/Modal";
 import { useState } from "react";
 import type { InvoiceHeader } from "./invoiceHeader.types";
 import { InvoiceHeaderList } from "./InvoiceHeaderList";
 import { InvoiceHeaderForm } from "./InvoiceHeaderForm";
-
-const Container = styled.div`
-  width: 100%;
-`;
+import { Container } from "./InvoiceHeaderManager.styled";
 
 export function InvoiceHeaderManager() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,6 +26,10 @@ export function InvoiceHeaderManager() {
     setRefreshTrigger((prev) => prev + 1);
   }
 
+  function handleRefress() {
+    setRefreshTrigger((prev) => prev + 1);
+  }
+
   function handleCancel() {
     setModalOpen(false);
     setEditingHeader(null);
@@ -37,6 +37,7 @@ export function InvoiceHeaderManager() {
 
   return (
     <Container>
+      <button onClick={handleRefress}>titi</button>
       <InvoiceHeaderList onEdit={handleEdit} onAdd={handleAdd} refreshTrigger={refreshTrigger} />
 
       <Modal

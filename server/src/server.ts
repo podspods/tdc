@@ -63,7 +63,7 @@ fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" }); // ← MAINTE
 // Add to routes registration
 fastify.register(rateConfigRoutes, { prefix: "/api/rate-config" });
 
-// Add to routes
+// Add to routes  for invoice header
 fastify.register(invoiceHeaderRoutes, { prefix: "/api/invoice-headers" });
 
 // 404 handler

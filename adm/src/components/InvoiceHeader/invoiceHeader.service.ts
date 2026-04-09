@@ -5,6 +5,7 @@ import {
   type GetAllHeadersParams,
   type StatsResponse,
   type ApiHeaderResponse,
+  type InvoiceHeader,
 } from "./invoiceHeader.types";
 
 const BASE_URL = "/invoice-headers";
@@ -12,11 +13,15 @@ const BASE_URL = "/invoice-headers";
 /**
  * Get all invoice headers
  */
-export async function getAllInvoiceHeaders(
-  params?: GetAllHeadersParams,
-): Promise<ApiHeaderResponse> {
+export async function getAllInvoiceHeaders(params?: GetAllHeadersParams): Promise<InvoiceHeader[]> {
   const response = await api.get(BASE_URL, { params });
-  return response.data;
+  console.log(response.status);
+  console.log(response);
+  console.log(response.data);
+  console.log(response.data.success);
+  console.log(response.headers);
+  if (response.data) return response.data;
+  else return [];
 }
 
 /**
