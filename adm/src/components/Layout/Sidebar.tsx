@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Nav,
   NavItem,
@@ -8,6 +9,7 @@ import {
   SidebarHeader,
   SidebarLogo,
 } from "./Sidebar.styled";
+import { GARAGE_NAME } from "../../common/constant";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,29 +17,31 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { to: "/", icon: "📊", label: "Dashboard" },
-  { to: "/invoice-headers", icon: "📄", label: "Invoice Headers" },
-  { to: "/labor", icon: "🔧", label: "Labor" },
-  { to: "/spare-parts", icon: "🔩", label: "Spare Parts" },
-  { to: "/owners", icon: "👥", label: "Owners" },
-  { to: "/settings", icon: "⚙️", label: "Settings" },
+  { to: "/", icon: "📊", label: "dashboard" },
+  { to: "/invoice-headers", icon: "📄", label: "invoiceHeaders" },
+  { to: "/labor", icon: "🔧", label: "labor" },
+  { to: "/spare-parts", icon: "🔩", label: "spareParts" },
+  { to: "/owners", icon: "👥", label: "owners" },
+  { to: "/settings", icon: "⚙️", label: "settings" },
 ];
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { t } = useTranslation(["navigation"]);
+
   return (
     <>
       <Overlay $isOpen={isOpen} onClick={onClose} />
       <SidebarContainer $isOpen={isOpen}>
         <SidebarHeader>
-          <SidebarLogo>🏍️ MotoGarage</SidebarLogo>
+          <SidebarLogo>🏍️ {GARAGE_NAME}</SidebarLogo>
         </SidebarHeader>
         <Nav>
           <NavSection>
-            <NavSectionTitle>Main Menu</NavSectionTitle>
+            <NavSectionTitle>{t("mainMenu")}</NavSectionTitle>
             {menuItems.map((item) => (
               <NavItem key={item.to} to={item.to} onClick={onClose}>
                 <span>{item.icon}</span>
-                <span>{item.label}</span>
+                <span>{t(item.label)}</span>
               </NavItem>
             ))}
           </NavSection>

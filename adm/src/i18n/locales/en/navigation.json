@@ -1,0 +1,13 @@
+{
+  "dashboard": "Dashboard",
+  "invoiceHeaders": "Invoice Headers",
+  "labor": "Labor Catalog",
+  "spareParts": "Spare Parts",
+  "owners": "Owners",
+  "settings": "Settings",
+  "admin": "Administration",
+  "profile": "Profile",
+  "logout": "Logout",
+  "language": "Language",
+  "mainMenu": "Main Menu"
+}

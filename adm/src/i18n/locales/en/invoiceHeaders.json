@@ -1,0 +1,33 @@
+{
+  "title": "Invoice Headers",
+  "description": "Manage your invoice header templates. Create, edit, and set default headers for your invoices.",
+  "name": "Name",
+  "companyName": "Company Name",
+  "companyAddress": "Address",
+  "companyPhone": "Phone",
+  "companyEmail": "Email",
+  "companyWebsite": "Website",
+  "taxCode": "Tax Code",
+  "bankName": "Bank Name",
+  "bankAccount": "Bank Account",
+  "bankAccountName": "Account Name",
+  "footerText": "Footer Text",
+  "termsAndConditions": "Terms & Conditions",
+  "default": "Default",
+  "setAsDefault": "Set as default",
+  "addHeader": "Add Header",
+  "editHeader": "Edit Header",
+  "deleteHeader": "Delete Header",
+  "headerName": "Header Name",
+  "companyInfo": "Company Information",
+  "bankInfo": "Bank Information",
+  "options": "Options",
+  "isDefault": "Set as default header",
+  "isActive": "Active",
+  "stats": {
+    "total": "Total Headers",
+    "active": "Active",
+    "inactive": "Inactive",
+    "default": "Default Header"
+  }
+}

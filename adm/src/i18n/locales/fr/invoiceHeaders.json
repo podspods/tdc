@@ -1,0 +1,33 @@
+{
+  "title": "En-têtes de facture",
+  "description": "Gérez vos modèles d'en-tête de facture. Créez, modifiez et définissez les en-têtes par défaut pour vos factures.",
+  "name": "Nom",
+  "companyName": "Nom de l'entreprise",
+  "companyAddress": "Adresse",
+  "companyPhone": "Téléphone",
+  "companyEmail": "Email",
+  "companyWebsite": "Site web",
+  "taxCode": "Code TVA",
+  "bankName": "Nom de la banque",
+  "bankAccount": "Compte bancaire",
+  "bankAccountName": "Nom du compte",
+  "footerText": "Texte de pied de page",
+  "termsAndConditions": "Conditions générales",
+  "default": "Défaut",
+  "setAsDefault": "Définir par défaut",
+  "addHeader": "Ajouter un en-tête",
+  "editHeader": "Modifier l'en-tête",
+  "deleteHeader": "Supprimer l'en-tête",
+  "headerName": "Nom de l'en-tête",
+  "companyInfo": "Informations de l'entreprise",
+  "bankInfo": "Informations bancaires",
+  "options": "Options",
+  "isDefault": "Définir comme en-tête par défaut",
+  "isActive": "Actif",
+  "stats": {
+    "total": "Total des en-têtes",
+    "active": "Actifs",
+    "inactive": "Inactifs",
+    "default": "En-tête par défaut"
+  }
+}

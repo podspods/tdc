@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import * as invoiceHeaderService from "./invoiceHeader.service";
 import { type InvoiceHeader, type StatsResponse } from "./invoiceHeader.types";
@@ -27,6 +28,7 @@ type InvoiceHeaderListProps = {
 };
 
 export function InvoiceHeaderList({ onEdit, onAdd, refreshTrigger }: InvoiceHeaderListProps) {
+  const { t } = useTranslation(["invoiceHeaders", "common"]);
   const [headers, setHeaders] = useState<InvoiceHeader[]>([]);
   const [stats, setStats] = useState<StatsResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -118,27 +120,27 @@ export function InvoiceHeaderList({ onEdit, onAdd, refreshTrigger }: InvoiceHead
   return (
     <Container>
       <PageHeader>
-        <Title>Invoice Headers</Title>
-        <AddButton onClick={onAdd}>+ New Header</AddButton>
+        {" "}
+        <Title>{t("invoiceHeaders:title")}</Title>
+        <AddButton onClick={onAdd}>+ {t("invoiceHeaders:addHeader")}</AddButton>
       </PageHeader>
-      <div>--------------[{stats?.total}]s-------------</div>
       {stats && (
         <StatsGrid>
           <StatCard>
             <StatValue>{stats.total}</StatValue>
-            <StatLabel>Total Headers</StatLabel>
+            <StatLabel>{t("invoiceHeaders:stats.total")}</StatLabel>
           </StatCard>
           <StatCard>
             <StatValue>{stats.active}</StatValue>
-            <StatLabel>Active</StatLabel>
+            <StatLabel>{t("invoiceHeaders:stats.active")}</StatLabel>
           </StatCard>
           <StatCard>
             <StatValue>{stats.inactive}</StatValue>
-            <StatLabel>Inactive</StatLabel>
+            <StatLabel>{t("invoiceHeaders:stats.inactive")}</StatLabel>
           </StatCard>
           <StatCard>
             <StatValue>{stats.defaultHeader?.name || "-"}</StatValue>
-            <StatLabel>Default Header</StatLabel>
+            <StatLabel>{t("invoiceHeaders:stats.default")}</StatLabel>
           </StatCard>
         </StatsGrid>
       )}
@@ -146,12 +148,12 @@ export function InvoiceHeaderList({ onEdit, onAdd, refreshTrigger }: InvoiceHead
       <Table>
         <thead>
           <tr>
-            <Th>Name</Th>
-            <Th>Company</Th>
-            <Th>Phone</Th>
-            <Th>Status</Th>
-            <Th>Default</Th>
-            <Th>Actions</Th>
+            <Th>{t("invoiceHeaders:name")}</Th>
+            <Th>{t("invoiceHeaders:companyName")}</Th>
+            <Th>{t("invoiceHeaders:companyPhone")}</Th>
+            <Th>{t("common:status")}</Th>
+            <Th>{t("invoiceHeaders:default")}</Th>
+            <Th>{t("common:actions")}</Th>
           </tr>
         </thead>
         <tbody>
@@ -164,28 +166,31 @@ export function InvoiceHeaderList({ onEdit, onAdd, refreshTrigger }: InvoiceHead
               <Td>{header.companyPhone}</Td>
               <Td>
                 <StatusBadge $active={header.isActive}>
-                  {header.isActive ? "Active" : "Inactive"}
+                  {header.isActive ? t("common:active") : t("common:inactive")}
                 </StatusBadge>
               </Td>
               <Td>{header.isDefault && <DefaultBadge>Default</DefaultBadge>}</Td>
               <Td>
                 {!header.isDefault && (
-                  <ActionButton onClick={() => handleSetDefault(header.id)} title="Set as default">
+                  <ActionButton
+                    onClick={() => handleSetDefault(header.id)}
+                    title={t("invoiceHeaders:setAsDefault")}
+                  >
                     ⭐
                   </ActionButton>
                 )}
-                <ActionButton onClick={() => onEdit(header)} title="Edit">
+                <ActionButton onClick={() => onEdit(header)} title={t("common:edit")}>
                   ✏️
                 </ActionButton>
                 <ActionButton
                   onClick={() => handleToggleActive(header)}
-                  title={header.isActive ? "Deactivate" : "Activate"}
+                  title={header.isActive ? t("common:Deactivate") : t("common:Activate")}
                 >
                   {header.isActive ? "🔴" : "🟢"}
                 </ActionButton>
                 {!header.isDefault && (
-                  <ActionButton onClick={() => handleDelete(header.id)} title="Delete">
-                    🗑️
+                  <ActionButton onClick={() => handleDelete(header.id)} title={t("common:delete")}>
+                    🗑️{t("common:activate")}
                   </ActionButton>
                 )}
               </Td>

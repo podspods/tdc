@@ -37,7 +37,6 @@ export function InvoiceHeaderManager() {
 
   return (
     <Container>
-      <button onClick={handleRefress}>titi</button>
       <InvoiceHeaderList onEdit={handleEdit} onAdd={handleAdd} refreshTrigger={refreshTrigger} />
 
       <Modal

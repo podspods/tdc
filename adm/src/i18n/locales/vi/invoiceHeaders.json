@@ -1,0 +1,33 @@
+{
+  "title": "Tiêu đề hóa đơn",
+  "description": "Quản lý mẫu tiêu đề hóa đơn. Tạo, chỉnh sửa và đặt tiêu đề mặc định cho hóa đơn của bạn.",
+  "name": "Tên",
+  "companyName": "Tên công ty",
+  "companyAddress": "Địa chỉ",
+  "companyPhone": "Điện thoại",
+  "companyEmail": "Email",
+  "companyWebsite": "Website",
+  "taxCode": "Mã số thuế",
+  "bankName": "Tên ngân hàng",
+  "bankAccount": "Số tài khoản",
+  "bankAccountName": "Tên tài khoản",
+  "footerText": "Văn bản chân trang",
+  "termsAndConditions": "Điều khoản & Điều kiện",
+  "default": "Mặc định",
+  "setAsDefault": "Đặt làm mặc định",
+  "addHeader": "Thêm tiêu đề",
+  "editHeader": "Sửa tiêu đề",
+  "deleteHeader": "Xóa tiêu đề",
+  "headerName": "Tên tiêu đề",
+  "companyInfo": "Thông tin công ty",
+  "bankInfo": "Thông tin ngân hàng",
+  "options": "Tùy chọn",
+  "isDefault": "Đặt làm tiêu đề mặc định",
+  "isActive": "Hoạt động",
+  "stats": {
+    "total": "Tổng số tiêu đề",
+    "active": "Đang hoạt động",
+    "inactive": "Không hoạt động",
+    "default": "Tiêu đề mặc định"
+  }
+}
