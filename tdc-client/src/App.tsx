@@ -4,10 +4,10 @@ import { Toaster } from "react-hot-toast";
 import { theme } from "./styles/theme";
 import { GlobalStyles } from "./styles/global";
 import { Layout } from "./components/Layout/Layout";
-import { InvoiceHeaderPage } from "./pages/InvoiceHeaderPage";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
-import { OwnersPage } from "./pages/OwnersPage";
+import Invoice from "./pages/Invoice";
+import Home from "./pages/Home";
 
 export default function App() {
   return (
@@ -26,9 +26,8 @@ export default function App() {
         <BrowserRouter>
           <Layout>
             <Routes>
-              <Route path="/" element={<InvoiceHeaderPage />} />
-              <Route path="/invoice-headers" element={<InvoiceHeaderPage />} />
-              <Route path="/owners" element={<OwnersPage />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/invoice" element={<Invoice />} />
             </Routes>
           </Layout>
         </BrowserRouter>

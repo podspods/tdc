@@ -1,0 +1,15 @@
+{
+  "dashboard": "Tableau de bord",
+  "invoice": "Facture",
+  "labor": "Catalogue main d'œuvre",
+  "spareParts": "Pièces détachées",
+  "owners": "Propriétaires",
+  "settings": "Paramètres",
+  "admin": "Administration",
+  "profile": "Profil",
+  "logout": "Déconnexion",
+  "language": "Langue",
+  "mainMenu": "Menu Principal",
+  "home": "Accueil",
+  "end": "End"
+}

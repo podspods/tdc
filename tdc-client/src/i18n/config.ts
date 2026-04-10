@@ -5,37 +5,31 @@ import LanguageDetector from "i18next-browser-languagedetector";
 // Import translations
 import enCommon from "./locales/en/common.json";
 import enNavigation from "./locales/en/navigation.json";
-import enInvoiceHeaders from "./locales/en/invoiceHeaders.json";
-import enOwner from "./locales/en/owner.json";
+import enInvoice from "./locales/en/invoice.json";
 
 import viCommon from "./locales/vi/common.json";
 import viNavigation from "./locales/vi/navigation.json";
-import viInvoiceHeaders from "./locales/vi/invoiceHeaders.json";
-import viOwner from "./locales/vi/owner.json";
+import viInvoice from "./locales/vi/invoice.json";
 
 import frCommon from "./locales/fr/common.json";
 import frNavigation from "./locales/fr/navigation.json";
-import frInvoiceHeaders from "./locales/fr/invoiceHeaders.json";
-import frOwner from "./locales/fr/owner.json";
+import frInvoice from "./locales/fr/invoice.json";
 
 export const resources = {
   en: {
     common: enCommon,
     navigation: enNavigation,
-    invoiceHeaders: enInvoiceHeaders,
-    owner: enOwner,
+    invoice: enInvoice,
   },
   vi: {
     common: viCommon,
     navigation: viNavigation,
-    invoiceHeaders: viInvoiceHeaders,
-    owner: viOwner,
+    invoice: viInvoice,
   },
   fr: {
     common: frCommon,
     navigation: frNavigation,
-    invoiceHeaders: frInvoiceHeaders,
-    owner: frOwner,
+    invoice: frInvoice,
   },
 };
 
