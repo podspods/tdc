@@ -8,7 +8,7 @@ import databasePlugin from "./plugins/database";
 import motorcycleBrandRoutes from "./routes/motorcycleBrand.routes";
 import motorcycleModelRoutes from "./routes/motorcycleModel.routes";
 import registrationRoutes from "./routes/registration.routes";
-import ownerRoutes from "./routes/owner.routes";
+import ownerRoutes from "./owner/owner.routes";
 import invoiceRoutes from "./routes/invoice.routes";
 import laborRoutes from "./routes/labor.routes";
 import consumableRoutes from "./routes/consumable.routes";

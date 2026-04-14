@@ -2,9 +2,9 @@
  * Owner/Client Types
  */
 
-export type OwnerCategory = "basic" | "important" | "vip";
+// export type OwnerCategory = "basic" | "important" | "vip";
 
-export interface Owner {
+export type Owner = {
   ownerId: number;
   firstName: string;
   lastName: string;
@@ -12,7 +12,7 @@ export interface Owner {
   email?: string;
   address?: string;
   city?: string;
-  category: OwnerCategory;
+  category: number;
   notes?: string;
 
   // Stats
@@ -28,70 +28,46 @@ export interface Owner {
 
   // Virtual fields (computed)
   fullName?: string;
-}
+};
 
-export interface CreateOwnerDto {
+export type CreateOwnerDto = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
   email?: string;
   address?: string;
   city?: string;
-  category?: OwnerCategory;
+  category?: number;
   notes?: string;
   createdBy: string;
-}
+};
 
-export interface UpdateOwnerDto {
+export type UpdateOwnerDto = {
   firstName?: string;
   lastName?: string;
   phoneNumber?: string;
   email?: string;
   address?: string;
   city?: string;
-  category?: OwnerCategory;
+  category?: number;
   notes?: string;
-}
+};
 
-export interface OwnerQueryParams {
+export type OwnerQueryParams = {
   page?: number;
   limit?: number;
   search?: string; // Search in name or phone
-  category?: OwnerCategory;
+  category?: number;
   city?: string;
   minSpent?: number;
   maxSpent?: number;
   hasOutstandingInvoices?: boolean;
-}
+};
 
-export interface OwnerStats {
+export type OwnerStats = {
   totalOwners: number;
-  byCategory: {
-    basic: number;
-    important: number;
-    vip: number;
-  };
+  // byCategory: number;
   totalSpentAll: number;
   averageSpentPerOwner: number;
   topCities: Array<{ city: string; count: number }>;
-}
-
-export interface OwnerWithDetails extends Owner {
-  motorcycles: Array<{
-    registrationId: number;
-    plateNumber: string;
-    brandName: string;
-    modelName: string;
-    color?: string;
-  }>;
-  invoices: Array<{
-    invoiceId: number;
-    invoiceNumber: string;
-    issueDate: string;
-    dueDate: string;
-    status: string;
-    totalAmount: number;
-  }>;
-  outstandingInvoices: number;
-  totalPaid: number;
-}
+};

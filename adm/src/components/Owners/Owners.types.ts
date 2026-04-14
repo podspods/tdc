@@ -1,6 +1,14 @@
-export type OwnerCategory = "basic" | "important" | "vip" | "gold" | "platinum";
+export type ZOwnerCategory = "basic" | "important" | "vip" | "gold" | "platinum";
 
-export type OwnerStatus = "active" | "inactive" | "blocked";
+// export const enum ZOwnerCategory {
+//   basic = 0,
+//   important = 1,
+//   vip = 2,
+//   gold = 3,
+//   platinum = 4,
+// }
+
+export type ZOwnerStatus = "active" | "inactive" | "blocked";
 
 export type Owner = {
   id: number;
@@ -11,8 +19,8 @@ export type Owner = {
   email: string;
   address: string;
   city: string;
-  category: OwnerCategory;
-  status: OwnerStatus;
+  category: number;
+  status: number;
   notes: string;
   totalMotorcycles: number;
   totalInvoices: number;
@@ -22,7 +30,7 @@ export type Owner = {
   updatedAt: string;
   createdBy: string;
 };
-
+//  dto =data transfert objct
 export type CreateOwnerDto = {
   firstName: string;
   lastName: string;
@@ -30,7 +38,7 @@ export type CreateOwnerDto = {
   email?: string;
   address?: string;
   city?: string;
-  category?: OwnerCategory;
+  category?: number;
   notes?: string;
   createdBy: string;
 };
@@ -42,12 +50,12 @@ export type UpdateOwnerDto = {
   email?: string;
   address?: string;
   city?: string;
-  category?: OwnerCategory;
-  status?: OwnerStatus;
+  category?: number;
+  status?: number;
   notes?: string;
 };
 
-export type OwnerStats = {
+export type ZOwnerStats = {
   total: number;
   active: number;
   inactive: number;
@@ -81,9 +89,9 @@ export type OwnersQueryParams = {
   page?: number;
   limit?: number;
   search?: string;
-  category?: OwnerCategory;
+  category?: number;
   city?: string;
-  status?: OwnerStatus;
+  status?: number;
   minSpent?: number;
   maxSpent?: number;
 };

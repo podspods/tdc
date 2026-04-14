@@ -450,3 +450,67 @@ Zones d'une facture de travaux
    Pénalités de retard Ex: 1% par mois
    Garantie Durée sur les pièces/main d'œuvre
    Mentions obligatoires Selon législation locale
+
+# Architecture typique client
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      FRONTEND (React)                        │
+│                                                              │
+│  CreateOwnerDto = { firstName, lastName, phoneNumber }      │
+│         ↓                                                    │
+│         POST /api/owners                                     │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      BACKEND (API)                           │
+│                                                              │
+│  1. Reçoit CreateOwnerDto                                    │
+│  2. Valide les données                                       │
+│  3. Ajoute les champs manquants (createdAt, createdBy)      │
+│  4. Insère dans la base de données                          │
+│  5. Retourne OwnerResponseDto (avec id, dates)              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+# Architecture typique serveur
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      ROUTES (Couche Présentation)            │
+│  - Définit les endpoints API                                 │
+│  - Gère les méthodes HTTP (GET, POST, PUT, DELETE)          │
+│  - Valide les paramètres d'URL                              │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   CONTROLLER (Couche Contrôleur)             │
+│  - Reçoit les requêtes HTTP                                  │
+│  - Extrait et valide les données (body, params, query)      │
+│  - Formate la réponse                                        │
+│  - Gère les erreurs HTTP (404, 500, etc.)                   │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    SERVICE (Couche Métier)                   │
+│  - Contient la logique métier                                │
+│  - Valide les règles d'affaires                              │
+│  - Orchestre les opérations                                  │
+│  - Ne parle pas directement à la base de données            │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  REPOSITORY (Couche Accès Données)           │
+│  - Interagit directement avec la base de données            │
+│  - Exécute les requêtes SQL                                  │
+│  - Ne contient PAS de logique métier                        │
+│  - Transforme les données DB en objets TypeScript           │
+└─────────────────────────────────────────────────────────────┘
+
+
+
+```

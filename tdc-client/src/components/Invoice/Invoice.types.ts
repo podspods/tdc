@@ -1,3 +1,6 @@
+import type { Owner } from "../owner/owner.types";
+import type { Vehicle } from "../vehicle/vehicle.types";
+
 export type InvoiceStatus =
   | "draft"
   | "pending"
@@ -38,25 +41,6 @@ export type Payment = {
   amount: number;
   method: string;
   reference: string;
-};
-
-export type Owner = {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  address: string;
-};
-
-export type Vehicle = {
-  registrationId: number;
-  plateNumber: string;
-  brand: string;
-  model: string;
-  year: number;
-  color: string;
-  ownerId: number;
-  mileage: number;
 };
 
 export type GarageInfo = {

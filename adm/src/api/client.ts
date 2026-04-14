@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance } from "axios";
 
 // Définir le type ApiResponse localement ou l'importer
-export interface ApiResponse<T = any> {
+export type ApiResponse<T = any> = {
   success: boolean;
   data?: T;
   error?: string;
@@ -12,7 +12,7 @@ export interface ApiResponse<T = any> {
     total: number;
     pages: number;
   };
-}
+};
 
 const api: AxiosInstance = axios.create({
   baseURL: "/api",

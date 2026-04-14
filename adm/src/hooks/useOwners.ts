@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Owner, OwnerStats, OwnersQueryParams } from "../components/Owners/Owners.types";
+import type { Owner, OwnersQueryParams } from "../components/Owners/Owners.types";
 import * as ownersService from "../components/Owners/Owners.service";
 
 export function useOwners() {
   const [owners, setOwners] = useState<Owner[]>([]);
-  const [stats, setStats] = useState<OwnerStats | null>(null);
+  const [stats, setStats] = useState<number | 0>(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(0);

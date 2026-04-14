@@ -1,6 +1,10 @@
 import { useState, useCallback } from "react";
-import type { Invoice, InvoiceFormData, Owner, Vehicle } from "../components/Invoice/Invoice.types";
+import type { Invoice, InvoiceFormData } from "../components/Invoice/Invoice.types";
 import * as invoiceService from "../components/Invoice/Invoice.service";
+import type { Owner } from "../components/owner/owner.types";
+import type { Vehicle } from "../components/vehicle/vehicle.types";
+import { getAllOwners } from "../components/owner/owner.service";
+import { getAllVehicles } from "../components/vehicle/vehicle.service";
 
 export function useInvoice() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -9,6 +13,26 @@ export function useInvoice() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Load owners
+  const loadOwners = useCallback(async () => {
+    try {
+      const data = await getAllOwners();
+      setOwners(data);
+    } catch (err) {
+      console.error("Failed to load owners:", err);
+    }
+  }, []);
+
+  // Load vehicles
+  const loadVehicles = useCallback(async () => {
+    try {
+      const data = await getAllVehicles();
+      setVehicles(data);
+    } catch (err) {
+      console.error("Failed to load vehicles:", err);
+    }
+  }, []);
 
   const loadInvoices = useCallback(async () => {
     setLoading(true);
@@ -200,5 +224,7 @@ export function useInvoice() {
     addPartItem,
     addConsumableItem,
     addPayment,
+    refreshOwners: loadOwners,
+    refreshVehicles: loadVehicles,
   };
 }

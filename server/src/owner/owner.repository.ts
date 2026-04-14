@@ -1,0 +1,282 @@
+import { FastifyInstance } from "fastify";
+import { Owner, CreateOwnerDto, UpdateOwnerDto, OwnerQueryParams, OwnerStats } from "./owner.types";
+
+/**
+ * Map database snake_case to application camelCase
+ */
+function mapDbToOwner(row: any): Owner {
+  return {
+    ownerId: row.owner_id,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    phoneNumber: row.phone_number,
+    email: row.email,
+    address: row.address,
+    city: row.city,
+    category: row.category,
+    notes: row.notes,
+    totalMotorcycles: row.total_motorcycles || 0,
+    totalInvoices: row.total_invoices || 0,
+    totalSpent: parseFloat(row.total_spent || "0"),
+    lastVisitDate: row.last_visit_date,
+    createdBy: row.created_by,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    fullName: `${row.first_name} ${row.last_name}`,
+  };
+}
+
+/**
+ * Find all owners with pagination and filters
+ */
+export async function findAll(
+  fastify: FastifyInstance,
+  params: OwnerQueryParams = {},
+): Promise<{ data: Owner[]; total: number }> {
+  const { pg } = fastify;
+  const {
+    page = 1,
+    limit = 20,
+    search,
+    category,
+    city,
+    minSpent,
+    maxSpent,
+    hasOutstandingInvoices,
+  } = params;
+  const offset = (page - 1) * limit;
+
+  let whereClause = "";
+  const values: any[] = [];
+  let paramCount = 1;
+
+  if (search) {
+    whereClause += ` WHERE (o.first_name ILIKE $${paramCount} OR o.last_name ILIKE $${paramCount} OR o.phone_number ILIKE $${paramCount})`;
+    values.push(`%${search}%`);
+    paramCount++;
+  }
+
+  if (category) {
+    whereClause += whereClause ? " AND" : " WHERE";
+    whereClause += ` o.category = $${paramCount++}`;
+    values.push(category);
+  }
+
+  if (city) {
+    whereClause += whereClause ? " AND" : " WHERE";
+    whereClause += ` o.city ILIKE $${paramCount++}`;
+    values.push(`%${city}%`);
+  }
+
+  if (minSpent !== undefined) {
+    whereClause += whereClause ? " AND" : " WHERE";
+    whereClause += ` o.total_spent >= $${paramCount++}`;
+    values.push(minSpent);
+  }
+
+  if (maxSpent !== undefined) {
+    whereClause += whereClause ? " AND" : " WHERE";
+    whereClause += ` o.total_spent <= $${paramCount++}`;
+    values.push(maxSpent);
+  }
+
+  if (hasOutstandingInvoices) {
+    whereClause += whereClause ? " AND" : " WHERE";
+    whereClause += ` EXISTS (SELECT 1 FROM invoices i WHERE i.owner_id = o.owner_id AND i.status = 'pending')`;
+  }
+
+  const countQuery = `
+    SELECT COUNT(*) 
+    FROM owners o
+    ${whereClause}
+  `;
+
+  const dataQuery = `
+    SELECT o.*
+    FROM owners o
+    ${whereClause}
+    ORDER BY o.created_at DESC
+    LIMIT $${paramCount} OFFSET $${paramCount + 1}
+  `;
+
+  const [countResult, dataResult] = await Promise.all([
+    pg.query(countQuery, values),
+    pg.query(dataQuery, [...values, limit, offset]),
+  ]);
+
+  return {
+    data: dataResult.rows.map(mapDbToOwner),
+    total: parseInt(countResult.rows[0].count),
+  };
+}
+
+/**
+ * Find owner by ID
+ */
+export async function findById(fastify: FastifyInstance, id: number): Promise<Owner | null> {
+  const { pg } = fastify;
+  const result = await pg.query(`SELECT * FROM owners WHERE owner_id = $1`, [id]);
+  return result.rows[0] ? mapDbToOwner(result.rows[0]) : null;
+}
+
+/**
+ * Find owner by phone number (unique)
+ */
+export async function findByPhone(
+  fastify: FastifyInstance,
+  phoneNumber: string,
+): Promise<Owner | null> {
+  const { pg } = fastify;
+  const result = await pg.query(`SELECT * FROM owners WHERE phone_number = $1`, [phoneNumber]);
+  return result.rows[0] ? mapDbToOwner(result.rows[0]) : null;
+}
+
+/**
+ * Find owner by email (unique)
+ */
+export async function findByEmail(fastify: FastifyInstance, email: string): Promise<Owner | null> {
+  const { pg } = fastify;
+  const result = await pg.query(`SELECT * FROM owners WHERE email = $1`, [email]);
+  return result.rows[0] ? mapDbToOwner(result.rows[0]) : null;
+}
+
+/**
+ * Create new owner
+ */
+export async function create(fastify: FastifyInstance, data: CreateOwnerDto): Promise<Owner> {
+  const { pg } = fastify;
+  const { firstName, lastName, phoneNumber, email, address, city, category, notes, createdBy } =
+    data;
+
+  const result = await pg.query(
+    `INSERT INTO owners (
+      first_name, last_name, phone_number, email, address, city,
+      category, notes, created_by
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *`,
+    [firstName, lastName, phoneNumber, email, address, city, category || 0, notes, createdBy],
+  );
+
+  return mapDbToOwner(result.rows[0]);
+}
+
+/**
+ * Update owner
+ */
+export async function update(
+  fastify: FastifyInstance,
+  id: number,
+  data: UpdateOwnerDto,
+): Promise<Owner | null> {
+  const { pg } = fastify;
+  const fields: string[] = [];
+  const values = [];
+  let paramCount = 1;
+
+  const fieldMappings: Record<string, string> = {
+    firstName: "first_name",
+    lastName: "last_name",
+    phoneNumber: "phone_number",
+    email: "email",
+    address: "address",
+    city: "city",
+    category: "category",
+    notes: "notes",
+  };
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && fieldMappings[key]) {
+      fields.push(`${fieldMappings[key]} = $${paramCount++}`);
+      values.push(value);
+    }
+  });
+
+  if (fields.length === 0) return null;
+
+  values.push(id);
+  const query = `UPDATE owners SET ${fields.join(", ")} WHERE owner_id = $${paramCount} RETURNING *`;
+
+  const result = await pg.query(query, values);
+  return result.rows[0] ? mapDbToOwner(result.rows[0]) : null;
+}
+
+/**
+ * Update owner stats (after adding motorcycle or invoice)
+ */
+export async function updateStats(fastify: FastifyInstance, id: number): Promise<void> {
+  const { pg } = fastify;
+  await pg.query(
+    `UPDATE owners SET
+      total_motorcycles = (SELECT COUNT(*) FROM registrations WHERE owner_id = $1),
+      total_invoices = (SELECT COUNT(*) FROM invoices WHERE owner_id = $1),
+      total_spent = (SELECT COALESCE(SUM(total_amount), 0) FROM invoices WHERE owner_id = $1 AND status = 'paid'),
+      last_visit_date = (
+        SELECT MAX(issue_date) 
+        FROM invoices 
+        WHERE owner_id = $1 AND status IN ('paid', 'pending')
+      )
+    WHERE owner_id = $1`,
+    [id],
+  );
+}
+
+/**
+ * Delete owner
+ */
+export async function _delete(fastify: FastifyInstance, id: number): Promise<boolean> {
+  const { pg } = fastify;
+  const result = await pg.query("DELETE FROM owners WHERE owner_id = $1 RETURNING owner_id", [id]);
+  return result.rowCount ? result.rowCount > 0 : false;
+}
+
+/**
+ * Get statistics
+ */
+export async function getStats(fastify: FastifyInstance): Promise<OwnerStats> {
+  const { pg } = fastify;
+
+  const totalResult = await pg.query("SELECT COUNT(*) FROM owners");
+
+  const categoryResult = await pg.query(
+    `SELECT category, COUNT(*) as count 
+     FROM owners 
+     GROUP BY category`,
+  );
+
+  const spentResult = await pg.query(
+    `SELECT 
+      SUM(total_spent) as total_spent,
+      AVG(total_spent) as avg_spent
+     FROM owners`,
+  );
+
+  const citiesResult = await pg.query(
+    `SELECT city, COUNT(*) as count
+     FROM owners
+     WHERE city IS NOT NULL
+     GROUP BY city
+     ORDER BY count DESC
+     LIMIT 5`,
+  );
+
+  // const ZcategoryCounts = {
+  //   basic: 0,
+  //   important: 0,
+  //   vip: 0,
+  // };
+
+  // categoryResult.rows.forEach((row: any) => {
+  //   categoryCounts[row.category as keyof typeof categoryCounts] = parseInt(row.count);
+  // });
+
+  return {
+    totalOwners: parseInt(totalResult.rows[0].count),
+    // byCategory: ZcategoryCounts,
+    totalSpentAll: parseFloat(spentResult.rows[0].total_spent || "0"),
+    averageSpentPerOwner: parseFloat(spentResult.rows[0].avg_spent || "0"),
+    topCities: citiesResult.rows.map((row: any) => ({
+      city: row.city,
+      count: parseInt(row.count),
+    })),
+  };
+}
