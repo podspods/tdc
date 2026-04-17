@@ -18,10 +18,10 @@ interface SidebarProps {
 
 const menuItems = [
   { to: "/", icon: "📊", label: "home" },
+  { to: "/owner", icon: "👥", label: "owner" },
   { to: "/invoice", icon: "📄", label: "invoice" },
   { to: "/labor", icon: "🔧", label: "labor" },
   { to: "/spare-parts", icon: "🔩", label: "spareParts" },
-  { to: "/owners", icon: "👥", label: "owners" },
   { to: "/settings", icon: "⚙️", label: "settings" },
 ];
 

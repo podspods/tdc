@@ -8,6 +8,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import Invoice from "./pages/Invoice";
 import Home from "./pages/Home";
+import Owner from "./pages/Owner";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/invoice" element={<Invoice />} />
+              <Route path="/owner" element={<Owner />} />
             </Routes>
           </Layout>
         </BrowserRouter>

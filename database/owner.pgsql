@@ -26,11 +26,11 @@ CREATE TABLE owners (
     -- Metadata
     created_by VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     
     -- Constraints
-    CONSTRAINT valid_email CHECK (email IS NULL OR email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-    CONSTRAINT valid_phone CHECK (phone_number ~ '^[0-9+\-\s]{10,15}$')
+    -- CONSTRAINT valid_email CHECK (email IS NULL OR email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    -- CONSTRAINT valid_phone CHECK (phone_number ~ '^[0-9+\-\s]{10,15}$')
 );
 
 -- Indexes

@@ -6,30 +6,36 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import enCommon from "./locales/en/common.json";
 import enNavigation from "./locales/en/navigation.json";
 import enInvoice from "./locales/en/invoice.json";
+import enOwner from "./locales/en/owner.json";
 
 import viCommon from "./locales/vi/common.json";
 import viNavigation from "./locales/vi/navigation.json";
 import viInvoice from "./locales/vi/invoice.json";
+import viOwner from "./locales/vi/owner.json";
 
 import frCommon from "./locales/fr/common.json";
 import frNavigation from "./locales/fr/navigation.json";
 import frInvoice from "./locales/fr/invoice.json";
+import frOwner from "./locales/fr/owner.json";
 
 export const resources = {
   en: {
     common: enCommon,
     navigation: enNavigation,
     invoice: enInvoice,
+    owner: enOwner,
   },
   vi: {
     common: viCommon,
     navigation: viNavigation,
     invoice: viInvoice,
+    owner: viOwner,
   },
   fr: {
     common: frCommon,
     navigation: frNavigation,
     invoice: frInvoice,
+    owner: frOwner,
   },
 };
 

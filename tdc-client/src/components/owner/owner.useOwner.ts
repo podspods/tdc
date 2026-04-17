@@ -1,23 +1,31 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Owner, OwnersQueryParams } from "../components/Owners/Owners.types";
-import * as ownersService from "../components/Owners/Owners.service";
+import type { CreateOwnerDto, Owner, OwnerQueryParams, OwnerStats } from "./owner.types";
+import {
+  _createOwner,
+  _deleteOwner,
+  _searchOwners,
+  _updateOwner,
+  _getAllOwners,
+  _getOwnerStats,
+} from "./owner.service";
+import { OWNER_INIT, STATS_INIT } from "../../common/constant";
 
-export function useOwners() {
+export function useOwner() {
   const [owners, setOwners] = useState<Owner[]>([]);
-  const [stats, setStats] = useState<number>(0);
+  const [stats, setStats] = useState<OwnerStats>(STATS_INIT);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("init-no-error");
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
-  const [filters, setFilters] = useState<OwnersQueryParams>({});
+  const [filters, setFilters] = useState<OwnerQueryParams>({});
 
   const loadOwners = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
       const params = { ...filters, page, limit };
-      const response = await ownersService.getAllOwners(params);
+      const response = await _getAllOwners(params);
       if (response.success) {
         setOwners(response.data || []);
         setTotal(response.pagination?.total || 0);
@@ -32,32 +40,35 @@ export function useOwners() {
     }
   }, [page, limit, filters]);
 
+  //--------------------------------------------------------------------------------------------------------------------------
+
   const loadStats = useCallback(async () => {
     try {
-      const response = await ownersService.getOwnerStats();
+      const response = await _getOwnerStats();
       if (response.success) {
-        setStats(response.data || null);
+        setStats(response.data || STATS_INIT);
       }
     } catch (err) {
       console.error("Failed to load stats:", err);
     }
   }, []);
+  //--------------------------------------------------------------------------------------------------------------------------
 
   const createOwner = useCallback(
-    async (data: any) => {
+    async (data: CreateOwnerDto): Promise<Owner> => {
       setLoading(true);
       try {
-        const response = await ownersService.createOwner(data);
-        if (response.success) {
+        const response = await _createOwner(data);
+        if (response.success && response.data) {
           await loadOwners();
           await loadStats();
           return response.data;
         }
         setError(response.error || "Failed to create owner");
-        return null;
+        return OWNER_INIT;
       } catch (err) {
         setError("Failed to create owner");
-        return null;
+        return OWNER_INIT;
       } finally {
         setLoading(false);
       }
@@ -65,11 +76,13 @@ export function useOwners() {
     [loadOwners, loadStats],
   );
 
+  //--------------------------------------------------------------------------------------------------------------------------
+
   const updateOwner = useCallback(
     async (id: number, data: any) => {
       setLoading(true);
       try {
-        const response = await ownersService.updateOwner(id, data);
+        const response = await _updateOwner(id, data);
         if (response.success) {
           await loadOwners();
           await loadStats();
@@ -86,12 +99,13 @@ export function useOwners() {
     },
     [loadOwners, loadStats],
   );
+  //--------------------------------------------------------------------------------------------------------------------------
 
   const deleteOwner = useCallback(
     async (id: number) => {
       setLoading(true);
       try {
-        const response = await ownersService.deleteOwner(id);
+        const response = await _deleteOwner(id);
         if (response.success) {
           await loadOwners();
           await loadStats();
@@ -108,11 +122,12 @@ export function useOwners() {
     },
     [loadOwners, loadStats],
   );
+  //--------------------------------------------------------------------------------------------------------------------------
 
   const searchOwners = useCallback(async (query: string) => {
     setLoading(true);
     try {
-      const response = await ownersService.searchOwners(query);
+      const response = await _searchOwners(query);
       if (response.success) {
         setOwners(response.data || []);
         setTotal(response.data?.length || 0);
@@ -150,3 +165,4 @@ export function useOwners() {
     refresh: loadOwners,
   };
 }
+//--------------------------------------------------------------------------------------------------------------------------
