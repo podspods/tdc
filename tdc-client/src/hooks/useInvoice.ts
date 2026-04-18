@@ -3,8 +3,8 @@ import type { Invoice, InvoiceFormData } from "../components/Invoice/Invoice.typ
 import * as invoiceService from "../components/Invoice/Invoice.service";
 import type { Owner } from "../components/owner/owner.types";
 import type { Vehicle } from "../components/vehicle/vehicle.types";
-import { getAllOwners } from "../components/owner/owner.service";
 import { getAllVehicles } from "../components/vehicle/vehicle.service";
+import { _getAllOwners } from "../components/owner/owner.service";
 
 export function useInvoice() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -17,8 +17,8 @@ export function useInvoice() {
   // Load owners
   const loadOwners = useCallback(async () => {
     try {
-      const data = await getAllOwners();
-      setOwners(data);
+      // const data = await _getAllOwners();
+      // setOwners(data);
     } catch (err) {
       console.error("Failed to load owners:", err);
     }

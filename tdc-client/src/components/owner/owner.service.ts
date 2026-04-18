@@ -13,7 +13,9 @@ const BASE_URL = "/owners";
 export async function _getAllOwners(params?: OwnerQueryParams): Promise<ApiResponse<Owner[]>> {
   try {
     const response = await api.get("/owners", { params });
-    return response.data;
+
+    if (response.data) return { success: true, data: response.data || [], error: "" };
+    else return { success: false, data: [], error: "Failed to fetch owners" };
   } catch (error) {
     console.error("Failed to fetch owners:", error);
     return { success: false, data: [], error: "Failed to fetch owners" };
