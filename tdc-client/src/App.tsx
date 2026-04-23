@@ -9,6 +9,7 @@ import i18n from "./i18n";
 import Invoice from "./pages/Invoice";
 import Home from "./pages/Home";
 import Owner from "./pages/Owner";
+import Vehicle from "./pages/Vehicle";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/invoice" element={<Invoice />} />
               <Route path="/owner" element={<Owner />} />
+              <Route path="/vehicle" element={<Vehicle />} />
             </Routes>
           </Layout>
         </BrowserRouter>

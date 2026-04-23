@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { GARAGE_NAME } from "../../common/constant";
-import { LanguageSelector } from "../LanguageSelector";
 import { Avatar, HeaderContainer, Logo, MenuButton, RightSection, Title } from "./Header.styled";
+import { LanguageSelector } from "./LanguageSelector";
 
 type HeaderProps = {
   onMenuClick: () => void;

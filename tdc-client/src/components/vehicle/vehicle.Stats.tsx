@@ -1,0 +1,12 @@
+import type { VehicleStats } from "./vehicle.types";
+
+export type StatsProps = {
+  stats: VehicleStats;
+};
+export default function Stats({ ...props }: StatsProps) {
+  return (
+    <>
+      <h1>Stats</h1>
+    </>
+  );
+}

@@ -15,6 +15,7 @@ import consumableRoutes from "./routes/consumable.routes";
 import sparePartRoutes from "./routes/sparePart.routes";
 import rateConfigRoutes from "./routes/rateConfig.routes";
 import invoiceHeaderRoutes from "./invoiceHeaders/invoiceHeader.routes";
+import vehicleRoutes from "./entity/vehicle/vehicle.routes";
 
 dotenv.config();
 
@@ -50,11 +51,17 @@ fastify.get("/health", async () => {
   };
 });
 
+//--------------------------------------------------------------------------------------------------------------------------
+
 // Register all routes
+fastify.register(ownerRoutes, { prefix: "/api/owners" });
+fastify.register(vehicleRoutes, { prefix: "/api/vehicles" });
+
+//--------------------------------------------------------------------------------------------------------------------------
+
 fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
 fastify.register(motorcycleModelRoutes, { prefix: "/api/motorcycle-models" });
 fastify.register(registrationRoutes, { prefix: "/api/registrations" });
-fastify.register(ownerRoutes, { prefix: "/api/owners" });
 fastify.register(invoiceRoutes, { prefix: "/api/invoices" });
 fastify.register(laborRoutes, { prefix: "/api/labor" });
 fastify.register(consumableRoutes, { prefix: "/api/consumables" });

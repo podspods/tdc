@@ -107,7 +107,6 @@ export default function Owners({ ...props }: OwnersProps) {
             {t("newOwner")}
           </Button>
         </Header>
-
         {modalOpen && (
           <Modal
             setModalOpen={setModalOpen}
@@ -119,11 +118,7 @@ export default function Owners({ ...props }: OwnersProps) {
             isLoading={loading}
           />
         )}
-
-        {
-          //stats && <Stats stats={stats} />
-        }
-
+        {stats && <Stats stats={stats} />}
         <List
           ownerList={ownerList}
           loading={loading}

@@ -21,14 +21,11 @@ export function useOwner() {
   const [filters, setFilters] = useState<OwnerQueryParams>({});
 
   const loadOwners = useCallback(async () => {
-    console.log("loadOwners useCallback", 0);
-
     setLoading(true);
     setError("");
     try {
       const params = { ...filters, page, limit };
       const response = await _getAllOwners(params);
-      console.log("response", response);
 
       if (response.success) {
         setOwnerList(response.data || []);
@@ -145,14 +142,11 @@ export function useOwner() {
 
   useEffect(() => {
     loadOwners();
-    console.log("loadOwners", 0);
   }, [loadOwners]);
 
   useEffect(() => {
     loadStats();
   }, [loadStats]);
-
-  console.log("ownerList", ownerList);
 
   return {
     ownerList,

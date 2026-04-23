@@ -1,4 +1,5 @@
 import type { CreateOwnerDto, Owner, OwnerStats } from "../components/owner/owner.types";
+import type { CreateVehicleDto, Vehicle, VehicleStats } from "../components/vehicle/vehicle.types";
 
 export const GARAGE_NAME = "Tommy''s Ducati CLub";
 
@@ -59,3 +60,24 @@ export const STATS_INIT: OwnerStats = {
   averageSpentPerOwner: 0,
   topCities: [],
 };
+
+export const VEHICLE_INIT: Vehicle = {
+  id: 0,
+  registrationId: 0,
+  plateNumber: "init",
+  brand: "init",
+  model: "init",
+  year: 0,
+  color: "init",
+  ownerId: 0,
+  mileage: 0,
+};
+
+export const STATS_VEHICLE_INIT: VehicleStats = {
+  total: 0,
+  active: 0,
+  inactive: 0,
+  blocked: 0,
+};
+
+export const VEHICLE_DTO_INIT: CreateVehicleDto = VEHICLE_INIT;

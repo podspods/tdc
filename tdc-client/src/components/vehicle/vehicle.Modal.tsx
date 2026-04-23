@@ -1,7 +1,4 @@
-import type { ViewMode } from "../../common/commun.types";
-import type { CreateOwnerDto, Owner } from "./owner.types";
-import { OwnersView } from "./owner.View";
-import { OwnersForm } from "./owner.Form";
+import { useTranslation } from "react-i18next";
 import {
   ModalBody,
   ModalContent,
@@ -9,27 +6,29 @@ import {
   ModalOverlay,
   ModalTitle,
 } from "../../common/common.styled";
-import { useTranslation } from "react-i18next";
+import type { ViewMode } from "../../common/commun.types";
+import type { CreateVehicleDto, Vehicle } from "./vehicle.types";
+import View from "./vehicle.View";
+import Form from "./vehicule.Form";
 
 export type ModalProps = {
   setModalOpen: (isOpen: boolean) => void;
   setViewMode: (viewMode: ViewMode) => void;
-  setSelectedOwner: (owner: Owner) => void;
-  onSubmit: (data: CreateOwnerDto) => void;
+  setSelectedVehicle: (vehicle: Vehicle) => void;
+  onSubmit: (data: CreateVehicleDto) => void;
   viewMode: ViewMode;
-  selectedOwner: Owner;
+  selectedVehicle: Vehicle;
   isLoading: boolean;
 };
 export default function Modal({ ...props }: ModalProps) {
-  const { t } = useTranslation(["owner"]);
+  const { t } = useTranslation(["vehicle"]);
 
-  function handleEdit(owner: Owner) {
-    props.setSelectedOwner(owner);
+  function handleEdit(vehicle: Vehicle) {
+    props.setSelectedVehicle(vehicle);
     props.setViewMode("edit");
     props.setModalOpen(true);
   }
-
-  function _submit(data: CreateOwnerDto) {
+  function _submit(data: CreateVehicleDto) {
     props.onSubmit(data);
   }
   return (
@@ -38,26 +37,26 @@ export default function Modal({ ...props }: ModalProps) {
         <ModalContent onClick={(e) => e.stopPropagation()}>
           <ModalHeader>
             <ModalTitle>
-              {props.viewMode === "create" && t("createOwner")}
-              {props.viewMode === "edit" && t("editOwner")}
-              {props.viewMode === "view" && t("viewOwner")}
+              {props.viewMode === "create" && t("createVehicle")}
+              {props.viewMode === "edit" && t("editVehicle")}
+              {props.viewMode === "view" && t("viewVehicle")}
             </ModalTitle>
             <button onClick={() => props.setModalOpen(false)}>✕</button>
           </ModalHeader>
           <ModalBody>
-            {props.viewMode === "view" && props.selectedOwner && (
-              <OwnersView
-                owner={props.selectedOwner}
+            {props.viewMode === "view" && props.selectedVehicle && (
+              <View
+                vehicle={props.selectedVehicle}
                 onClose={() => props.setModalOpen(false)}
                 onEdit={() => {
                   props.setModalOpen(false);
-                  handleEdit(props.selectedOwner);
+                  handleEdit(props.selectedVehicle);
                 }}
               />
             )}
             {(props.viewMode === "create" || props.viewMode === "edit") && (
-              <OwnersForm
-                initialData={props.selectedOwner}
+              <Form
+                initialData={props.selectedVehicle}
                 onSubmit={_submit}
                 onCancel={() => props.setModalOpen(false)}
                 isLoading={props.isLoading}

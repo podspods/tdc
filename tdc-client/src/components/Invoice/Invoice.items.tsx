@@ -10,14 +10,16 @@ import {
   Label,
   Input,
   Select,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalBody,
-  ModalFooter,
 } from "./Invoice.styled";
 import type { LaborItem, PartItem, ConsumableItem } from "./Invoice.types";
+import {
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ModalTitle,
+} from "../../common/common.styled";
 
 type ItemsSectionProps = {
   title: string;

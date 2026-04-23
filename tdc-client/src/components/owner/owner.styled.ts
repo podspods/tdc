@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { OwnerCategory, OwnerStatus } from "./owners.types";
+import type { OwnerCategory, OwnerStatus } from "./owner.types";
 
 export const ButtonGroup = styled.div`
   display: flex;
@@ -123,54 +123,6 @@ export const CategoryBadge = styled.span<{ $category: OwnerCategory }>`
           : $category === "important"
             ? "#1e40af"
             : "#374151"};
-`;
-
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-`;
-
-export const ModalContent = styled.div`
-  background-color: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 90vh;
-  overflow: auto;
-`;
-
-export const ModalHeader = styled.div`
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const ModalTitle = styled.h3`
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-`;
-
-export const ModalBody = styled.div`
-  padding: 20px;
-`;
-
-export const ModalFooter = styled.div`
-  padding: 16px 20px;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
 `;
 
 export const FormGrid = styled.div`
