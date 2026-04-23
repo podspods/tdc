@@ -55,7 +55,7 @@ fastify.get("/health", async () => {
 
 // Register all routes
 fastify.register(ownerRoutes, { prefix: "/api/owners" });
-fastify.register(vehicleRoutes, { prefix: "/api/vehicles" });
+fastify.register(vehicleRoutes, { prefix: "/api/vehicle" });
 
 //--------------------------------------------------------------------------------------------------------------------------
 

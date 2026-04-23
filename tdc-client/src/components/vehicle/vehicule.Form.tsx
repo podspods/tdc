@@ -37,51 +37,40 @@ export default function Form({ ...props }: FormProps) {
       <form onSubmit={handleSubmit}>
         <FormGrid>
           <FormGroup
-            label={t("registrationId")}
-            name="registrationId"
-            value={formData.registrationId.toString()}
-            onChange={handleChange}
-          />
-          <FormGroup
             label={t("plateNumber")}
             name="plateNumber"
             value={formData.plateNumber}
             onChange={handleChange}
           />
-          <FormGroup
-            label={t("brand")}
-            name="brand"
-            value={formData.brand}
-            onChange={handleChange}
-          />
+
           <FormGroup
             label={t("model")}
             name="model"
-            value={formData.model}
+            value={formData.modelId || 0}
             onChange={handleChange}
           />
           <FormGroup
             label={t("year")}
             name="year"
-            value={formData.year.toString()}
+            value={formData.vintage || 0}
             onChange={handleChange}
           />
           <FormGroup
             label={t("color")}
             name="color"
-            value={formData.color}
+            value={formData.color || "init"}
             onChange={handleChange}
           />
           <FormGroup
             label={t("ownerId")}
             name="ownerId"
-            value={formData.ownerId.toString()}
+            value={formData.ownerId || 0}
             onChange={handleChange}
           />
           <FormGroup
             label={t("mileage")}
             name="mileage"
-            value={formData.mileage.toString()}
+            value={formData.mileage || 0}
             onChange={handleChange}
           />
         </FormGrid>

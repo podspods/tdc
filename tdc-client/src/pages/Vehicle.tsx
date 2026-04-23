@@ -3,7 +3,7 @@ import { Button, Header, MainContainer, Title } from "../common/common.styled";
 import { useState } from "react";
 import type { ViewMode } from "../common/commun.types";
 import { VEHICLE_INIT } from "../common/constant";
-import type { Vehicle } from "../components/vehicle/vehicle.types";
+import type { CreateVehicleDto, Vehicle } from "../components/vehicle/vehicle.types";
 import Modal from "../components/vehicle/vehicle.Modal";
 import { useVehicle } from "../components/vehicle/vehicle.useVehicle";
 import List from "../components/vehicle/vehicle.List";
@@ -34,7 +34,7 @@ export default function Vehicle({ ...props }: VehicleProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   //--------------------------------------------------------------------------------------------------------------------------
-  async function handleSubmit(vehicle: Vehicle) {
+  async function handleSubmit(vehicle: CreateVehicleDto) {
     console.log("handleSubmit", vehicle);
     let success = false;
     if (viewMode === "create") {

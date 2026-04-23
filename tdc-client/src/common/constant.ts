@@ -63,14 +63,15 @@ export const STATS_INIT: OwnerStats = {
 
 export const VEHICLE_INIT: Vehicle = {
   id: 0,
-  registrationId: 0,
   plateNumber: "init",
-  brand: "init",
-  model: "init",
-  year: 0,
+  modelId: 0,
+  vintage: new Date().getFullYear(),
   color: "init",
   ownerId: 0,
   mileage: 0,
+  createdAt: Date(),
+  updatedAt: Date(),
+  createdBy: "init",
 };
 
 export const STATS_VEHICLE_INIT: VehicleStats = {

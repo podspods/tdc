@@ -29,17 +29,17 @@ export type UpdateVehicleDto = {
   mileage?: number;
 };
 
-// export type VehicleQueryParams = {
-//   page?: number;
-//   limit?: number;
-//   search?: string;// plateNumber, owner name, model name
-//   category?: number;
-//   status?: number;
-// };
+export type VehicleQueryParams = {
+  page?: number;
+  limit?: number;
+  search?: string; // plateNumber, owner name, model name
+  category?: number;
+  status?: number;
+};
 
-// export type VehicleStats = {
-//   total: number;
-//   active: number;
-//   inactive: number;
-//   blocked: number;
-// };
+export type VehicleStats = {
+  total: number;
+  active: number;
+  inactive: number;
+  blocked: number;
+};
