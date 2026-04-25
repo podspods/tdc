@@ -1,0 +1,1 @@
+1- lors de la création: si la plaque existe, charger le véhicule

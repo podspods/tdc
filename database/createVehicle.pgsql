@@ -1,4 +1,4 @@
-drop table  if exists vehicle ;
+-- drop table  if exists vehicle ;
 
 CREATE TABLE IF NOT EXISTS vehicle (
     id SERIAL PRIMARY KEY,

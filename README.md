@@ -514,3 +514,17 @@ Zones d'une facture de travaux
 
 
 ```
+
+# entité Task
+
+## Résumé des endpoints
+
+Méthode URL Description
+GET /api/task-catalog Liste paginée (filtres : brandId, skillLevel, isActive, search)
+GET /api/task-catalog/code/:code Récupère par code unique
+GET /api/task-catalog/:id Récupère par ID
+POST /api/task-catalog Crée une tâche
+PUT /api/task-catalog/:id Met à jour une tâche
+DELETE /api/task-catalog/:id Supprime une tâche
+
+Le CRUD est complet, respecte l’architecture fonctionnelle, et est prêt à être intégré.

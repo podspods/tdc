@@ -1,10 +1,11 @@
 {
   "dashboard": "Bảng điều khiển",
+  "owner": "Chu xe",
+  "vehicle": "Xe",
+  "task": "Dịch vụ",
   "invoice": "Hóa đơn",
   "labor": "Danh mục dịch vụ",
   "spareParts": "Phụ tùng",
-  "owner": "Chu xe",
-  "vehicle": "Xe",
   "settings": "Cài đặt",
   "admin": "Quản trị",
   "profile": "Hồ sơ",

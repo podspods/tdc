@@ -21,7 +21,7 @@
   "plateNumber": "Numéro de Plaque",
   "brand": "Marque",
   "model": "Modèle",
-  "year": "Année",
+  "vintage": "Milésime",
   "color": "Couleur",
   "ownerId": "Id propriétaire",
   "mileage": "Kilométrage",

@@ -1,0 +1,20 @@
+{
+  "title": "Tâche",
+  "taskManagement": "Gestion des Tâches",
+  "newTask": "Nouvel tâche",
+  "updateTask": "mise à jour",
+  "createTask": "Nouvel tâche",
+  "editTask": "Editer tâche",
+  "viewTask": "Détail tâche",
+  "taskInformation": "Task Information",
+  "code": "Code",
+  "name": "Nom",
+  "durationHours": "Durée",
+  "skillLevel": "Niveau d'expertise",
+  "isActive": "est actif",
+  "brandId": "marque Id",
+  "createdBy": "Crée par",
+  "createdAt": "Crée le",
+  "updatedAt": "mise à jour par",
+  "end": "end"
+}

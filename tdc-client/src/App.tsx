@@ -6,10 +6,10 @@ import { GlobalStyles } from "./styles/global";
 import { Layout } from "./components/Layout/Layout";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
-import Invoice from "./pages/Invoice";
 import Home from "./pages/Home";
 import Owner from "./pages/Owner";
 import Vehicle from "./pages/Vehicle";
+import Task from "./pages/Task";
 
 export default function App() {
   return (
@@ -29,9 +29,9 @@ export default function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/invoice" element={<Invoice />} />
               <Route path="/owner" element={<Owner />} />
               <Route path="/vehicle" element={<Vehicle />} />
+              <Route path="/task" element={<Task />} />
             </Routes>
           </Layout>
         </BrowserRouter>

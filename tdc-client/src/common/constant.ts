@@ -1,4 +1,5 @@
 import type { CreateOwnerDto, Owner, OwnerStats } from "../components/owner/owner.types";
+import type { CreateTaskDto, Task, TaskStats } from "../components/task/task.types";
 import type { CreateVehicleDto, Vehicle, VehicleStats } from "../components/vehicle/vehicle.types";
 
 export const GARAGE_NAME = "Tommy''s Ducati CLub";
@@ -82,3 +83,34 @@ export const STATS_VEHICLE_INIT: VehicleStats = {
 };
 
 export const VEHICLE_DTO_INIT: CreateVehicleDto = VEHICLE_INIT;
+
+export const TASK_INIT: Task = {
+  id: 0,
+  code: "TASK_INIT",
+  name: "TASK_INIT",
+  description: "TASK_INIT",
+  durationHours: 0, // stocké en quart d’heure (ex: 4 = 1 heure)
+  skillLevel: 0, // 0=basic,1=intermediate,2=advanced,3=expert,4=master
+  brandId: 0, // 0 = toutes marques
+  isActive: false,
+  createdAt: Date(),
+  updatedAt: Date(),
+  createdBy: "init",
+};
+
+export const TASK_DTO_INIT: CreateTaskDto = {
+  code: "INIT",
+  name: "INIT",
+  description: "INIT",
+  durationHours: 0,
+  skillLevel: 0,
+  brandId: 0,
+  createdBy: "INIT",
+};
+
+export const STATS_TASK_INIT: TaskStats = {
+  total: 0,
+  active: 0,
+  inactive: 0,
+  blocked: 0,
+};

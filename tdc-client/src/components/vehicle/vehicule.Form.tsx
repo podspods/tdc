@@ -29,48 +29,55 @@ export default function Form({ ...props }: FormProps) {
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) {
+    console.log("handleChange =>", e.target);
+    console.log("handleChange name=>", e.target.name);
+    console.log("handleChange value=>", e.target.value);
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log("formData", formData);
   }
+
+  //--------------------------------------------------------------------------------------------------------------------------
+
   return (
     <>
       <form onSubmit={handleSubmit}>
         <FormGrid>
           <FormGroup
-            label={t("plateNumber")}
+            label={t("plateNumber")} // check if exist  ???????????????????
             name="plateNumber"
-            value={formData.plateNumber}
+            value={formData.plateNumber || ""}
             onChange={handleChange}
           />
 
           <FormGroup
-            label={t("model")}
-            name="model"
-            value={formData.modelId || 0}
+            label={t("modelId")}
+            name="modelId"
+            value={formData.modelId?.toString() || ""}
             onChange={handleChange}
           />
           <FormGroup
-            label={t("year")}
-            name="year"
-            value={formData.vintage || 0}
+            label={t("vintage")}
+            name="vintage"
+            value={formData.vintage || ""}
             onChange={handleChange}
           />
           <FormGroup
             label={t("color")}
             name="color"
-            value={formData.color || "init"}
+            value={formData.color || ""}
             onChange={handleChange}
           />
           <FormGroup
             label={t("ownerId")}
             name="ownerId"
-            value={formData.ownerId || 0}
+            value={formData.ownerId || ""}
             onChange={handleChange}
           />
           <FormGroup
             label={t("mileage")}
             name="mileage"
-            value={formData.mileage || 0}
+            value={formData.mileage || ""}
             onChange={handleChange}
           />
         </FormGrid>

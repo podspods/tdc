@@ -8,18 +8,21 @@ import enNavigation from "./locales/en/navigation.json";
 import enInvoice from "./locales/en/invoice.json";
 import enOwner from "./locales/en/owner.json";
 import enVehicle from "./locales/en/vehicle.json";
+import enTask from "./locales/en/task.json";
 
 import viCommon from "./locales/vi/common.json";
 import viNavigation from "./locales/vi/navigation.json";
 import viInvoice from "./locales/vi/invoice.json";
 import viOwner from "./locales/vi/owner.json";
 import viVehicle from "./locales/vi/vehicle.json";
+import viTask from "./locales/vi/task.json";
 
 import frCommon from "./locales/fr/common.json";
 import frNavigation from "./locales/fr/navigation.json";
 import frInvoice from "./locales/fr/invoice.json";
 import frOwner from "./locales/fr/owner.json";
 import frVehicle from "./locales/fr/vehicle.json";
+import frTask from "./locales/fr/task.json";
 
 export const resources = {
   en: {
@@ -28,6 +31,7 @@ export const resources = {
     invoice: enInvoice,
     owner: enOwner,
     vehicle: enVehicle,
+    task: enTask,
   },
   vi: {
     common: viCommon,
@@ -35,6 +39,7 @@ export const resources = {
     invoice: viInvoice,
     owner: viOwner,
     vehicle: viVehicle,
+    task: viTask,
   },
   fr: {
     common: frCommon,
@@ -42,6 +47,7 @@ export const resources = {
     invoice: frInvoice,
     owner: frOwner,
     vehicle: frVehicle,
+    task: frTask,
   },
 };
 

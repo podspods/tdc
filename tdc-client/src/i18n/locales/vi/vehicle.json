@@ -22,7 +22,7 @@
   "plateNumber": "số xe",
   "brand": "Thương hiệu",
   "model": "Mẫu xe",
-  "year": "Năm sản xuất",
+  "vitage": "Năm sản xuất",
   "color": "Màu sắc",
   "ownerId": "Mã chủ xe",
   "mileage": "Số km đã đi",

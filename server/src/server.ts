@@ -16,6 +16,7 @@ import sparePartRoutes from "./routes/sparePart.routes";
 import rateConfigRoutes from "./routes/rateConfig.routes";
 import invoiceHeaderRoutes from "./invoiceHeaders/invoiceHeader.routes";
 import vehicleRoutes from "./entity/vehicle/vehicle.routes";
+import taskRoutes from "./entity/task/task.route";
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ fastify.get("/health", async () => {
 // Register all routes
 fastify.register(ownerRoutes, { prefix: "/api/owners" });
 fastify.register(vehicleRoutes, { prefix: "/api/vehicle" });
+fastify.register(taskRoutes, { prefix: "/api/task" });
 
 //--------------------------------------------------------------------------------------------------------------------------
 

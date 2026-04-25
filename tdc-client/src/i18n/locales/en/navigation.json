@@ -1,10 +1,11 @@
 {
   "dashboard": "Dashboard",
+  "owner": "Owner",
+  "vehicle": "Vehicle",
+  "task": "Task",
   "invoice": "Invoice",
   "labor": "Labor Catalog",
   "spareParts": "Spare Parts",
-  "owner": "Owner",
-  "vehicle": "Vehicle",
   "settings": "Settings",
   "admin": "Administration",
   "profile": "Profile",

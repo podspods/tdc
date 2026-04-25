@@ -1,0 +1,20 @@
+{
+  "title": "Nhiệm Vụ",
+  "taskManagement": "Quản lý Nhiệm Vụ",
+  "newTask": "Nhiệm vụ mới",
+  "updateTask": "Cập nhật Nhiệm vụ",
+  "createTask": "Tạo Nhiệm vụ",
+  "editTask": "Biên tập Nhiệm vụ",
+  "viewTask": "chi tiết Nhiệm vụ",
+  "taskInformation": "Thông tin Nhiệm vụ",
+  "code": "mã số",
+  "name": "tên",
+  "durationHours": "Thời gian",
+  "skillLevel": "Kỹ năng",
+  "isActive": "Hoạt động",
+  "brandId": "Mã thương hiệu",
+  "createdBy": "được tạo ra",
+  "createdAt": "Được tạo vào lúc",
+  "updatedAt": "Đã cập nhật lúc",
+  "end": "end"
+}

@@ -1,13 +1,5 @@
 export type ViewMode = "list" | "create" | "edit" | "view";
 
-export type QueryParams = {
-  page?: number;
-  limit?: number;
-  ownerId?: number;
-  modelId?: number;
-  search?: string; // multi criteria seach
-};
-
 export type ApiResponse<T = any> = {
   success: boolean;
   data?: T;
