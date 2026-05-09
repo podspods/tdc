@@ -32,9 +32,6 @@ export default function View({ ...props }: ViewProps) {
         <StatCard label={t("skillLevel")} value={props.task.skillLevel} />
         <StatCard label={t("isActive")} value={props.task.isActive} />
       </StatsGrid>
-      id: number; code: string; title: string; description?: string | undefined; durationHours:
-      number; skillLevel: number; brandId: number; isActive: boolean; createdBy: string; createdAt:
-      string; updatedAt: string;
       <Card>
         <CardHeader>
           <CardTitle>{t("taskInformation")}</CardTitle>

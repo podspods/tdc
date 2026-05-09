@@ -8,8 +8,6 @@ export type OwnerCategory = "basic" | "important" | "vip" | "gold" | "platinum";
 //   platinum = 4,
 // }
 
-export type OwnerStatus = "active" | "inactive" | "blocked";
-
 export type Owner = {
   id: number;
   firstName: string;
@@ -30,7 +28,7 @@ export type Owner = {
   updatedAt: string;
   createdBy: string;
 };
-//  dto =data transfert objct
+//  dto =data transfert object
 export type CreateOwnerDto = {
   firstName: string;
   lastName: string;
@@ -40,7 +38,7 @@ export type CreateOwnerDto = {
   city?: string;
   category?: number;
   notes?: string;
-  createdBy: string;
+  createdBy?: string;
 };
 
 export type UpdateOwnerDto = {
@@ -72,7 +70,7 @@ export type OwnerStats = {
   topCities: Array<{ city: string; count: number }>;
 };
 
-export type ApiResponse<T = any> = {
+export type ApiResponse<T = Owner> = {
   success: boolean;
   data?: T;
   error?: string;

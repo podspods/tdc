@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import Owner from "./pages/Owner";
 import Vehicle from "./pages/Vehicle";
 import Task from "./pages/Task";
+import SparePart from "./pages/SparePart";
+import Invoice from "./pages/Invoice";
 
 export default function App() {
   return (
@@ -28,10 +30,12 @@ export default function App() {
         <BrowserRouter>
           <Layout>
             <Routes>
+              <Route path="/invoice" element={<Invoice />} />
               <Route path="/" element={<Home />} />
               <Route path="/owner" element={<Owner />} />
               <Route path="/vehicle" element={<Vehicle />} />
               <Route path="/task" element={<Task />} />
+              <Route path="/spare-parts" element={<SparePart />} />
             </Routes>
           </Layout>
         </BrowserRouter>

@@ -1,0 +1,23 @@
+{
+  "title": "Pièce détachée",
+  "sparePartManagement": "Gestion Pièce détachée",
+  "sparePartsList": "Liste des pièce détachée",
+  "newSparePart": "nouvelle pièce détachée",
+  "code": "Code",
+  "close": "Fermer",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "editSparePart": "Modifier",
+  "name": "Nom",
+  "description": "Description",
+  "purchasePrice": "Prix d'achat",
+  "sellingPrice": "Prix de vente",
+  "markupMultiplier": "Coefficient de marge",
+  "stockQuantity": "Stock",
+  "supplier": "Fournisseur",
+  "isActive": "Actif",
+  "createSparePart": "Créer",
+  "viewSparePart": "Voir",
+  "actions": "actions",
+  "end": "end"
+}

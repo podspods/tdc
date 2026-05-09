@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 import pinoPretty from "pino-pretty";
 import databasePlugin from "./plugins/database";
 
+import vehicleRoutes from "./entity/vehicle/vehicle.routes";
+import taskRoutes from "./entity/task/task.route";
+import sparePartRoutes from "./entity/sparePart/sparePart.route";
+
 // Import des routes
 import motorcycleBrandRoutes from "./routes/motorcycleBrand.routes";
 import motorcycleModelRoutes from "./routes/motorcycleModel.routes";
@@ -12,11 +16,8 @@ import ownerRoutes from "./owner/owner.routes";
 import invoiceRoutes from "./routes/invoice.routes";
 import laborRoutes from "./routes/labor.routes";
 import consumableRoutes from "./routes/consumable.routes";
-import sparePartRoutes from "./routes/sparePart.routes";
 import rateConfigRoutes from "./routes/rateConfig.routes";
 import invoiceHeaderRoutes from "./invoiceHeaders/invoiceHeader.routes";
-import vehicleRoutes from "./entity/vehicle/vehicle.routes";
-import taskRoutes from "./entity/task/task.route";
 
 dotenv.config();
 
@@ -58,7 +59,7 @@ fastify.get("/health", async () => {
 fastify.register(ownerRoutes, { prefix: "/api/owners" });
 fastify.register(vehicleRoutes, { prefix: "/api/vehicle" });
 fastify.register(taskRoutes, { prefix: "/api/task" });
-
+fastify.register(sparePartRoutes, { prefix: "/api/spare-part" });
 //--------------------------------------------------------------------------------------------------------------------------
 
 fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
@@ -67,7 +68,6 @@ fastify.register(registrationRoutes, { prefix: "/api/registrations" });
 fastify.register(invoiceRoutes, { prefix: "/api/invoices" });
 fastify.register(laborRoutes, { prefix: "/api/labor" });
 fastify.register(consumableRoutes, { prefix: "/api/consumables" });
-fastify.register(sparePartRoutes, { prefix: "/api/spare-parts" }); // ← MAINTENANT RECONNU
 
 // Add to routes registration
 fastify.register(rateConfigRoutes, { prefix: "/api/rate-config" });

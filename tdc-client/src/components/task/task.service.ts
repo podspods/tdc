@@ -17,7 +17,7 @@ export async function _createTask(data: CreateTaskDto): Promise<ApiResponse<Task
 //--------------------------------------------------------------------------------------------------------------------------
 export async function _updateTask(id: number, data: UpdateTaskDto): Promise<ApiResponse<Task>> {
   try {
-    const response = await api.put(`/task/${id}`, data);
+    const response = await api.put(`${BASE_URL}/${id}`, data);
     return response.data as ApiResponse<Task>;
   } catch (error) {
     console.error("Failed to update task:", error);
@@ -28,7 +28,7 @@ export async function _updateTask(id: number, data: UpdateTaskDto): Promise<ApiR
 
 export async function _taskList(params?: TaskQueryParams): Promise<ApiResponse<Task[]>> {
   try {
-    const response = await api.get("/task", { params });
+    const response = await api.get(BASE_URL, { params });
     if (response.data && response.data.success) {
       return {
         success: true,
@@ -45,7 +45,7 @@ export async function _taskList(params?: TaskQueryParams): Promise<ApiResponse<T
 //--------------------------------------------------------------------------------------------------------------------------
 export async function _taskStats(): Promise<ApiResponse<TaskStats>> {
   try {
-    const response = await api.get("/task/stats");
+    const response = await api.get(`${BASE_URL}/stats`);
     return response.data;
   } catch (error) {
     console.error("Failed to fetch task stats:", error);
@@ -56,7 +56,7 @@ export async function _taskStats(): Promise<ApiResponse<TaskStats>> {
 
 export async function getTaskById(id: number): Promise<Task | null> {
   try {
-    const response = await api.get(`/tasks/${id}`);
+    const response = await api.get(`${BASE_URL}s/${id}`);
     if (response.data && response.data.success) {
       return response.data.data || null;
     }
@@ -69,7 +69,7 @@ export async function getTaskById(id: number): Promise<Task | null> {
 
 export async function getTasksByOwner(ownerId: number): Promise<Task[]> {
   try {
-    const response = await api.get(`/tasks/owner/${ownerId}`);
+    const response = await api.get(`${BASE_URL}/owner/${ownerId}`);
     if (response.data && response.data.success) {
       return response.data.data || [];
     }

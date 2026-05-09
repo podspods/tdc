@@ -29,12 +29,8 @@ export default function Form({ ...props }: FormProps) {
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) {
-    console.log("handleChange =>", e.target);
-    console.log("handleChange name=>", e.target.name);
-    console.log("handleChange value=>", e.target.value);
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log("formData", formData);
   }
 
   //--------------------------------------------------------------------------------------------------------------------------
@@ -53,7 +49,7 @@ export default function Form({ ...props }: FormProps) {
           <FormGroup label={t("name")} name="name" value={formData.name} onChange={handleChange} />
           <FormGroup
             label={t("description")}
-            name="name"
+            name="description"
             value={formData.description || ""}
             onChange={handleChange}
           />

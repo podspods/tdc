@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import type { Status } from "./commun.types";
 
 export const MainContainer = styled.div`
   max-width: 1400px;
@@ -266,6 +267,7 @@ export const StatLabel = styled.div`
 // `;
 
 export const Card = styled.div`
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   box-shadow: ${({ theme }) => theme.shadows.md};
@@ -350,4 +352,66 @@ export const Input = styled.input`
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   }
+`;
+
+//--------------------------------------------------------------------------------------------------------------------------
+
+export const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+export const Th = styled.th`
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  background-color: #f9fafb;
+`;
+
+export const Td = styled.td`
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+  color: #1f2937;
+`;
+//--------------------------------------------------------------------------------------------------------------------------
+
+export const StatusBadge = styled.span<{ $status: number }>`
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: ${({ $status }) =>
+    $status === 0
+      ? "#dcfce7"
+      : $status === 1
+        ? "#fef3c7"
+        : $status === 2
+          ? "#fee2e2"
+          : $status === 3
+            ? "#dbeafe"
+            : "#f3f4f6"};
+  color: ${({ $status }) =>
+    $status === 0
+      ? "#166534"
+      : $status === 1
+        ? "#92400e"
+        : $status === 2
+          ? "#991b1b"
+          : $status === 3
+            ? "#1e40af"
+            : "#374151"};
+`;
+//--------------------------------------------------------------------------------------------------------------------------
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
 `;

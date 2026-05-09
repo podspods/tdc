@@ -1,5 +1,5 @@
 export type ViewMode = "list" | "create" | "edit" | "view";
-
+export type Status = "active" | "inactive" | "blocked";
 export type ApiResponse<T = any> = {
   success: boolean;
   data?: T;

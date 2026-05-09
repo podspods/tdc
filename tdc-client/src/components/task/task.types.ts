@@ -41,7 +41,7 @@ export type TaskQueryParams = {
   search?: string;
 };
 
-export type ApiResponse<T = any> = {
+export type ApiResponse<T = Task> = {
   success: boolean;
   data?: T;
   error?: string;

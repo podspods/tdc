@@ -35,7 +35,6 @@ export default function Task({ ...props }: TaskProps) {
 
   //--------------------------------------------------------------------------------------------------------------------------
   async function handleSubmit(task: CreateTaskDto) {
-    console.log("handleSubmit", task);
     let success = false;
     if (viewMode === "create") {
       const result = await createTask(task);
@@ -52,7 +51,6 @@ export default function Task({ ...props }: TaskProps) {
   //--------------------------------------------------------------------------------------------------------------------------
 
   function handleCreate() {
-    console.log("handleCreate", 0);
     setSelectedTask(TASK_INIT);
     setViewMode("create");
     setModalOpen(true);

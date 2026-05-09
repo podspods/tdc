@@ -6,10 +6,6 @@ import {
   CardTitle,
   CategoryBadge,
   Pagination,
-  StatusBadge,
-  Table,
-  Td,
-  Th,
 } from "./owner.styled";
 import {
   ActionButton,
@@ -17,6 +13,10 @@ import {
   FilterSelect,
   PageButton,
   SearchInput,
+  StatusBadge,
+  Table,
+  Td,
+  Th,
 } from "../../common/common.styled";
 import { useState } from "react";
 import type { Owner } from "./owner.types";

@@ -63,64 +63,30 @@ export const StatLabel = styled.div`
   margin-top: 4px;
 `;
 
-export const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-export const Th = styled.th`
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #e5e7eb;
-  font-weight: 600;
-  font-size: 14px;
-  color: #374151;
-  background-color: #f9fafb;
-`;
-
-export const Td = styled.td`
-  padding: 12px;
-  border-bottom: 1px solid #f3f4f6;
-  font-size: 14px;
-  color: #1f2937;
-`;
-
-export const StatusBadge = styled.span<{ $status: OwnerStatus }>`
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  background-color: ${({ $status }) =>
-    $status === "active" ? "#dcfce7" : $status === "inactive" ? "#fef3c7" : "#fee2e2"};
-  color: ${({ $status }) =>
-    $status === "active" ? "#166534" : $status === "inactive" ? "#92400e" : "#991b1b"};
-`;
-
-export const CategoryBadge = styled.span<{ $category: OwnerCategory }>`
+export const CategoryBadge = styled.span<{ $category: number }>`
   display: inline-block;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
   background-color: ${({ $category }) =>
-    $category === "vip"
+    $category === 0
       ? "#fef3c7"
-      : $category === "gold"
+      : $category === 1
         ? "#fef3c7"
-        : $category === "platinum"
+        : $category === 2
           ? "#e0e7ff"
-          : $category === "important"
+          : $category === 3
             ? "#dbeafe"
             : "#f3f4f6"};
   color: ${({ $category }) =>
-    $category === "vip"
+    $category === 0
       ? "#92400e"
-      : $category === "gold"
+      : $category === 1
         ? "#92400e"
-        : $category === "platinum"
+        : $category === 2
           ? "#1e40af"
-          : $category === "important"
+          : $category === 3
             ? "#1e40af"
             : "#374151"};
 `;

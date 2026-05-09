@@ -54,8 +54,6 @@ export function useTask() {
     async (createTaskDto: CreateTaskDto): Promise<Task> => {
       setLoading(true);
       try {
-        console.log("createTask", createTaskDto);
-
         const response = await _createTask(createTaskDto);
         if (response.success && response.data) {
           await tasklist();

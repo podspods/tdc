@@ -1,0 +1,23 @@
+{
+  "title": "Phụ tùng thay thế",
+  "sparePartManagement": "Quản lý Phụ tùng",
+  "sparePartsList": "Danh sách phụ tùng",
+  "newSparePart": "Phụ tùng mới",
+  "code": "Mã",
+  "close": "Đóng",
+  "confirm": "Xác nhận",
+  "cancel": "Hủy bỏ",
+  "editSparePart": "Chỉnh sửa phụ tùng thay thế",
+  "name": "Tên",
+  "description": "Mô tả",
+  "purchasePrice": "Giá mua",
+  "sellingPrice": "Giá bán",
+  "markupMultiplier": "Hệ số lợi nhuận",
+  "stockQuantity": "Số lượng tồn kho",
+  "supplier": "Nhà cung cấp",
+  "isActive": "Đang hoạt động",
+  "createSparePart": "Tạo phụ tùng",
+  "viewSparePart": "Xem phụ tùng",
+  "actions": "hành động",
+  "end": "end"
+}

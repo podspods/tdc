@@ -1,4 +1,7 @@
 {
+  "title": "Quản lý hóa đơn",
+  "toPdf": "Sang  Pdf",
+
   "deleteConfirm": "Bạn có chắc chắn muốn xóa hóa đơn này không?",
   "newInvoice": "Tạo hóa đơn mới",
   "invoice": "Hóa đơn",

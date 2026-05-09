@@ -1,4 +1,9 @@
 import type { CreateOwnerDto, Owner, OwnerStats } from "../components/owner/owner.types";
+import type {
+  CreateSparePartDto,
+  SparePart,
+  SparePartStats,
+} from "../components/sparePart/sparePart.types";
 import type { CreateTaskDto, Task, TaskStats } from "../components/task/task.types";
 import type { CreateVehicleDto, Vehicle, VehicleStats } from "../components/vehicle/vehicle.types";
 
@@ -113,4 +118,39 @@ export const STATS_TASK_INIT: TaskStats = {
   active: 0,
   inactive: 0,
   blocked: 0,
+};
+
+export const SPARE_PART_INIT: SparePart = {
+  id: 0,
+  code: "INIT",
+  name: "INIT",
+  description: "INIT",
+  purchasePrice: 0,
+  sellingPrice: 0,
+  markupMultiplier: 2,
+  stockQuantity: 0,
+  supplier: "INIT",
+  isActive: 0,
+  createdBy: "INIT",
+  createdAt: Date(),
+  updatedAt: Date(),
+};
+export const STATS_SPARE_PART_INIT: SparePartStats = {
+  total: 0,
+  active: 0,
+  inactive: 0,
+  blocked: 0,
+};
+
+export const SPARE_PART_DTO_INIT: CreateSparePartDto = {
+  code: "INIT",
+  name: "INIT",
+  description: "INIT",
+  purchasePrice: 0,
+  sellingPrice: 0,
+  markupMultiplier: 2,
+  stockQuantity: 0,
+  supplier: "INIT",
+  isActive: 0,
+  createdBy: "INIT",
 };

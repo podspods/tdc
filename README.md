@@ -528,3 +528,17 @@ PUT /api/task-catalog/:id Met à jour une tâche
 DELETE /api/task-catalog/:id Supprime une tâche
 
 Le CRUD est complet, respecte l’architecture fonctionnelle, et est prêt à être intégré.
+
+# installation de police pour les caractères vietnamien
+
+```
+# Exemple pour Be Vietnam Pro
+nok ==>npm install @fontsource/be-vietnam-pro
+
+sol 2
+télécher ttf sur google font
+copier le ttf dans src/assets/fonts
+faire des import
+import regularFont from "../../assets/fonts/BeVietnamPro-Regular.ttf";
+import italicFont from "../../assets/fonts/BeVietnamPro-Italic.ttf";
+```

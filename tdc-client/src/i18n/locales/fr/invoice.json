@@ -1,4 +1,7 @@
 {
+  "title": "Gestion des factures",
+  "toPdf": "Vers Pdf",
+
   "deleteConfirm": "êtes vous sur ?",
   "newInvoice": "créer une nouvelle facture",
   "invoice": "Facture",
