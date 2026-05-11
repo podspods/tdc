@@ -3,6 +3,7 @@ export type GarageInfo = {
   name: string; // Garage name (e.g., "TDC Moto Garage")
   logoUrl: string; // Path or URL to the logo image (e.g., "/images/logo.png")
   address: string; // Full address
+  city: string; // Full address
   phone: string; // Contact phone number
   email?: string; // Optional email
   website?: string; // Optional website

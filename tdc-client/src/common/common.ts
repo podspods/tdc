@@ -5,3 +5,7 @@ export function formatCurrency(amount: number): string {
     minimumFractionDigits: 0,
   }).format(amount);
 }
+
+export const ZformatCurrency = (amount: number) => {
+  return amount.toLocaleString("vi-VN") + " ₫";
+};

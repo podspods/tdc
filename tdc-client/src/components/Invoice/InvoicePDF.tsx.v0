@@ -4,8 +4,6 @@ import type { GarageInfo } from "./invoice.types";
 import type { CreateOwnerDto } from "../owner/owner.types";
 import type { Vehicle } from "../vehicle/vehicle.types";
 
-// Enregistrement de la police vietnamienne (exemple avec Be Vietnam Pro)
-// À adapter selon votre fichier de police
 import regularFont from "../../assets/fonts/BeVietnamPro-Regular.ttf";
 import italicFont from "../../assets/fonts/BeVietnamPro-Italic.ttf";
 
