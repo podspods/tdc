@@ -8,8 +8,8 @@ import {
   StatsGrid,
 } from "../../common/common.styled";
 import { useTranslation } from "react-i18next";
-import CardField from "../UI/CardField";
-import StatCard from "../UI/StatCard";
+import CardField from "../UI.v0/CardField";
+import StatCard from "../UI.v0/StatCard";
 
 export type ViewProps = {
   task: Task;

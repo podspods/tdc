@@ -1,0 +1,92 @@
+-- Insert sample garages
+INSERT INTO garage (
+    name,
+    address,
+    phone,
+    email,
+    logo_url,
+    tax_code,
+    website,
+    bank_name,
+    bank_account,
+    is_active,
+    created_by
+) VALUES
+(
+    'TDC Moto Garage',
+    '123 Lê Lợi, Quận 1, TP. Hồ Chí Minh',
+    '028 1234 5678',
+    'contact@tdcmoto.com',
+    '/images/tdc-logo.png',
+    '1234567890',
+    'www.tdcmoto.com',
+    'Vietcombank',
+    '123456789',
+    true,
+    'system'
+),
+(
+    'Saigon Performance Center',
+    '456 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh',
+    '028 8765 4321',
+    'info@saigonperformance.com',
+    '/images/saigon-logo.jpg',
+    '0987654321',
+    'www.saigonperformance.com',
+    'Techcombank',
+    '987654321',
+    true,
+    'system'
+),
+(
+    'Hanoi Moto Service',
+    '789 Phố Huế, Quận Hai Bà Trưng, Hà Nội',
+    '024 1234 5678',
+    'contact@hanoimoto.vn',
+    '/images/hanoi-logo.png',
+    '1357924680',
+    'www.hanoimoto.vn',
+    'BIDV',
+    '555555555',
+    true,
+    'system'
+),
+(
+    'Ducati Saigon',
+    '12 Láng Hạ, Quận Đống Đa, Saigon',
+    '024 9876 5432',
+    'ducati@hanoi.com',
+    '/images/ducati-logo.png',
+    '1122334455',
+    'www.ducatihanoi.com',
+    'VPBank',
+    '444444444',
+    true,
+    'system'
+),
+(
+    'Yamaha Center Da Nang',
+    '34 Nguyễn Văn Linh, Quận Hải Châu, Đà Nẵng',
+    '0236 1234 567',
+    'danang@yamaha.com',
+    '/images/yamaha-logo.png',
+    '6677889900',
+    'www.yamahadanang.com',
+    'MB Bank',
+    '777777777',
+    true,
+    'system'
+),
+(
+    'Old Garage (Inactive)',
+    '99 Rue Pasteur, Nha Trang',
+    '0258 111 222',
+    'old@garage.com',
+    NULL,
+    '9999999999',
+    NULL,
+    NULL,
+    NULL,
+    false,
+    'system'
+);

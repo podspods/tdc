@@ -16,9 +16,9 @@
   "gold": "Vàng",
   "platinum": "Bạch kim",
   "ownersList": "Danh sách chủ xe",
-  "firsname": "Tên *",
-  "lastName": "họ *",
-  "phoneNumber": "Số điện thoại *",
+  "firsname": "Tên",
+  "lastName": "họ",
+  "phoneNumber": "Số điện thoại",
   "email": "Email",
   "address": "Địa chỉ",
   "city": "Thành phố",
@@ -35,5 +35,7 @@
   "addressExample": "đường hai bà  Trung",
   "emailExample": "Tên.họ@mẫu.com",
   "phoneExample": "0612345678",
+  "--selectExistingOwner--": "-- Chọn chủ xe --",
+
   "end": "kết thúc"
 }

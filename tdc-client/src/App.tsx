@@ -12,6 +12,8 @@ import Vehicle from "./pages/Vehicle";
 import Task from "./pages/Task";
 import SparePart from "./pages/SparePart";
 import Invoice from "./pages/Invoice";
+import { GarageManager } from "./components/Garage/GarageManager";
+import Test from "./pages/Test";
 
 export default function App() {
   return (
@@ -30,7 +32,9 @@ export default function App() {
         <BrowserRouter>
           <Layout>
             <Routes>
+              <Route path="/test" element={<Test />} />
               <Route path="/invoice" element={<Invoice />} />
+              <Route path="/admin/garage" element={<GarageManager />} />
               <Route path="/" element={<Home />} />
               <Route path="/owner" element={<Owner />} />
               <Route path="/vehicle" element={<Vehicle />} />

@@ -8,6 +8,7 @@ import {
   updateVehicle,
 } from "./vehicle.controller";
 import { CreateVehicleDto, VehicleQueryParams } from "./vehicle.types";
+import { createVehicle as repCreateVehicle, findVehicleByPlate } from "./vehicle.repository";
 
 export default async function vehicleRoutes(fastify: FastifyInstance) {
   fastify.get<{ Querystring: VehicleQueryParams }>("/", (request, response) =>
@@ -28,4 +29,31 @@ export default async function vehicleRoutes(fastify: FastifyInstance) {
   fastify.delete<{ Params: { id: string } }>("/:id", (request, response) =>
     deleteVehicle(fastify, request, response),
   );
+
+  // POST /api/vehicles/quick
+  fastify.post<{
+    Body: {
+      ownerId: number;
+      modelId: number;
+      plateNumber: string;
+      vintage: number;
+      mileage: number;
+      color: string;
+      createdBy: string;
+    };
+  }>("/quick", async (request, reply) => {
+    const { plateNumber, color, ownerId, createdBy } = request.body;
+    // Vérifier si la plaque existe déjà
+    const existing = await findVehicleByPlate(fastify, plateNumber);
+    if (existing) return reply.send({ success: true, data: existing });
+    // Chercher ou créer la marque et le modèle (simplifié – on suppose que brand et model sont des chaînes)
+    // Ici on pourrait appeler un service de création de modèle, mais pour l’exemple on stocke directement dans vehicle
+    const newVehicle = await repCreateVehicle(fastify, {
+      ownerId,
+      plateNumber,
+      color,
+      createdBy,
+    });
+    return reply.send({ success: true, data: newVehicle });
+  });
 }

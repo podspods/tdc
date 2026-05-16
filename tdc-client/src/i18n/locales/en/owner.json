@@ -16,9 +16,9 @@
   "gold": "Gold",
   "platinum": "Platinum",
   "ownersList": "Owners List",
-  "firsname": "First Name *",
-  "lastName": "Last Name *",
-  "phoneNumber": "Phone Number *",
+  "firsname": "First Name",
+  "lastName": "Last Name",
+  "phoneNumber": "Phone Number",
   "email": "Email",
   "address": "Address",
   "city": "City",
@@ -35,5 +35,6 @@
   "addressExample": "baker street",
   "emailExample": "name.firstname@sample.com",
   "phoneExample": "0612345678",
+  "--selectExistingOwner--": "-- Select Existing Owner --",
   "end": "end"
 }

@@ -1,18 +1,6 @@
 import axios, { type AxiosInstance } from "axios";
 
 // Définir le type ApiResponse localement ou l'importer
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-  pagination?: {
-    page: number;
-    limit: number;
-    total: number;
-    pages: number;
-  };
-}
 
 const api: AxiosInstance = axios.create({
   baseURL: "/api",

@@ -5,7 +5,7 @@
 // export type OwnerCategory = "basic" | "important" | "vip";
 
 export type Owner = {
-  ownerId: number;
+  id: number;
   firstName: string;
   lastName: string;
   phoneNumber: string; // Unique identifier

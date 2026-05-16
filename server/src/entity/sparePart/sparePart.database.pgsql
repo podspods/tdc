@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS spare_part CASCADE;
+-- DROP TABLE IF EXISTS spare_part CASCADE;
 
 CREATE TABLE spare_part (
     id SERIAL PRIMARY KEY,

@@ -3,21 +3,17 @@
 -- Description: Simplified version with essential brand information
 -- =====================================================
 
-CREATE TABLE motorcycle_brands (
-    -- Primary identification
-    brand_id SERIAL PRIMARY KEY,
-    -- Brand name
-    brand_name VARCHAR(100) NOT NULL UNIQUE,  -- Brand name (e.g., 'Honda', 'Yamaha')
-    
-    -- Origin
+drop table if exists brand CASCADE ;
+
+
+
+CREATE TABLE brand (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,  -- Brand name (e.g., 'Honda', 'Yamaha')
     country_of_origin VARCHAR(100) NOT NULL,   -- Country where the brand originated
-    
-    -- Metadata and audit
     created_by VARCHAR(100) NOT NULL,           -- User who created the record
-    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Creation timestamp
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Creation timestamp
     
-    -- Constraint for country name
-    CONSTRAINT valid_country CHECK (country_of_origin != '')
 );
 
 -- =====================================================
@@ -25,19 +21,19 @@ CREATE TABLE motorcycle_brands (
 -- =====================================================
 
 -- Index for faster searches on brand_name
-CREATE INDEX idx_brands_name ON motorcycle_brands(brand_name);
+-- CREATE INDEX idx_brands_name ON motorcycle_brands(brand_name);
 
--- Index for filtering by country
-CREATE INDEX idx_brands_country ON motorcycle_brands(country_of_origin);
+-- -- Index for filtering by country
+-- CREATE INDEX idx_brands_country ON motorcycle_brands(country_of_origin);
 
--- Index for date-based queries
-CREATE INDEX idx_brands_create_date ON motorcycle_brands(create_date);
+-- -- Index for date-based queries
+-- CREATE INDEX idx_brands_create_date ON motorcycle_brands(create_date);
 
 -- =====================================================
 -- INSERT MOTORCYCLE BRANDS IN VIETNAM
 -- =====================================================
 
-INSERT INTO motorcycle_brands (brand_name, country_of_origin, created_by) VALUES
+INSERT INTO brand (name, country_of_origin, created_by) VALUES
 -- Japanese brands (dominant in Vietnam)
 ('Honda', 'Japan', 'system'),
 ('Yamaha', 'Japan', 'system'),
@@ -80,36 +76,36 @@ INSERT INTO motorcycle_brands (brand_name, country_of_origin, created_by) VALUES
 -- VIEW: All brands ordered by name
 -- =====================================================
 
-CREATE VIEW v_all_brands AS
-SELECT 
-    brand_id,
-    brand_name,
-    country_of_origin,
-    created_by,
-    create_date
-FROM motorcycle_brands
-ORDER BY brand_name;
+-- CREATE VIEW v_all_brands AS
+-- SELECT 
+--     brand_id,
+--     brand_name,
+--     country_of_origin,
+--     created_by,
+--     create_date
+-- FROM motorcycle_brands
+-- ORDER BY brand_name;
 
 -- =====================================================
 -- VIEW: Brands by country
--- =====================================================
+-- -- =====================================================
 
-CREATE VIEW v_brands_by_country AS
-SELECT 
-    country_of_origin,
-    COUNT(*) as brand_count,
-    ARRAY_AGG(brand_name ORDER BY brand_name) as brands
-FROM motorcycle_brands
-GROUP BY country_of_origin
-ORDER BY country_of_origin;
+-- CREATE VIEW v_brands_by_country AS
+-- SELECT 
+--     country_of_origin,
+--     COUNT(*) as brand_count,
+--     ARRAY_AGG(brand_name ORDER BY brand_name) as brands
+-- FROM motorcycle_brands
+-- GROUP BY country_of_origin
+-- ORDER BY country_of_origin;
 
 -- =====================================================
 -- COMMENTS ON TABLE AND COLUMNS
 -- =====================================================
 
-COMMENT ON TABLE motorcycle_brands IS 'Simplified table of motorcycle brands in Vietnam';
-COMMENT ON COLUMN motorcycle_brands.brand_id IS 'Unique identifier for each brand';
-COMMENT ON COLUMN motorcycle_brands.brand_name IS 'Name of the motorcycle brand';
-COMMENT ON COLUMN motorcycle_brands.country_of_origin IS 'Country where the brand originated';
-COMMENT ON COLUMN motorcycle_brands.created_by IS 'User who created the record';
-COMMENT ON COLUMN motorcycle_brands.create_date IS 'Timestamp when the record was created';
+COMMENT ON TABLE brand IS 'Simplified table of motorcycle brands in Vietnam';
+COMMENT ON COLUMN brand.id IS 'Unique identifier for each brand';
+COMMENT ON COLUMN brand.name IS 'Name of the motorcycle brand';
+COMMENT ON COLUMN brand.country_of_origin IS 'Country where the brand originated';
+COMMENT ON COLUMN brand.created_by IS 'User who created the record';
+COMMENT ON COLUMN brand.create_date IS 'Timestamp when the record was created';

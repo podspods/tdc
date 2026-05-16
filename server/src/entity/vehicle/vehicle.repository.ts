@@ -40,7 +40,7 @@ export async function findAllVehicles(
   }
   if (search) {
     whereClause += whereClause ? " AND" : " WHERE";
-    whereClause += ` (v.plate_number ILIKE $${idx} OR o.first_name ILIKE $${idx} OR o.last_name ILIKE $${idx} OR m.model_name ILIKE $${idx})`;
+    whereClause += ` (v.plate_number ILIKE $${idx} OR o.first_name ILIKE $${idx} OR o.last_name ILIKE $${idx} OR m.name ILIKE $${idx})`;
     values.push(`%${search}%`);
     idx++;
   }
@@ -48,20 +48,20 @@ export async function findAllVehicles(
   const countQuery = `
     SELECT COUNT(*)
     FROM vehicle v
-    LEFT JOIN owners o ON v.owner_id = o.owner_id
-    LEFT JOIN motorcycle_models m ON v.model_id = m.model_id
+    LEFT JOIN owners o ON v.owner_id = o.id
+    LEFT JOIN model m ON v.model_id = m.id
     ${whereClause}
   `;
 
   const dataQuery = `
     SELECT v.*, 
            o.first_name || ' ' || o.last_name AS owner_name,
-           m.model_name,
-           b.brand_name
+           m.name,
+           b.name
     FROM vehicle v
-    LEFT JOIN owners o ON v.owner_id = o.owner_id
-    LEFT JOIN motorcycle_models m ON v.model_id = m.model_id
-    LEFT JOIN motorcycle_brands b ON m.brand_id = b.brand_id
+    LEFT JOIN owners o ON v.owner_id = o.id
+    LEFT JOIN model m ON v.model_id = m.id
+    LEFT JOIN brand b ON m.brand_id = b.id
     ${whereClause}
     ORDER BY v.created_at DESC
     LIMIT $${idx} OFFSET $${idx + 1}
@@ -86,13 +86,13 @@ export async function findVehicleById(
   const result = await pg.query(
     `SELECT v.*, 
             o.first_name || ' ' || o.last_name AS owner_name,
-            m.model_name,
-            b.brand_name
+            m.name,
+            b.name
      FROM vehicle v
-     LEFT JOIN owners o ON v.owner_id = o.owner_id
-     LEFT JOIN motorcycle_models m ON v.model_id = m.model_id
-     LEFT JOIN motorcycle_brands b ON m.brand_id = b.brand_id
-     WHERE v.vehicle_id = $1`,
+     LEFT JOIN owners o ON v.owner_id = o.id
+     LEFT JOIN model m ON v.model_id = m.id
+     LEFT JOIN brand b ON m.brand_id = b.id
+     WHERE v.id = $1`,
     [id],
   );
   return result.rows[0] ? mapDbToVehicle(result.rows[0]) : null;
@@ -153,7 +153,7 @@ export async function updateVehicle(
   if (fields.length === 0) return null;
 
   values.push(id);
-  const query = `UPDATE vehicle SET ${fields.join(", ")} WHERE vehicle_id = $${idx} RETURNING *`;
+  const query = `UPDATE vehicle SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToVehicle(result.rows[0]) : null;
 }

@@ -8,8 +8,8 @@ export type Task = {
   brandId: number; // 0 = toutes marques
   isActive: boolean;
   createdBy: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateTaskDto = {
@@ -39,19 +39,6 @@ export type TaskQueryParams = {
   skillLevel?: number;
   isActive?: boolean;
   search?: string;
-};
-
-export type ApiResponse<T = Task> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-  pagination?: {
-    page: number;
-    limit: number;
-    total: number;
-    pages: number;
-  };
 };
 
 export type TaskStats = {

@@ -3,47 +3,51 @@ import type { GarageInfo } from "./invoice.types";
 import { Text, View, Image } from "@react-pdf/renderer";
 import { styles } from "./Pdf.styles";
 import { useTranslation } from "react-i18next";
+import type { PdfDataHeader } from "./Pdf.types";
+import { formatDateToYYYYMMDD } from "../../common/common";
 
 export type PdfHeaderProps = {
-  garage: GarageInfo;
-  owner: CreateOwnerDto;
-  vehicleInfo: string;
-  invoiceId: string;
-  invoiceDate?: string;
+  header: PdfDataHeader;
 };
 
 export default function PdfHeader({ ...props }: PdfHeaderProps) {
   const { t } = useTranslation(["invoice"]);
+  const toDay = new Date();
 
-  const idAndDate = props.invoiceDate
-    ? `${t("invoice")}: ${props.invoiceId}  ${t("issuedOn")}: ${props.invoiceDate}`
-    : `${t("invoice")}: ${props.invoiceId}  ${t("issuedOn")}: ${new Date().toLocaleDateString()}`;
+  const idAndDate = props.header.invoiceDate
+    ? `${t("invoice")}: ${props.header.invoiceNumber}  ${t("issuedOn")}: ${formatDateToYYYYMMDD(props.header.invoiceDate)}`
+    : `${t("invoice")}: ${props.header.invoiceNumber}  ${t("issuedOn")}: ${formatDateToYYYYMMDD(toDay)}`;
   return (
     <>
       <View style={styles.headerContainer}>
-        {props.garage.logoUrl && <Image src={props.garage.logoUrl} style={styles.logo} />}
+        {props.header.garage.logoUrl && (
+          <Image src={props.header.garage.logoUrl} style={styles.logo} />
+        )}
         <View style={styles.leftColumn}>
-          <Text style={styles.garageName}>{props.garage.name}</Text>
-          <Text style={styles.garageDetails}>{props.garage.address}</Text>
-          <Text style={styles.garageDetails}>{props.garage.city}</Text>
-          <Text style={styles.garageDetails}>Tel: {props.garage.phone}</Text>
-          {props.garage.email && (
-            <Text style={styles.garageDetails}>Email: {props.garage.email}</Text>
+          <Text style={styles.garageName}>{props.header.garage.name}</Text>
+          <Text style={styles.garageDetails}>{props.header.garage.address}</Text>
+          <Text style={styles.garageDetails}>{props.header.garage.city}</Text>
+          <Text style={styles.garageDetails}>Tel: {props.header.garage.phone}</Text>
+          {props.header.garage.email && (
+            <Text style={styles.garageDetails}>Email: {props.header.garage.email}</Text>
           )}
-          {props.garage.taxCode && (
-            <Text style={styles.garageDetails}>Tax ID: {props.garage.taxCode}</Text>
+          {props.header.garage.taxCode && (
+            <Text style={styles.garageDetails}>Tax ID: {props.header.garage.taxCode}</Text>
           )}
         </View>
         {/* Right column – Owner (client) info */}
         <View style={styles.rightColumn}>
           <Text style={styles.ownerName}>
-            {props.owner.firstName} {props.owner.lastName}
+            {props.header.owner.firstName} {props.header.owner.lastName}
           </Text>
-          {props.owner.address && <Text style={styles.ownerDetails}>{props.owner.address}</Text>}
-          {props.owner.city && <Text style={styles.ownerDetails}>{props.owner.city}</Text>}
-          <Text style={styles.ownerDetails}>{props.owner.phoneNumber}</Text>
-          {props.owner.email && <Text style={styles.ownerDetails}>{props.owner.email}</Text>}
-          <Text style={styles.vehicleDetails}>{props.vehicleInfo}</Text>
+          {props.header.owner.address && (
+            <Text style={styles.ownerDetails}>{props.header.owner.address}</Text>
+          )}
+          {props.header.owner.city && (
+            <Text style={styles.ownerDetails}>{props.header.owner.city}</Text>
+          )}
+
+          <Text style={styles.vehicleDetails}>{props.header.vehicleInfo}</Text>
           <Text style={styles.vehicleDetails}>{idAndDate}</Text>
         </View>
       </View>

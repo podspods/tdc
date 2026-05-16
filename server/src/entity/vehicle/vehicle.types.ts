@@ -36,3 +36,8 @@ export type VehicleQueryParams = {
   modelId?: number;
   search?: string; // multi criteria seach
 };
+
+export type VehiculeInfo = Vehicle & {
+  brand: string;
+  model: string;
+};

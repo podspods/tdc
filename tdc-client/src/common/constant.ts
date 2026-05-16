@@ -1,3 +1,4 @@
+import type { Invoice, InvoiceFormLine } from "../components/Invoice/invoice.types";
 import type { CreateOwnerDto, Owner, OwnerStats } from "../components/owner/owner.types";
 import type {
   CreateSparePartDto,
@@ -8,6 +9,8 @@ import type { CreateTaskDto, Task, TaskStats } from "../components/task/task.typ
 import type { CreateVehicleDto, Vehicle, VehicleStats } from "../components/vehicle/vehicle.types";
 
 export const GARAGE_NAME = "Tommy''s Ducati CLub";
+
+export const dateInit: Date = new Date(1999, 12, 25);
 
 export const DEFAULT_STATS_RESPONSE = {
   success: false,
@@ -21,7 +24,6 @@ export const OWNER_INIT: Owner = {
   id: 0,
   firstName: "firstname-init",
   lastName: "lastname init",
-  fullName: "fullname init",
   phoneNumber: "00000000",
   email: "email@init.ini",
   address: "addresse init",
@@ -33,8 +35,8 @@ export const OWNER_INIT: Owner = {
   totalInvoices: 0,
   totalSpent: 0,
   lastVisitDate: "",
-  createdAt: "",
-  updatedAt: "",
+  createdAt: dateInit,
+  updatedAt: dateInit,
   createdBy: "createdBy init",
 };
 
@@ -48,6 +50,8 @@ export const OWNER_DTO_INIT: CreateOwnerDto = {
   category: 0,
   notes: "note -init",
   createdBy: "createdBy init",
+  createdAt: dateInit,
+  updatedAt: dateInit,
 };
 
 export const STATS_INIT: OwnerStats = {
@@ -75,8 +79,8 @@ export const VEHICLE_INIT: Vehicle = {
   color: "init",
   ownerId: 0,
   mileage: 0,
-  createdAt: Date(),
-  updatedAt: Date(),
+  createdAt: dateInit,
+  updatedAt: dateInit,
   createdBy: "init",
 };
 
@@ -98,8 +102,8 @@ export const TASK_INIT: Task = {
   skillLevel: 0, // 0=basic,1=intermediate,2=advanced,3=expert,4=master
   brandId: 0, // 0 = toutes marques
   isActive: false,
-  createdAt: Date(),
-  updatedAt: Date(),
+  createdAt: dateInit,
+  updatedAt: dateInit,
   createdBy: "init",
 };
 
@@ -153,4 +157,27 @@ export const SPARE_PART_DTO_INIT: CreateSparePartDto = {
   supplier: "INIT",
   isActive: 0,
   createdBy: "INIT",
+};
+
+export const INVOICE_INIT: Invoice = {
+  invoiceId: 0,
+  garageId: 0,
+  vehicleId: 0,
+  invoiceNumber: "invoiceNumber-init",
+  issueDate: new Date(1975, 4, 30),
+  dueDate: new Date(1975, 4, 30),
+  statusCode: 0,
+  createdBy: "INIT",
+  createdAt: new Date(1975, 4, 30),
+  updatedAt: new Date(1975, 4, 30),
+};
+
+export const invoiceFormLineInit: InvoiceFormLine = {
+  tempId: 0,
+  lineTypeCode: 0,
+  description: "init",
+  quantity: 0,
+  unitPrice: 0,
+  discountRate: 0,
+  amount: 0,
 };

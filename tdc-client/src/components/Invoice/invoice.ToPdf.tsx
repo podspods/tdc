@@ -1,17 +1,18 @@
 // src/components/Invoice/InvoicePDF.tsx
-import { Document, Page, Font, View, Text } from "@react-pdf/renderer";
+import { Document, Page, Font, View } from "@react-pdf/renderer";
 import regularFont from "../../assets/fonts/BeVietnamPro-Regular.ttf";
 import italicFont from "../../assets/fonts/BeVietnamPro-Italic.ttf";
 import boldFont from "../../assets/fonts/BeVietnamPro-Bold.ttf";
 import { styles } from "./Pdf.styles";
-import PdfHeader from "./PdfHeader";
 import PdfAgreement from "./PdfAgreement";
 import PdfSummary from "./PdfSummary";
 import PdfTab from "./PdfTab";
 import { useTranslation } from "react-i18next";
-import { getConsumablelist, getHeader, getSparePartList, getTaskList } from "./pdf.function";
 import HeaderPage from "./Pdf.headerPage";
 import FooterPage from "./Pdf.FooterPage";
+import { type PdfDataHeader } from "./Pdf.types";
+import PdfHeader from "./PdfHeader";
+import type { InvoiceLine } from "./invoice.types";
 
 Font.register({
   family: "Be Vietnam Pro",
@@ -22,41 +23,34 @@ Font.register({
   ],
 });
 export type ToPdfProps = {
-  invoiceDbId: number;
+  header: PdfDataHeader;
+  taskList: InvoiceLine[];
+  sparePartList: InvoiceLine[];
+  consumableList: InvoiceLine[];
 };
 
 export default function ToPdf({ ...props }: ToPdfProps) {
   const { t } = useTranslation(["invoice"]);
-  const header = getHeader(props.invoiceDbId);
-  const taskList = getTaskList(props.invoiceDbId);
-  const sparePartList = getSparePartList(props.invoiceDbId);
-  const consumableList = getConsumablelist(props.invoiceDbId);
-  const taxRate = 0.1;
-
+  console.log("taskList", props.taskList);
   return (
     <Document>
       <Page size="A4" style={[styles.page]}>
         {/* Header with logo and garage name */}
-        <HeaderPage header={header} />
+        <HeaderPage header={props.header} />
         <View style={[styles.content]}>
-          <PdfHeader
-            garage={header.garage}
-            owner={header.owner}
-            vehicleInfo={header.vehicleInfo}
-            invoiceId={header.invoiceId}
-          />
-          <PdfTab rowlist={taskList} title={t("servicesPerformed")} section={1} />
-          <PdfTab rowlist={sparePartList} title={t("spareParts")} section={2} />
-          <PdfTab rowlist={consumableList} title={t("consumable")} section={3} />
+          <PdfHeader header={props.header} />
+          <PdfTab rowlist={props.taskList} title={t("servicesPerformed")} section={1} />
+          <PdfTab rowlist={props.sparePartList} title={t("spareParts")} section={2} />
+          <PdfTab rowlist={props.consumableList} title={t("consumable")} section={3} />
           <PdfSummary
-            taskList={taskList}
-            sparePartList={sparePartList}
-            consumableList={consumableList}
-            taxRate={taxRate}
+            taskList={props.taskList}
+            sparePartList={props.sparePartList}
+            consumableList={props.consumableList}
+            taxRate={props.header.garage.taxRate}
           />
           <PdfAgreement />
         </View>
-        <FooterPage header={header} />
+        <FooterPage header={props.header} />
       </Page>
     </Document>
   );

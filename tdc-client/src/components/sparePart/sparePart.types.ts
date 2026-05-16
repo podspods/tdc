@@ -50,19 +50,6 @@ export type SparePartQueryParams = {
   supplier?: string;
 };
 
-export type ApiResponse<T = SparePart> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-  pagination?: {
-    page: number;
-    limit: number;
-    total: number;
-    pages: number;
-  };
-};
-
 export type SparePartStats = {
   total: number;
   active: number;

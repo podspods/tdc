@@ -10,6 +10,7 @@ import {
   updateOwner,
 } from "./owner.controller";
 import { CreateOwnerDto, OwnerQueryParams, UpdateOwnerDto } from "./owner.types";
+import { create, findByPhone } from "./owner.repository";
 
 type GetAllRoute = { Querystring: OwnerQueryParams };
 type GetByIdRoute = { Params: { id: string } };
@@ -45,4 +46,18 @@ export default async function ownerRoutes(fastify: FastifyInstance) {
   fastify.put<UpdateRoute>("/:id", (request, reply) => updateOwner(fastify, request, reply));
 
   fastify.delete<GetByIdRoute>("/:id", (request, reply) => deleteOwner(fastify, request, reply));
+
+  //--------------------------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  // POST /api/owners/quick
+  fastify.post<{
+    Body: { firstName: string; lastName: string; phoneNumber: string; createdBy: string };
+  }>("/quick", async (request, reply) => {
+    const { firstName, lastName, phoneNumber, createdBy } = request.body;
+    const existing = await findByPhone(fastify, phoneNumber);
+    if (existing) return reply.send({ success: true, data: existing });
+    const newOwner = await create(fastify, { firstName, lastName, phoneNumber, createdBy });
+    return reply.send({ success: true, data: newOwner });
+  });
 }

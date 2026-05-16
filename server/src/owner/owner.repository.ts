@@ -6,7 +6,7 @@ import { Owner, CreateOwnerDto, UpdateOwnerDto, OwnerQueryParams, OwnerStats } f
  */
 function mapDbToOwner(row: any): Owner {
   return {
-    ownerId: row.owner_id,
+    id: row.id,
     firstName: row.first_name,
     lastName: row.last_name,
     phoneNumber: row.phone_number,
@@ -82,7 +82,7 @@ export async function findAll(
 
   if (hasOutstandingInvoices) {
     whereClause += whereClause ? " AND" : " WHERE";
-    whereClause += ` EXISTS (SELECT 1 FROM invoices i WHERE i.owner_id = o.owner_id AND i.status = 'pending')`;
+    whereClause += ` EXISTS (SELECT 1 FROM invoices i WHERE i.owner_id = o.id AND i.status = 'pending')`;
   }
 
   const countQuery = `
@@ -115,7 +115,7 @@ export async function findAll(
  */
 export async function findById(fastify: FastifyInstance, id: number): Promise<Owner | null> {
   const { pg } = fastify;
-  const result = await pg.query(`SELECT * FROM owners WHERE owner_id = $1`, [id]);
+  const result = await pg.query(`SELECT * FROM owners WHERE id = $1`, [id]);
   return result.rows[0] ? mapDbToOwner(result.rows[0]) : null;
 }
 
@@ -194,7 +194,7 @@ export async function update(
   if (fields.length === 0) return null;
 
   values.push(id);
-  const query = `UPDATE owners SET ${fields.join(", ")} WHERE owner_id = $${paramCount} RETURNING *`;
+  const query = `UPDATE owners SET ${fields.join(", ")} WHERE id = $${paramCount} RETURNING *`;
 
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToOwner(result.rows[0]) : null;
@@ -207,8 +207,8 @@ export async function updateStats(fastify: FastifyInstance, id: number): Promise
   const { pg } = fastify;
   await pg.query(
     `UPDATE owners SET
-      total_motorcycles = (SELECT COUNT(*) FROM registrations WHERE owner_id = $1),
-      total_invoices = (SELECT COUNT(*) FROM invoices WHERE owner_id = $1),
+      total_motorcycles = (SELECT COUNT(*) FROM registrations WHERE id = $1),
+      total_invoices = (SELECT COUNT(*) FROM invoices WHERE id = $1),
       total_spent = (SELECT COALESCE(SUM(total_amount), 0) FROM invoices WHERE owner_id = $1 AND status = 'paid'),
       last_visit_date = (
         SELECT MAX(issue_date) 
@@ -225,7 +225,7 @@ export async function updateStats(fastify: FastifyInstance, id: number): Promise
  */
 export async function _delete(fastify: FastifyInstance, id: number): Promise<boolean> {
   const { pg } = fastify;
-  const result = await pg.query("DELETE FROM owners WHERE owner_id = $1 RETURNING owner_id", [id]);
+  const result = await pg.query("DELETE FROM owners WHERE id = $1 RETURNING owner_id", [id]);
   return result.rowCount ? result.rowCount > 0 : false;
 }
 

@@ -1,4 +1,5 @@
-import api, { type ApiResponse } from "../../api/client";
+import { apiRequest } from "../../api/apirequest";
+import type { ApiResponse } from "../../common/commun.types";
 import type {
   CreateVehicleDto,
   UpdateVehicleDto,
@@ -8,16 +9,12 @@ import type {
 } from "./vehicle.types";
 
 const BASE_URL = "/vehicle";
+
 //--------------------------------------------------------------------------------------------------------------------------
 
 export async function _createVehicle(data: CreateVehicleDto): Promise<ApiResponse<Vehicle>> {
-  try {
-    const response = await api.post(BASE_URL, data);
-    return response.data as ApiResponse<Vehicle>;
-  } catch (error) {
-    console.error("Failed to create vehicle :", error);
-    return { success: false, error: "Failed to create vehicle" };
-  }
+  const url = `${BASE_URL}`;
+  return apiRequest<Vehicle>(url, "post", data);
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -25,66 +22,31 @@ export async function _updateVehicle(
   id: number,
   data: UpdateVehicleDto,
 ): Promise<ApiResponse<Vehicle>> {
-  try {
-    const response = await api.put(`/vehicle/${id}`, data);
-    return response.data as ApiResponse<Vehicle>;
-  } catch (error) {
-    console.error("Failed to update vehicle:", error);
-    return { success: false, error: "Failed to update vehicle" };
-  }
+  const url = `${BASE_URL}/${id}̀`;
+  return apiRequest<Vehicle>(url, "put", data);
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
 export async function _vehicleList(params?: VehicleQueryParams): Promise<ApiResponse<Vehicle[]>> {
-  try {
-    const response = await api.get("/vehicle", { params });
-    if (response.data && response.data.success) {
-      return {
-        success: true,
-        data: response.data || [],
-        error: "",
-      };
-    }
-    return { success: false, data: [], error: "failed to fetch vehicle" };
-  } catch (error) {
-    console.error("Failed to fetch vehicles:", error);
-    return { success: false, data: [], error: "failed to fetch vehicle" };
-  }
+  const url = `${BASE_URL}`;
+  return apiRequest<Vehicle[]>(url, "get", params, []);
 }
 //--------------------------------------------------------------------------------------------------------------------------
 export async function _vehicleStats(): Promise<ApiResponse<VehicleStats>> {
-  try {
-    const response = await api.get("/vehicle/stats");
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch vehicle stats:", error);
-    return { success: false, error: "Failed to fetch vehicle stats" };
-  }
+  const url = `${BASE_URL}/stats`;
+  return apiRequest<VehicleStats>(url, "get");
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
-export async function getVehicleById(id: number): Promise<Vehicle | null> {
-  try {
-    const response = await api.get(`/vehicles/${id}`);
-    if (response.data && response.data.success) {
-      return response.data.data || null;
-    }
-    return null;
-  } catch (error) {
-    console.error("Failed to fetch vehicle:", error);
-    return null;
-  }
+export async function _getVehicleById(id: number): Promise<ApiResponse<Vehicle>> {
+  const url = `${BASE_URL}/${id}`;
+  return apiRequest<Vehicle>(url, "get");
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+export async function _getVehiclesByOwner(ownerId: number): Promise<ApiResponse<Vehicle[]>> {
+  const url = `${BASE_URL}/owner/${ownerId}`;
+  return apiRequest<Vehicle[]>(url, "get", []);
 }
 
-export async function getVehiclesByOwner(ownerId: number): Promise<Vehicle[]> {
-  try {
-    const response = await api.get(`/vehicles/owner/${ownerId}`);
-    if (response.data && response.data.success) {
-      return response.data.data || [];
-    }
-    return [];
-  } catch (error) {
-    console.error("Failed to fetch vehicles by owner:", error);
-    return [];
-  }
-}
+//--------------------------------------------------------------------------------------------------------------------------

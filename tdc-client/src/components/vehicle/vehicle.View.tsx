@@ -11,7 +11,7 @@ import {
   StatValue,
 } from "../../common/common.styled";
 import { useTranslation } from "react-i18next";
-import CardField from "../UI/CardField";
+import CardField from "../UI.v0/CardField";
 
 export type ViewProps = {
   vehicle: Vehicle;

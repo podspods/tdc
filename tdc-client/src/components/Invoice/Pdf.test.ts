@@ -1,15 +1,10 @@
-import type { CreateOwnerDto } from "../owner/owner.types";
-import type { GarageInfo, InvoiceData } from "./invoice.types";
-import type { PdfRow } from "./Pdf.types";
+import type { OwnerInfo } from "../owner/owner.types";
+import type { GarageInfo, Invoice } from "./invoice.types";
+import type { InvoiceItem, PdfDataHeader } from "./Pdf.types";
 
-export const invoiceData: InvoiceData = {
-  invoiceNumber: "20260509-001",
-  date: "titi",
-  clientName: "titi",
-  total: 42,
-};
+export const dateTest = new Date(2000, 31, 12);
 
-export const garage: GarageInfo = {
+export const garageTest: GarageInfo = {
   name: "TDC Moto Garage",
   logoUrl: "/logo.jpg",
   address: "123 Lê Lợi, Quận 1",
@@ -20,9 +15,10 @@ export const garage: GarageInfo = {
   website: "garage-website.com",
   bankName: "garage-bankName",
   bankAccount: "garage-bankAccount",
+  taxRate: 0.1,
 };
 
-export const owner: CreateOwnerDto = {
+export const ownerTest: OwnerInfo = {
   firstName: "Pierre",
   lastName: "Durand",
   phoneNumber: "+33 1234123412",
@@ -30,18 +26,18 @@ export const owner: CreateOwnerDto = {
   city: "Thành phố Hồ Chí Minh",
 };
 
-export const vehicleInfo: string = "Honda Winner bleu/blanc/rouge 59A1-378.06 40000km";
-export const invoiceId: string = "2026-INV1";
+export const vehicleInfoTest: string = "Honda Winner bleu/blanc/rouge 59A1-378.06 40000km";
+export const invoiceNulberText: string = "2026-INV1";
 
-export const header = {
-  invoiceData: invoiceData,
-  garage: garage,
-  owner: owner,
-  vehicleInfo: vehicleInfo,
-  invoiceId: invoiceId,
+export const headerTest: PdfDataHeader = {
+  garage: garageTest,
+  owner: ownerTest,
+  vehicleInfo: vehicleInfoTest,
+  invoiceNumber: invoiceNulberText,
+  invoiceDate: dateTest,
 };
 
-export const taskLists: PdfRow[] = [
+export const taskListsTest: InvoiceItem[] = [
   { id: 1, name: "un", price: 1000, discount: 0 },
 
   { id: 2, name: "deux", price: 21000, discount: 0.25 },
@@ -51,7 +47,7 @@ export const taskLists: PdfRow[] = [
   { id: 6, name: "six", price: 61000, discount: 0.2 },
 ];
 
-export const sparePartList: PdfRow[] = [
+export const sparePartListTest: InvoiceItem[] = [
   { id: 1, name: "spare part un", price: 500000, discount: 0.1 },
   { id: 2, name: "spare part DEUX", price: 600000, discount: 0.2 },
   { id: 3, name: "spare part trois", price: 700000, discount: 0.3 },
@@ -59,7 +55,7 @@ export const sparePartList: PdfRow[] = [
   { id: 5, name: "spare part cinq", price: 900000, discount: 0.5 },
   { id: 6, name: "spare part six", price: 1000000, discount: 1 },
 ];
-export const consumablelist: PdfRow[] = [
+export const consumablelistTest: InvoiceItem[] = [
   { id: 1, name: "consumable part un", price: 510000, discount: 0.6 },
   { id: 2, name: "consumable part DEUX", price: 610000, discount: 0.7 },
   { id: 3, name: "consumable part trois", price: 710000, discount: 0.75 },
@@ -67,3 +63,16 @@ export const consumablelist: PdfRow[] = [
   { id: 5, name: "consumable part cinq", price: 910000, discount: 0.5 },
   { id: 6, name: "consumable part six", price: 1100000, discount: 0 },
 ];
+
+export const invoiceTest: Invoice = {
+  invoiceId: 0,
+  garageId: 0,
+  vehicleId: 0,
+  invoiceNumber: "0",
+  issueDate: new Date(),
+  dueDate: new Date(),
+  statusCode: 0,
+  createdBy: "0",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};

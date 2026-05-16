@@ -17,7 +17,10 @@ interface SidebarProps {
 }
 
 const menuItems = [
+  { to: "/test", icon: "📄", label: "Test" },
   { to: "/invoice", icon: "📄", label: "invoice" },
+  { to: "/admin/garage", icon: "🔧", label: "Garage" },
+
   { to: "/", icon: "📊", label: "home" },
   { to: "/owner", icon: "👥", label: "owner" },
   { to: "/vehicle", icon: "📄", label: "vehicle" },

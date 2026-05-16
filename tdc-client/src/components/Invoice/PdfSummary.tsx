@@ -1,14 +1,14 @@
 import { Text, View } from "@react-pdf/renderer";
 import { styles } from "./Pdf.styles";
 import { useTranslation } from "react-i18next";
-import type { PdfRow } from "./Pdf.types";
 import { formatCurrency } from "../../common/common";
+import type { InvoiceLine } from "./invoice.types";
 
 export type PdfSummaryProps = {
-  taskList: PdfRow[];
+  taskList: InvoiceLine[];
 
-  sparePartList: PdfRow[];
-  consumableList: PdfRow[];
+  sparePartList: InvoiceLine[];
+  consumableList: InvoiceLine[];
   taxRate: number;
 };
 
@@ -20,11 +20,11 @@ function buildSumString(a?: number, b?: number, c?: number): string {
 export default function PdfSummary({ ...props }: PdfSummaryProps) {
   const { t } = useTranslation(["invoice"]);
   const subtotalTaskBeforeDiscount =
-    props.taskList?.reduce((sum, item) => sum + item.price, 0) ?? 0;
+    props.taskList?.reduce((sum, item) => sum + item.unitPrice, 0) ?? 0;
   const subtotalSparePartBeforeDiscount =
-    props.sparePartList?.reduce((sum, item) => sum + item.price, 0) ?? 0;
+    props.sparePartList?.reduce((sum, item) => sum + item.unitPrice, 0) ?? 0;
   const subtotalConsumableBeforeDiscount =
-    props.consumableList?.reduce((sum, item) => sum + item.price, 0) ?? 0;
+    props.consumableList?.reduce((sum, item) => sum + item.unitPrice, 0) ?? 0;
 
   const partAndLabor = buildSumString(
     subtotalTaskBeforeDiscount,
@@ -33,12 +33,12 @@ export default function PdfSummary({ ...props }: PdfSummaryProps) {
   );
 
   const subtotalTaskDiscount =
-    props.taskList?.reduce((sum, item) => sum + item.price * item.discount, 0) ?? 0;
+    props.taskList?.reduce((sum, item) => sum + item.unitPrice * item.discountRate, 0) ?? 0;
   const subtotalSparePartDiscount =
-    props.sparePartList?.reduce((sum, item) => sum + item.price * item.discount, 0) ?? 0;
+    props.sparePartList?.reduce((sum, item) => sum + item.unitPrice * item.discountRate, 0) ?? 0;
   const subtotalConsumableDiscount =
-    props.consumableList?.reduce((sum, item) => sum + item.price * item.discount, 0) ?? 0;
-  const discount = buildSumString(
+    props.consumableList?.reduce((sum, item) => sum + item.unitPrice * item.discountRate, 0) ?? 0;
+  const discountRate = buildSumString(
     subtotalTaskDiscount,
     subtotalSparePartDiscount,
     subtotalConsumableDiscount,
@@ -61,7 +61,7 @@ export default function PdfSummary({ ...props }: PdfSummaryProps) {
         </View>
         <View style={styles.tableRow}>
           <Text style={styles.colDesc}>{t("discount")}</Text>
-          <Text style={styles.colAmount}>{discount}</Text>
+          <Text style={styles.colAmount}>{discountRate}</Text>
           <Text style={styles.colAmount}>
             {formatCurrency(
               subtotalTaskDiscount + subtotalSparePartDiscount + subtotalConsumableDiscount,

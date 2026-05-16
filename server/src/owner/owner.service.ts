@@ -16,6 +16,7 @@ import {
  * Get all owners with filters
  */
 export async function _getAllOwners(fastify: FastifyInstance, params: OwnerQueryParams = {}) {
+  console.log("_getAllOwners params", params);
   const { data, total } = await findAll(fastify, params);
 
   return {

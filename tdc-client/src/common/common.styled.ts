@@ -378,6 +378,19 @@ export const Td = styled.td`
   font-size: 14px;
   color: #1f2937;
 `;
+
+export const Tr = styled.tr`
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: #f9fafb;
+  }
+`;
+
+export const Thead = styled.thead`
+  background-color: #f9fafb;
+`;
+
+export const Tbody = styled.tbody``;
 //--------------------------------------------------------------------------------------------------------------------------
 
 export const StatusBadge = styled.span<{ $status: number }>`

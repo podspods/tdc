@@ -1,81 +1,39 @@
-import api, { type ApiResponse } from "../../api/client";
+import { apiRequest } from "../../api/apirequest";
+import type { ApiResponse } from "../../common/commun.types";
 import type { CreateTaskDto, UpdateTaskDto, Task, TaskQueryParams, TaskStats } from "./task.types";
 
 const BASE_URL = "/task";
 //--------------------------------------------------------------------------------------------------------------------------
 
 export async function _createTask(data: CreateTaskDto): Promise<ApiResponse<Task>> {
-  try {
-    const response = await api.post(BASE_URL, data);
-    return response.data as ApiResponse<Task>;
-  } catch (error) {
-    console.error("Failed to create task :", error);
-    return { success: false, error: "Failed to create task" };
-  }
+  const url = `${BASE_URL}`;
+  return apiRequest<Task>(url, "post", data);
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
 export async function _updateTask(id: number, data: UpdateTaskDto): Promise<ApiResponse<Task>> {
-  try {
-    const response = await api.put(`${BASE_URL}/${id}`, data);
-    return response.data as ApiResponse<Task>;
-  } catch (error) {
-    console.error("Failed to update task:", error);
-    return { success: false, error: "Failed to update task" };
-  }
+  const url = `${BASE_URL}/${id}`;
+  return apiRequest<Task>(url, "put", data);
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
 export async function _taskList(params?: TaskQueryParams): Promise<ApiResponse<Task[]>> {
-  try {
-    const response = await api.get(BASE_URL, { params });
-    if (response.data && response.data.success) {
-      return {
-        success: true,
-        data: response.data || [],
-        error: "",
-      };
-    }
-    return { success: false, data: [], error: "failed to fetch task" };
-  } catch (error) {
-    console.error("Failed to fetch tasks:", error);
-    return { success: false, data: [], error: "failed to fetch task" };
-  }
+  const url = BASE_URL;
+  return apiRequest<Task[]>(url, "get", params, []);
 }
 //--------------------------------------------------------------------------------------------------------------------------
 export async function _taskStats(): Promise<ApiResponse<TaskStats>> {
-  try {
-    const response = await api.get(`${BASE_URL}/stats`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch task stats:", error);
-    return { success: false, error: "Failed to fetch task stats" };
-  }
+  const url = `${BASE_URL}/stats`;
+  return apiRequest<TaskStats>(url, "get");
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
-export async function getTaskById(id: number): Promise<Task | null> {
-  try {
-    const response = await api.get(`${BASE_URL}s/${id}`);
-    if (response.data && response.data.success) {
-      return response.data.data || null;
-    }
-    return null;
-  } catch (error) {
-    console.error("Failed to fetch task:", error);
-    return null;
-  }
+export async function getTaskById(id: number): Promise<ApiResponse<Task>> {
+  const url = `${BASE_URL}/${id}`;
+  return apiRequest<Task>(url, "get");
 }
 
-export async function getTasksByOwner(ownerId: number): Promise<Task[]> {
-  try {
-    const response = await api.get(`${BASE_URL}/owner/${ownerId}`);
-    if (response.data && response.data.success) {
-      return response.data.data || [];
-    }
-    return [];
-  } catch (error) {
-    console.error("Failed to fetch tasks by owner:", error);
-    return [];
-  }
+export async function getTasksByOwner(ownerId: number): Promise<ApiResponse<Task[]>> {
+  const url = `${BASE_URL}/${ownerId}`;
+  return apiRequest<Task[]>(url, "get", []);
 }

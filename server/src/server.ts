@@ -8,16 +8,11 @@ import vehicleRoutes from "./entity/vehicle/vehicle.routes";
 import taskRoutes from "./entity/task/task.route";
 import sparePartRoutes from "./entity/sparePart/sparePart.route";
 
-// Import des routes
-import motorcycleBrandRoutes from "./routes/motorcycleBrand.routes";
-import motorcycleModelRoutes from "./routes/motorcycleModel.routes";
-import registrationRoutes from "./routes/registration.routes";
 import ownerRoutes from "./owner/owner.routes";
-import invoiceRoutes from "./routes/invoice.routes";
-import laborRoutes from "./routes/labor.routes";
-import consumableRoutes from "./routes/consumable.routes";
-import rateConfigRoutes from "./routes/rateConfig.routes";
-import invoiceHeaderRoutes from "./invoiceHeaders/invoiceHeader.routes";
+import garageRoutes from "./entity/garage/garage.route";
+import invoiceRoutes from "./entity/invoice/invoice.routes";
+import brandRoutes from "./entity/brand/brand.routes";
+import modelRoutes from "./entity/model/model.routes";
 
 dotenv.config();
 
@@ -60,20 +55,24 @@ fastify.register(ownerRoutes, { prefix: "/api/owners" });
 fastify.register(vehicleRoutes, { prefix: "/api/vehicle" });
 fastify.register(taskRoutes, { prefix: "/api/task" });
 fastify.register(sparePartRoutes, { prefix: "/api/spare-part" });
+fastify.register(garageRoutes, { prefix: "/api/garage" });
+fastify.register(invoiceRoutes, { prefix: "/api/invoice" });
+fastify.register(brandRoutes, { prefix: "/api/brand" });
+fastify.register(modelRoutes, { prefix: "/api/model" });
 //--------------------------------------------------------------------------------------------------------------------------
 
-fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
-fastify.register(motorcycleModelRoutes, { prefix: "/api/motorcycle-models" });
-fastify.register(registrationRoutes, { prefix: "/api/registrations" });
-fastify.register(invoiceRoutes, { prefix: "/api/invoices" });
-fastify.register(laborRoutes, { prefix: "/api/labor" });
-fastify.register(consumableRoutes, { prefix: "/api/consumables" });
+// fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });
+// fastify.register(motorcycleModelRoutes, { prefix: "/api/motorcycle-models" });
+// fastify.register(registrationRoutes, { prefix: "/api/registrations" });
+// fastify.register(invoiceRoutes, { prefix: "/api/invoices" });
+// fastify.register(laborRoutes, { prefix: "/api/labor" });
+// fastify.register(consumableRoutes, { prefix: "/api/consumables" });
 
-// Add to routes registration
-fastify.register(rateConfigRoutes, { prefix: "/api/rate-config" });
+// // Add to routes registration
+// fastify.register(rateConfigRoutes, { prefix: "/api/rate-config" });
 
-// Add to routes  for invoice header
-fastify.register(invoiceHeaderRoutes, { prefix: "/api/invoice-headers" });
+// // Add to routes  for invoice header
+// fastify.register(invoiceHeaderRoutes, { prefix: "/api/invoice-headers" });
 
 // 404 handler
 fastify.setNotFoundHandler((request, reply) => {

@@ -70,6 +70,7 @@ export async function getVehicleByPlate(
     });
   }
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function createVehicle(
   fastify: FastifyInstance,
@@ -90,6 +91,7 @@ export async function createVehicle(
     });
   }
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function updateVehicle(
   fastify: FastifyInstance,

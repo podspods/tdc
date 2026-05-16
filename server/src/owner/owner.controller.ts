@@ -34,13 +34,13 @@ export async function getAllOwners(
   try {
     const pageStr = request.query.page ?? 0;
     const params: OwnerQueryParams = {
-      page: request.query.page ?? 0,
+      page: request.query.page ?? 1,
       limit: request.query.limit ?? 20,
       search: request.query.search,
       category: request.query.category as any,
       city: request.query.city,
-      minSpent: request.query.minSpent ?? 0,
-      maxSpent: request.query.maxSpent ?? 0,
+      minSpent: request.query.minSpent ?? undefined,
+      maxSpent: request.query.maxSpent ?? undefined,
 
       hasOutstandingInvoices: request.query.hasOutstandingInvoices ?? false,
     };

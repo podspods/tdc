@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { CreateSparePartDto, SparePart } from "./sparePart.types";
 import { SPARE_PART_DTO_INIT } from "../../common/constant";
 import { Button, FormGrid } from "../../common/common.styled";
-import FormGroup from "../UI/FormGroup";
+import FormGroup from "../UI.v0/FormGroup";
 import { useTranslation } from "react-i18next";
 
 export type FormProps = {

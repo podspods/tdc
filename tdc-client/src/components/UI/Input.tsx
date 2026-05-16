@@ -1,81 +1,62 @@
+// components/UI/FloatingLabelInput.tsx
+import React, { useState } from "react";
 import styled from "styled-components";
 
-export const Input = styled.input`
+const Wrapper = styled.div`
+  position: relative;
+  margin-top: 16px;
   width: 100%;
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fontSize.base};
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 16px 12px 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: transparent;
+
+  &:focus {
+    border-color: #2563eb;
+  }
+`;
+
+const StyledLabel = styled.label<{ $isFloating: boolean }>`
+  position: absolute;
+  left: 12px;
+  top: ${({ $isFloating }) => ($isFloating ? "-8px" : "50%")};
+  transform: translateY(${({ $isFloating }) => ($isFloating ? "0" : "-50%")});
+  background-color: ${({ $isFloating }) => ($isFloating ? "white" : "transparent")};
+  padding: 0 4px;
+  font-size: ${({ $isFloating }) => ($isFloating ? "12px" : "16px")};
+  color: ${({ $isFloating }) => ($isFloating ? "#2563eb" : "#666")};
   transition: all 0.2s ease;
-  min-height: 44px;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-
-  &:disabled {
-    background-color: ${({ theme }) => theme.colors.gray100};
-    cursor: not-allowed;
-  }
+  pointer-events: none;
 `;
 
-export const Label = styled.label`
-  display: block;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.gray700};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-`;
+type FloatingLabelInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  label: string;
+  width?: string; // par exemple "300px", "50%", "20rem"
+};
 
-export const FormGroup = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`;
+export function Input({ label, value, onChange, ...props }: FloatingLabelInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
+  const hasValue = !!value;
 
-export const Select = styled.select`
-  width: 100%;
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fontSize.base};
-  background-color: ${({ theme }) => theme.colors.white};
-  min-height: 44px;
+  const isFloating = isFocused || hasValue;
 
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-`;
-
-export const Textarea = styled.textarea`
-  width: 100%;
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fontSize.base};
-  resize: vertical;
-  min-height: 100px;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-`;
-
-export const Checkbox = styled.input.attrs({ type: "checkbox" })`
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-`;
-
-export const CheckboxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  cursor: pointer;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  color: ${({ theme }) => theme.colors.gray700};
-`;
+  return (
+    <Wrapper style={{ width: props.width || "100%" }}>
+      <StyledInput
+        value={value}
+        onChange={onChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        {...props}
+      />
+      <StyledLabel $isFloating={isFloating}>{label}</StyledLabel>
+    </Wrapper>
+  );
+}

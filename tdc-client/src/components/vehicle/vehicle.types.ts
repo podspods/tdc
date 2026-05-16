@@ -6,8 +6,8 @@ export type Vehicle = {
   plateNumber: string;
   vintage: number; // millsime
   mileage: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   createdBy: string;
 };
 
@@ -37,9 +37,27 @@ export type VehicleQueryParams = {
   status?: number;
 };
 
+export const vehicleQueryParamsInit: VehicleQueryParams = {
+  page: 1,
+  limit: 1,
+  search: "",
+  category: 1,
+  status: 1,
+};
+
 export type VehicleStats = {
   total: number;
   active: number;
   inactive: number;
   blocked: number;
+};
+
+export const createVehicleDtoInit: CreateVehicleDto = {
+  ownerId: 0,
+  modelId: 0,
+  color: "",
+  plateNumber: "",
+  vintage: new Date().getFullYear(),
+  mileage: 0,
+  createdBy: "init",
 };
