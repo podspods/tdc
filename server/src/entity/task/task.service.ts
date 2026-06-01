@@ -3,9 +3,9 @@ import { CreateTaskDto, UpdateTaskDto, TaskQueryParams } from "./task.types";
 import {
   createTask,
   deleteTask,
-  findAllTasks,
   findTaskByCode,
   findTaskById,
+  findAllTasks,
   updateTask,
 } from "./task.repository";
 

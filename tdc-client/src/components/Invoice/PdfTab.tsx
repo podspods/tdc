@@ -13,8 +13,7 @@ export default function PdfTab({ ...props }: PdfTabProps) {
   const { t } = useTranslation(["invoice"]);
   const subtotalBeforeDiscount = props.rowlist?.reduce((sum, item) => sum + item.unitPrice, 0) ?? 0;
 
-  const subtotalAfterDiscount =
-    props.rowlist?.reduce((sum, item) => sum + item.unitPrice * (1 - item.discountRate), 0) ?? 0;
+  const subtotalAfterDiscount = props.rowlist?.reduce((sum, item) => sum + item.amount, 0) ?? 0;
 
   return (
     <>
@@ -29,16 +28,14 @@ export default function PdfTab({ ...props }: PdfTabProps) {
         </View>
         {props.rowlist?.map.length &&
           props.rowlist?.map((item, linenumber) => (
-            <View key={item.lineId} style={styles.tableRow}>
+            <View key={item.id} style={styles.tableRow}>
               <Text style={styles.colId}>
                 {props.section}.{linenumber + 1}
               </Text>
               <Text style={styles.colDesc}>{item.description}</Text>
               <Text style={styles.colQty}>{formatCurrency(item.unitPrice)}</Text>
-              <Text style={styles.colDiscount}>{(item.discountRate * 100).toFixed(0)}%</Text>
-              <Text style={styles.colAmount}>
-                {formatCurrency(item.unitPrice * (1 - item.discountRate))}
-              </Text>
+              <Text style={styles.colDiscount}>{item.discountRate.toFixed(0)}%</Text>
+              <Text style={styles.colAmount}>{formatCurrency(item.amount)}</Text>
             </View>
           ))}
         <View style={styles.tableRow}>

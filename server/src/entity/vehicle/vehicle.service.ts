@@ -1,6 +1,11 @@
 import { FastifyInstance } from "fastify";
 import * as vehicleRepo from "./vehicle.repository";
-import { CreateVehicleDto, UpdateVehicleDto, VehicleQueryParams } from "./vehicle.types";
+import {
+  CreateVehicleDto,
+  UpdateVehicleDto,
+  VehicleInfo,
+  VehicleQueryParams,
+} from "./vehicle.types";
 
 export async function _getAllVehicles(fastify: FastifyInstance, params: VehicleQueryParams = {}) {
   const { data, total } = await vehicleRepo.findAllVehicles(fastify, params);
@@ -14,7 +19,29 @@ export async function _getAllVehicles(fastify: FastifyInstance, params: VehicleQ
     },
   };
 }
+//--------------------------------------------------------------------------------------------------------------------------
+export async function _getAllVehicleInfo(
+  fastify: FastifyInstance,
+  params: VehicleQueryParams = {},
+) {
+  const { data, total } = await vehicleRepo.findAllVehicleInfo(fastify, params);
+  return {
+    data,
+    pagination: {
+      page: params.page || 1,
+      limit: params.limit || 20,
+      total,
+      pages: Math.ceil(total / (params.limit || 20)),
+    },
+  };
+}
+//--------------------------------------------------------------------------------------------------------------------------
 
+export async function _getVehicleInfoById(fastify: FastifyInstance, id: number) {
+  const vehicle: VehicleInfo | null = await vehicleRepo.findVehicleInfoById(fastify, id);
+  if (!vehicle) throw new Error("Vehicle not found");
+  return vehicle;
+}
 export async function _getVehicleById(fastify: FastifyInstance, id: number) {
   const vehicle = await vehicleRepo.findVehicleById(fastify, id);
   if (!vehicle) throw new Error("Vehicle not found");

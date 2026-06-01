@@ -29,7 +29,6 @@ export async function findAllModels(
 ): Promise<{ data: Model[]; total: number }> {
   const { pg } = fastify;
   const { page = 1, limit = 20, brandId, isCurrent, search, minYear, maxYear } = params;
-  const offset = (page - 1) * limit;
 
   let whereClause = "";
   const values: any[] = [];
@@ -46,7 +45,7 @@ export async function findAllModels(
   }
   if (search) {
     whereClause += whereClause ? " AND" : " WHERE";
-    whereClause += ` m.model_name ILIKE $${idx}`;
+    whereClause += ` m.name ILIKE $${idx}`;
     values.push(`%${search}%`);
     idx++;
   }
@@ -66,30 +65,36 @@ export async function findAllModels(
     FROM model m
     ${whereClause}
   `;
-  const dataQuery = `
-    SELECT m.*, b.brand_name
+  const countResult = await pg.query(countQuery, values);
+  const total = parseInt(countResult.rows[0].count);
+
+  const dataQueryCommon = `
+    SELECT m.*
     FROM model m
     LEFT JOIN brand b ON m.brand_id = b.id
     ${whereClause}
-    ORDER BY b.brand_name, m.model_name
-    LIMIT $${idx} OFFSET $${idx + 1}
-  `;
+    ORDER BY b.name, m.name`;
 
-  const [countResult, dataResult] = await Promise.all([
-    pg.query(countQuery, values),
-    pg.query(dataQuery, [...values, limit, offset]),
-  ]);
+  const hasPagination = limit > 0;
+  const offset = hasPagination ? (page - 1) * limit : 0;
 
+  const offsetAndLimit = `LIMIT $${values.length + 1} OFFSET $${values.length + 1 + 1}`;
+
+  const dataQuery = hasPagination ? `${dataQueryCommon} ${offsetAndLimit}` : dataQueryCommon;
+  const queryParams = hasPagination ? [...values, limit, offset] : values;
+  const dataResult = await pg.query(dataQuery, queryParams);
   return {
     data: dataResult.rows.map(mapDbToModel),
     total: parseInt(countResult.rows[0].count),
   };
+
+  //--------------------------------------------------------------------------------------------------------------------------
 }
 
 export async function findModelById(fastify: FastifyInstance, id: number): Promise<Model | null> {
   const { pg } = fastify;
   const result = await pg.query(
-    `SELECT m.*, b.brand_name
+    `SELECT m.*, b.name
      FROM model m
      LEFT JOIN brand b ON m.brand_id = b.id
      WHERE m.id = $1`,
@@ -104,7 +109,7 @@ export async function findModelsByBrand(
 ): Promise<Model[]> {
   const { pg } = fastify;
   const result = await pg.query(
-    `SELECT m.*, b.brand_name
+    `SELECT m.*, b.name
      FROM model m
      LEFT JOIN brand b ON m.brand_id = b.id
      WHERE m.brand_id = $1

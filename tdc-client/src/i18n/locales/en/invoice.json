@@ -5,6 +5,7 @@
   "n°": "N°",
   "issuedOn": "Issued on",
   "taskDescription": "Task Description",
+  "description": "Description",
   "grossPrice": "Gross price",
   "qty": "Qty",
   "quantity": "Quantity",
@@ -14,9 +15,12 @@
   "servicesPerformed": "Services performed",
   "spareParts": "Spare Parts",
   "consumable": "Consumable",
+  "accessoriesSales": "Accessories Sales",
+  "others": "Miscellaneous items or other services",
+  "partsAndlabor": "Parts & labor",
+
   "summary": "Summary",
   "agreement": "Agreement",
-  "parts&labor": "Parts and Labor",
   "subtotal": "Subtotal",
   "grandTotal": "Grand total",
   "vat": "VAT",
@@ -56,5 +60,10 @@
   "selectVehicle": "Select vehicle",
   "notes": "Notes",
   "termsConditions": "Terms & Conditions",
+  "type": "Type",
+  "taskName": "Task Name",
+  "resetSubmit": "Reset Submit",
+  "existingInvoices": "Existing Invoices",
+
   "end": "end"
 }

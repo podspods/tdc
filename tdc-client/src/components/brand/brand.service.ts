@@ -1,9 +1,8 @@
 import { apiRequest } from "../../api/apirequest";
-import api from "../../api/client";
 import type { ApiResponse } from "../../common/commun.types";
 import type { CreateBrandDto, UpdateBrandDto, BrandQueryParams, Brand } from "./brand.types";
 
-const BASE_URL = "/brands";
+const BASE_URL = "/brand";
 
 export async function _getAllBrands(params?: BrandQueryParams): Promise<ApiResponse<Brand[]>> {
   const url = BASE_URL;

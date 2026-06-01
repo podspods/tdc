@@ -31,7 +31,6 @@ export type ToPdfProps = {
 
 export default function ToPdf({ ...props }: ToPdfProps) {
   const { t } = useTranslation(["invoice"]);
-  console.log("taskList", props.taskList);
   return (
     <Document>
       <Page size="A4" style={[styles.page]}>
@@ -39,9 +38,15 @@ export default function ToPdf({ ...props }: ToPdfProps) {
         <HeaderPage header={props.header} />
         <View style={[styles.content]}>
           <PdfHeader header={props.header} />
-          <PdfTab rowlist={props.taskList} title={t("servicesPerformed")} section={1} />
-          <PdfTab rowlist={props.sparePartList} title={t("spareParts")} section={2} />
-          <PdfTab rowlist={props.consumableList} title={t("consumable")} section={3} />
+          {props.taskList.length && (
+            <PdfTab rowlist={props.taskList} title={t("servicesPerformed")} section={1} />
+          )}
+          {props.sparePartList.length && (
+            <PdfTab rowlist={props.sparePartList} title={t("spareParts")} section={2} />
+          )}
+          {props.consumableList.length && (
+            <PdfTab rowlist={props.consumableList} title={t("consumable")} section={3} />
+          )}
           <PdfSummary
             taskList={props.taskList}
             sparePartList={props.sparePartList}

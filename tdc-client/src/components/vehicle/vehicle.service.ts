@@ -4,6 +4,7 @@ import type {
   CreateVehicleDto,
   UpdateVehicleDto,
   Vehicle,
+  VehicleInfo,
   VehicleQueryParams,
   VehicleStats,
 } from "./vehicle.types";
@@ -41,6 +42,12 @@ export async function _vehicleStats(): Promise<ApiResponse<VehicleStats>> {
 export async function _getVehicleById(id: number): Promise<ApiResponse<Vehicle>> {
   const url = `${BASE_URL}/${id}`;
   return apiRequest<Vehicle>(url, "get");
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+export async function _getVehicleInfoById(id: number): Promise<ApiResponse<VehicleInfo>> {
+  const url = `${BASE_URL}/info/${id}`;
+  return apiRequest<VehicleInfo>(url, "get");
 }
 //--------------------------------------------------------------------------------------------------------------------------
 

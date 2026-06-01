@@ -5,12 +5,11 @@ export type Model = CreateModelDto & {
 };
 
 export type CreateModelDto = UpdateModelDto & {
-  brandId: number;
-  name: string;
   createdBy: string;
 };
 
 export type UpdateModelDto = {
+  brandId: number;
   name: string;
   yearStart?: number;
   yearEnd?: number | null;

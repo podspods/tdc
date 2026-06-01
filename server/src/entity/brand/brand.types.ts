@@ -9,7 +9,8 @@ export type CreateBrandDto = UpdateBrandDto & {
 
 export type UpdateBrandDto = {
   name: string;
-  countryOfOrigin?: string;
+  code: string;
+  countryOfOrigin: string;
 };
 
 export type BrandQueryParams = {

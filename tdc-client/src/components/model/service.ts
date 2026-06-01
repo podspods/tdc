@@ -1,9 +1,8 @@
 import type { ApiResponse } from "../../common/commun.types";
-import api from "../../api/client";
-import type { CreateModelDto, UpdateModelDto, ModelQueryParams, Model } from "./model.types";
+import type { CreateModelDto, UpdateModelDto, ModelQueryParams, Model } from "./types";
 import { apiRequest } from "../../api/apirequest";
 
-const BASE_URL = "/models";
+const BASE_URL = "/model";
 
 export async function _getAllModels(params?: ModelQueryParams): Promise<ApiResponse<Model[]>> {
   const url = BASE_URL;

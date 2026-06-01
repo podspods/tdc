@@ -10,7 +10,12 @@ import {
   UpdateInvoiceDto,
   UpdateInvoiceLineDto,
 } from "./invoice.types";
-import { createInvoice, createInvoiceLine, findInvoiceById } from "./invoice.repository";
+import {
+  createInvoice,
+  createInvoiceLine,
+  findInvoiceById,
+  updateInvoice,
+} from "./invoice.repository";
 
 export default async function invoiceRoutes(fastify: FastifyInstance) {
   // Invoice endpoints
@@ -39,18 +44,41 @@ export default async function invoiceRoutes(fastify: FastifyInstance) {
   //--------------------------------------------------------------------------------------------------------------------------
 
   fastify.post<{ Body: CreateFullInvoiceDto }>("/full", async (request, reply) => {
-    const { garageId, vehicleId, issueDate, dueDate, statusCode, notes, createdBy, lines } =
-      request.body;
+    const {
+      garageId,
+      vehicleId,
+      invoiceNumber,
+      issueDate,
+      dueDate,
+      statusCode,
+      notes,
+      createdBy,
+      lines,
+    } = request.body;
     // 1. Créer l’en-tête
     const invoice = await createInvoice(fastify, {
       garageId,
       vehicleId,
+      invoiceNumber,
       issueDate,
       dueDate,
       statusCode,
       notes,
       createdBy,
     });
+    const invoiceNumberchrono = invoice.id.toString().padStart(4, "0");
+    const newInvoiceNumber = invoice.invoiceNumber + invoiceNumberchrono;
+    const invoiceToUpdate: UpdateInvoiceDto = {
+      invoiceNumber: newInvoiceNumber,
+      garageId: invoice.garageId,
+      vehicleId: invoice.vehicleId,
+      issueDate: invoice.issueDate,
+      dueDate: invoice.dueDate,
+      statusCode: invoice.statusCode,
+      notes: invoice.notes,
+    };
+    updateInvoice(fastify, invoice.id, invoiceToUpdate);
+
     // 2. Ajouter les lignes
     for (const line of lines) {
       await createInvoiceLine(fastify, {
@@ -62,6 +90,7 @@ export default async function invoiceRoutes(fastify: FastifyInstance) {
         discountRate: line.discountRate,
       });
     }
+
     // 3. Recharger la facture avec ses lignes
     const fullInvoice = await findInvoiceById(fastify, invoice.id);
     return reply.send({ success: true, data: fullInvoice });

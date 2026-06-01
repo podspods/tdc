@@ -8,7 +8,8 @@ export type CreateBrandDto = UpdateBrandDto & {
 };
 
 export type UpdateBrandDto = {
-  brandName: string;
+  name: string;
+  code: string;
   countryOfOrigin?: string;
 };
 

@@ -25,7 +25,7 @@ export async function _getAllInvoices(fastify: FastifyInstance, params: InvoiceQ
 export async function _getInvoiceById(fastify: FastifyInstance, id: number) {
   const invoice = await invoiceRepo.findInvoiceById(fastify, id);
   if (!invoice) throw new Error("Invoice not found");
-  const lines = await invoiceRepo.findLinesByInvoiceId(fastify, id);
+  const lines = await invoiceRepo.findInvoiceLineByInvoiceId(fastify, id);
   return { ...invoice, lines };
 }
 
@@ -80,7 +80,7 @@ export async function _deleteInvoiceLine(fastify: FastifyInstance, lineId: numbe
 }
 
 export async function _getInvoiceLines(fastify: FastifyInstance, invoiceId: number) {
-  const invoice = await invoiceRepo.findInvoiceById(fastify, invoiceId);
+  const invoice = await invoiceRepo.findInvoiceLineByInvoiceId(fastify, invoiceId);
   if (!invoice) throw new Error("Invoice not found");
-  return await invoiceRepo.findLinesByInvoiceId(fastify, invoiceId);
+  return await invoiceRepo.findInvoiceLineByInvoiceId(fastify, invoiceId);
 }

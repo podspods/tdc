@@ -12,3 +12,5 @@ export type ApiResponse<T = any> = {
     pages: number;
   };
 };
+
+export type OptionValue = { value: string; label: string };

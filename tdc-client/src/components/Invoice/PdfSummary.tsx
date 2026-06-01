@@ -33,11 +33,17 @@ export default function PdfSummary({ ...props }: PdfSummaryProps) {
   );
 
   const subtotalTaskDiscount =
-    props.taskList?.reduce((sum, item) => sum + item.unitPrice * item.discountRate, 0) ?? 0;
+    props.taskList?.reduce((sum, item) => sum + (item.unitPrice * item.discountRate) / 100, 0) ?? 0;
   const subtotalSparePartDiscount =
-    props.sparePartList?.reduce((sum, item) => sum + item.unitPrice * item.discountRate, 0) ?? 0;
+    props.sparePartList?.reduce(
+      (sum, item) => sum + (item.unitPrice * item.discountRate) / 100,
+      0,
+    ) ?? 0;
   const subtotalConsumableDiscount =
-    props.consumableList?.reduce((sum, item) => sum + item.unitPrice * item.discountRate, 0) ?? 0;
+    props.consumableList?.reduce(
+      (sum, item) => sum + (item.unitPrice * item.discountRate) / 100,
+      0,
+    ) ?? 0;
   const discountRate = buildSumString(
     subtotalTaskDiscount,
     subtotalSparePartDiscount,
@@ -84,38 +90,50 @@ export default function PdfSummary({ ...props }: PdfSummaryProps) {
         </View>
         <View style={styles.tableRow}>
           <Text style={styles.colDesc}>{t("vat")}</Text>
-          <Text style={styles.colAmount}>{(props.taxRate * 100).toFixed(0)}%</Text>
+          <Text style={styles.colAmount}>{props.taxRate ? props.taxRate.toFixed(0) : 0}%</Text>
           <Text style={styles.colAmount}>
-            {formatCurrency(
-              (subtotalTaskBeforeDiscount +
-                subtotalSparePartBeforeDiscount +
-                subtotalConsumableBeforeDiscount -
-                subtotalTaskDiscount -
-                subtotalSparePartDiscount -
-                subtotalConsumableDiscount) *
-                props.taxRate,
-            )}
+            {props.taxRate
+              ? formatCurrency(
+                  ((subtotalTaskBeforeDiscount +
+                    subtotalSparePartBeforeDiscount +
+                    subtotalConsumableBeforeDiscount -
+                    subtotalTaskDiscount -
+                    subtotalSparePartDiscount -
+                    subtotalConsumableDiscount) *
+                    props.taxRate) /
+                    100,
+                )
+              : 0}
           </Text>
         </View>
         <View style={styles.tableTotalRow}>
           <Text style={styles.colDesc}>{t("grandTotal")}</Text>
           <Text style={styles.colAmount}></Text>
           <Text style={styles.colTotal}>
-            {formatCurrency(
-              subtotalTaskBeforeDiscount +
-                subtotalSparePartBeforeDiscount +
-                subtotalConsumableBeforeDiscount -
-                subtotalTaskDiscount -
-                subtotalSparePartDiscount -
-                subtotalConsumableDiscount +
-                (subtotalTaskBeforeDiscount +
-                  subtotalSparePartBeforeDiscount +
-                  subtotalConsumableBeforeDiscount -
-                  subtotalTaskDiscount -
-                  subtotalSparePartDiscount -
-                  subtotalConsumableDiscount) *
-                  props.taxRate,
-            )}
+            {props.taxRate
+              ? formatCurrency(
+                  subtotalTaskBeforeDiscount +
+                    subtotalSparePartBeforeDiscount +
+                    subtotalConsumableBeforeDiscount -
+                    subtotalTaskDiscount -
+                    subtotalSparePartDiscount -
+                    subtotalConsumableDiscount +
+                    (subtotalTaskBeforeDiscount +
+                      subtotalSparePartBeforeDiscount +
+                      subtotalConsumableBeforeDiscount -
+                      subtotalTaskDiscount -
+                      subtotalSparePartDiscount -
+                      subtotalConsumableDiscount) *
+                      (props.taxRate / 100),
+                )
+              : formatCurrency(
+                  subtotalTaskBeforeDiscount +
+                    subtotalSparePartBeforeDiscount +
+                    subtotalConsumableBeforeDiscount -
+                    subtotalTaskDiscount -
+                    subtotalSparePartDiscount -
+                    subtotalConsumableDiscount,
+                )}
           </Text>
         </View>
       </View>

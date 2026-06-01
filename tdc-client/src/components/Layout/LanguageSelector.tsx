@@ -2,28 +2,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { supportedLanguages } from "../../i18n";
+import { Button } from "../../common/common.styled";
 
 const Container = styled.div`
   position: relative;
   display: inline-block;
-`;
-
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primaryDark};
-  }
 `;
 
 const Dropdown = styled.div`
@@ -50,10 +33,10 @@ const DropdownItem = styled.button<{ $active: boolean }>`
   cursor: pointer;
   font-size: 14px;
   text-align: left;
-  background-color: ${({ $active, theme }) => ($active ? theme.colors.gray100 : "transparent")};
+  background-color: ${({ $active, theme }) => ($active ? theme.colors.background : "transparent")};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.gray50};
+    background-color: ${({ theme }) => theme.colors.backgroundHover};
   }
 `;
 
@@ -77,8 +60,8 @@ export function LanguageSelector() {
     <Container>
       <Button onClick={() => setIsOpen(!isOpen)}>
         <Flag>{currentLanguage.flag}</Flag>
-        <span>{currentLanguage.name}</span>
-        <span>▼</span>
+        {/* <span>{currentLanguage.name}</span> */}
+        <span> ▼</span>
       </Button>
 
       {isOpen && (

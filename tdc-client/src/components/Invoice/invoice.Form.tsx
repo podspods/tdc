@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { _getAllOwners, _createOwner } from "../owner/owner.service";
+import { _getAllOwners, _createOwner } from "../owner/service";
 
-import { Button, Input, Select, Table, Th, Td, Thead, Tbody, Tr } from "../../common/common.styled";
-import { createOwnerDtoInit, type CreateOwnerDto, type Owner } from "../owner/owner.types";
+import { Button, Table, Th, Td, Thead, Tbody, Tr } from "../../common/common.styled";
+import type { CreateOwnerDto, Owner } from "../owner/owner.types";
 import {
   createVehicleDtoInit,
   type CreateVehicleDto,
@@ -14,48 +14,64 @@ import { useTranslation } from "react-i18next";
 import NewVehicle from "../vehicle/NewVehicle";
 import SelectOwner from "../owner/SelectOwner";
 import SelectVehicle from "../vehicle/SelectVehicle";
-import type { InvoiceFormLine } from "./invoice.types";
+import type { FullInvoicePayload, Invoice, InvoiceFormLine } from "./invoice.types";
+import { _createFullInvoice } from "./invoice.service";
+import { generateTempInvoiceNumber } from "./invoice.helper";
+import {
+  dateInit,
+  invoiceFormLineInit,
+  ownerInit,
+  saleTypeSubjectCode,
+} from "../../common/constant";
+import { Select } from "../UI/Select";
+import type { OptionValue } from "../../common/commun.types";
+import { _getAllCorrespondances } from "../correspondance/service";
+import type { Correspondance } from "../correspondance/types";
+import { Input } from "../UI/Input";
+import { Textarea } from "../UI/Textarea";
+import toast from "react-hot-toast";
+import Modal from "../owner/Modal";
 
 type InvoiceFormProps = {
   garageId: number;
   createdBy: string;
   onSuccess: () => void;
+  currentInvoice: Invoice;
 };
 
-export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps) {
+export function InvoiceForm({ ...props }: InvoiceFormProps) {
   const { t } = useTranslation(["invoice"]);
 
-  const [owners, setOwners] = useState<Owner[]>([]);
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [ownerList, setOwnerList] = useState<Owner[]>([]);
+  const [vehicleList, setVehicleList] = useState<Vehicle[]>([]);
+  const [correspondanceList, setCorrespondanceList] = useState<Correspondance[]>([]);
   const [selectedOwnerId, setSelectedOwnerId] = useState<number>(0);
   const [selectedVehicleId, setSelectedVehicleId] = useState<number>(0);
-  const [ownerForm, setOwnerForm] = useState<CreateOwnerDto>(createOwnerDtoInit);
+  const [currentOwner, setCurrentOwner] = useState<Owner>(ownerInit);
   const [vehicleForm, setVehicleForm] = useState<CreateVehicleDto>(createVehicleDtoInit);
-  const [showNewOwner, setShowNewOwner] = useState(false);
-  const [showNewVehicle, setShowNewVehicle] = useState(false);
-  const [lines, setLines] = useState<InvoiceFormLine[]>([
-    {
-      tempId: Date.now(),
-      lineTypeCode: 1,
-      description: "",
-      quantity: 1,
-      unitPrice: 0,
-      discountRate: 0,
-      amount: 0,
-    },
-  ]);
-  const [dueDate, setDueDate] = useState("");
-  const [notes, setNotes] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [showNewOwner, setShowNewOwner] = useState<boolean>(false);
+  const [updateOwner, setUpdateOwner] = useState<boolean>(false);
+  const [showNewVehicle, setShowNewVehicle] = useState<boolean>(false);
+  const [lines, setLines] = useState<InvoiceFormLine[]>([invoiceFormLineInit]);
+  const [dueDate, setDueDate] = useState<Date>(dateInit);
+  const [notes, setNotes] = useState<string>("");
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
-    // Charger les listes existantes
-    _getAllOwners().then((res) => res.success && setOwners(res.data || []));
-    _vehicleList().then((res) => res.success && setVehicles(res.data || []));
+    // Load existing list
+    _getAllOwners().then((res) => res.success && setOwnerList(res.data || []));
+    _vehicleList().then((res) => res.success && setVehicleList(res.data || []));
+    _getAllCorrespondances({ limit: 0 }).then(
+      (res) => res.success && setCorrespondanceList(res.data || []),
+    );
   }, []);
 
-  // Filtrer les véhicules appartenant au propriétaire sélectionné
-  const filteredVehicles = vehicles.filter((v) => v.ownerId === selectedOwnerId);
+  // Filter owner's vehicle
+  const filteredVehicles = vehicleList.filter((v) => v.ownerId === selectedOwnerId);
+  const saleType: OptionValue[] =
+    correspondanceList
+      .filter((v) => v.subjectCode === saleTypeSubjectCode)
+      .map((saleType) => ({ value: saleType.code.toString(), label: saleType.valueStr })) || [];
 
   const updateLineAmount = (index: number) => {
     const line = lines[index];
@@ -83,56 +99,51 @@ export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps
   //--------------------------------------------------------------------------------------------------------------------------
 
   const addLine = () => {
-    setLines([
-      ...lines,
-      {
-        tempId: Date.now(),
-        lineTypeCode: 1,
-        description: "",
-        quantity: 1,
-        unitPrice: 0,
-        discountRate: 0,
-        amount: 0,
-      },
-    ]);
+    setLines([...lines, invoiceFormLineInit]);
   };
 
   const removeLine = (index: number) => {
     setLines(lines.filter((_, i) => i !== index));
   };
 
-  const handleCreateOwner = async () => {
-    const response = await _createOwner({ ...ownerForm, createdBy });
+  // const handleCreateOwner = async () => {
+  //   const response = await _createOwner({ ...ownerForm, createdBy });
 
-    console.log("_createOwner", response);
-    if (response.success && response.data) {
-      setOwners([...owners, response.data]);
-      setSelectedOwnerId(response.data.id);
-      setShowNewOwner(false);
-      setOwnerForm(createOwnerDtoInit);
-    }
-  };
+  //   console.log("_createOwner", response);
+  //   if (response.success && response.data) {
+  //     setOwnerList([...ownerList, response.data]);
+  //     setSelectedOwnerId(response.data.id);
+  //     setShowNewOwner(false);
+  //     setOwnerForm(createOwnerDtoInit);
+  //   }
+  // };
 
   const handleCreateVehicle = async () => {
-    const res = await _createVehicle({ ...vehicleForm, ownerId: selectedOwnerId, createdBy });
+    console.log("handleCreateVehicle", vehicleForm);
+    const res = await _createVehicle({ ...vehicleForm, createdBy, ownerId: selectedOwnerId });
     if (res.success && res.data) {
-      setVehicles([...vehicles, res.data]);
+      setVehicleList([...vehicleList, res.data]);
       setSelectedVehicleId(res.data.id);
       setShowNewVehicle(false);
       setVehicleForm(createVehicleDtoInit);
     }
   };
 
+  const resetSubit = () => {
+    setSubmitting(false);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+
   const handleSubmit = async () => {
     if (!selectedOwnerId || !selectedVehicleId || !dueDate) {
-      alert("Please select owner, vehicle and due date");
+      toast.error("Please select owner, vehicle and due date");
       return;
     }
     const payload: FullInvoicePayload = {
+      invoiceNumber: generateTempInvoiceNumber(garageId, selectedOwnerId, selectedVehicleId),
       garageId,
-      ownerId: selectedOwnerId,
       vehicleId: selectedVehicleId,
-      issueDate: new Date().toISOString().split("T")[0],
+      issueDate: new Date(),
       dueDate,
       statusCode: 2, // pending
       notes,
@@ -140,66 +151,82 @@ export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps
       lines: lines.map(({ tempId, amount, ...rest }) => rest),
     };
     setSubmitting(true);
-    const res = await _createFullInvoice(payload);
-    if (res.success) {
-      alert("Invoice created successfully");
+    const response = await _createFullInvoice(payload);
+    console.log("response", response);
+    if (response.success) {
+      toast.success("Invoice created successfully");
+
       onSuccess();
     } else {
-      alert("Error: " + res.error);
+      toast.error("Error: " + response.error);
     }
     setSubmitting(false);
   };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleOnClose = () => {
+    setShowNewOwner(false);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleOnSuccess = () => {
+    setShowNewOwner(false);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const updateCurentUser = () => {
+    setUpdateOwner(true);
+    setShowNewOwner(true);
 
-  const lineTypeOptions = [
-    { value: 1, label: "Task" },
-    { value: 2, label: "Spare part" },
-    { value: 3, label: "Consumable" },
-  ];
-
+    console.log("", currentOwner);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: 20 }}>
       <h2>{t("createInvoice")}</h2>
-
+      {/* <GarageBadge id={props.currentInvoice.garageId} /> */}
+      {/* <VehicleSection /> */}
       {/* Owner selection */}
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <SelectOwner
           selectedOwnerId={selectedOwnerId}
           setSelectedOwnerId={setSelectedOwnerId}
-          ownerList={owners}
+          ownerList={ownerList}
         />
 
         <Button variant="secondary" onClick={() => setShowNewOwner(!showNewOwner)}>
-          {showNewOwner ? "Cancel" : "+ New Owner"}
+          {showNewOwner ? t("cancel") : "➕ 👨‍💼"}
+        </Button>
+        <Button variant="secondary" onClick={updateCurentUser}>
+          update user
         </Button>
         {showNewOwner && (
-          <NewOwner
-            owner={ownerForm}
-            setOwner={setOwnerForm}
-            handleCreateOwner={handleCreateOwner}
+          <Modal
+            owner={updateOwner ? currentOwner : ownerInit}
+            setCurrentOwner={setCurrentOwner}
+            onClose={handleOnClose}
+            onSuccess={handleOnSuccess}
+            isOpen={showNewOwner}
           />
         )}
-      </div>
-
-      {/* Vehicle selection */}
-      {selectedOwnerId !== 0 && (
-        <div style={{ marginBottom: 20 }}>
-          <SelectVehicle
-            selectedVehicleId={selectedVehicleId}
-            setSelectedVehicleId={setSelectedVehicleId}
-            filteredVehicles={filteredVehicles}
-          />
-          <Button variant="secondary" onClick={() => setShowNewVehicle(!showNewVehicle)}>
-            {showNewVehicle ? "Cancel" : "+ New Vehicle"}
-          </Button>
-          {showNewVehicle && (
-            <NewVehicle
-              vehicleForm={vehicleForm}
-              setVehicleForm={setVehicleForm}
-              handleCreate={handleCreateVehicle}
+        {/* Vehicle selection */}
+        {selectedOwnerId !== 0 && (
+          <div style={{ marginBottom: 20 }}>
+            <SelectVehicle
+              selectedVehicleId={selectedVehicleId}
+              setSelectedVehicleId={setSelectedVehicleId}
+              filteredVehicles={filteredVehicles}
             />
-          )}
-        </div>
-      )}
+            <Button variant="secondary" onClick={() => setShowNewVehicle(!showNewVehicle)}>
+              {showNewVehicle ? t("cancel") : "➕ 🏍"}
+            </Button>
+            {showNewVehicle && (
+              <NewVehicle
+                vehicleForm={vehicleForm}
+                setVehicleForm={setVehicleForm}
+                handleCreate={handleCreateVehicle}
+              />
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Invoice lines */}
       {selectedVehicleId !== 0 && (
@@ -207,54 +234,61 @@ export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps
           <Table>
             <Thead>
               <Tr>
-                <Th>Type</Th>
-                <Th>Description</Th>
-                <Th>Quantity</Th>
-                <Th>Unit Price</Th>
-                <Th>Discount (%)</Th>
-                <Th>Amount</Th>
+                <Th>{t("type")}</Th>
+                <Th>{t("description")}</Th>
+                <Th>{t("quantity")}</Th>
+                <Th>{t("unitPrice")}</Th>
+                <Th>{t("discount")}</Th>
+                <Th>{t("amount")}</Th>
+
                 <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
               {lines.map((line, idx) => (
-                <Tr key={line.tempId}>
-                  <Td>
+                <Tr key={line.tempId} style={{ verticalAlign: "middle", border: "1px solid red" }}>
+                  <Td style={{ verticalAlign: "middle" }}>
                     <Select
+                      style={{ width: "8rem" }}
+                      label={t("type")}
                       value={line.lineTypeCode}
                       onChange={(e) =>
                         handleLineChange(idx, "lineTypeCode", Number(e.target.value))
                       }
-                    >
-                      {lineTypeOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </Select>
+                      options={saleType}
+                    />
                   </Td>
-                  <Td>
+                  <Td style={{ verticalAlign: "middle" }}>
                     <Input
+                      name="description"
+                      label={t("description")}
                       value={line.description}
                       onChange={(e) => handleLineChange(idx, "description", e.target.value)}
                     />
                   </Td>
-                  <Td>
+                  <Td style={{ verticalAlign: "middle" }}>
                     <Input
+                      name="quantity"
+                      label={t("quantity")}
                       type="number"
                       value={line.quantity}
                       onChange={(e) => handleLineChange(idx, "quantity", Number(e.target.value))}
+                      min={1}
                     />
                   </Td>
-                  <Td>
+                  <Td style={{ verticalAlign: "middle" }}>
                     <Input
+                      name="unitPrice"
+                      label={t("unitPrice")}
                       type="number"
                       value={line.unitPrice}
                       onChange={(e) => handleLineChange(idx, "unitPrice", Number(e.target.value))}
                     />
                   </Td>
-                  <Td>
+                  <Td style={{ verticalAlign: "middle" }}>
                     <Input
+                      name="discount"
+                      label={t("discount")}
                       type="number"
                       value={line.discountRate}
                       onChange={(e) =>
@@ -262,10 +296,23 @@ export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps
                       }
                     />
                   </Td>
-                  <Td>{line.amount.toLocaleString()} VND</Td>
-                  <Td>
-                    <Button variant="danger" onClick={() => removeLine(idx)}>
-                      ✕
+                  <Td style={{ verticalAlign: "middle" }}>
+                    <Input
+                      name="amount"
+                      label={t("amount")}
+                      value={line.amount}
+                      disabled
+                      style={{ border: "1px solid blue" }}
+                    />
+                  </Td>
+
+                  <Td style={{ verticalAlign: "middle" }}>
+                    <Button
+                      variant="danger"
+                      onClick={() => removeLine(idx)}
+                      style={{ border: "1px solid blue", marginTop: "1rem" }}
+                    >
+                      ❌
                     </Button>
                   </Td>
                 </Tr>
@@ -277,10 +324,16 @@ export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps
           </Button>
 
           <div style={{ marginTop: 20 }}>
-            <label>Due date</label>
-            <Input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
-            <label>Notes</label>
-            <textarea
+            <Input
+              type="date"
+              name="dueDate"
+              label={t("dueDate")}
+              value={dueDate.toString()}
+              onChange={(e) => setDueDate(new Date(e.target.value))}
+            />
+            <Textarea
+              label={t("notes")}
+              name="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
@@ -290,7 +343,10 @@ export function InvoiceForm({ garageId, createdBy, onSuccess }: InvoiceFormProps
 
           <div style={{ marginTop: 20, textAlign: "right" }}>
             <Button variant="primary" onClick={handleSubmit} disabled={submitting}>
-              {submitting ? "Creating..." : "Create Invoice"}
+              {submitting ? t("creating") : t("createInvoice")}
+            </Button>
+            <Button variant="secondary" onClick={resetSubit}>
+              {t("resetSubmit")}
             </Button>
           </div>
         </>

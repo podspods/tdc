@@ -1,6 +1,7 @@
 // components/UI/FloatingLabelSelect.tsx
 import React, { useState } from "react";
 import styled from "styled-components";
+import type { OptionValue } from "../../common/commun.types";
 
 const Wrapper = styled.div`
   position: relative;
@@ -37,34 +38,33 @@ const StyledLabel = styled.label<{ $isFloating: boolean }>`
   pointer-events: none;
 `;
 
-type FloatingLabelSelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   label: string;
-  options: { value: string; label: string }[];
+  options: OptionValue[];
+  width?: string;
+  placeholder?: string;
 };
 
-export function Select({ label, value, onChange, options, ...props }: FloatingLabelSelectProps) {
+export function Select({ ...props }: SelectProps) {
   const [isFocused, setIsFocused] = useState(false);
-  const hasValue = value !== undefined && value !== "";
+  // const hasValue = value !== undefined && value !== "";
+  // const isFloating = isFocused || hasValue;
 
-  const isFloating = isFocused || hasValue;
+  const isFloating = true;
+
+  //--------------------------------------------------------------------------------------------------------------------------
 
   return (
-    <Wrapper>
-      <StyledSelect
-        value={value}
-        onChange={onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        {...props}
-      >
-        <option value="" disabled />
-        {options.map((opt) => (
+    <Wrapper style={{ width: props.width || "100%" }}>
+      <StyledSelect value={props.value} {...props}>
+        <option>{props.placeholder ? props.placeholder : ".."}</option>
+        {props.options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}
           </option>
         ))}
       </StyledSelect>
-      <StyledLabel $isFloating={isFloating}>{label}</StyledLabel>
+      <StyledLabel $isFloating={isFloating}>{props.label}</StyledLabel>
     </Wrapper>
   );
 }

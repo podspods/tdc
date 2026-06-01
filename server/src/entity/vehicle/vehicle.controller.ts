@@ -2,12 +2,19 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import {
   _createVehicle,
   _deleteVehicle,
+  _getAllVehicleInfo,
   _getAllVehicles,
   _getVehicleById,
   _getVehicleByPlate,
+  _getVehicleInfoById,
   _updateVehicle,
 } from "./vehicle.service";
-import { CreateVehicleDto, UpdateVehicleDto, VehicleQueryParams } from "./vehicle.types";
+import {
+  CreateVehicleDto,
+  UpdateVehicleDto,
+  VehicleInfo,
+  VehicleQueryParams,
+} from "./vehicle.types";
 
 type IdParams = { id: string };
 type PlateParams = { plate: string };
@@ -35,6 +42,51 @@ export async function getAllVehicles(
     });
   }
 }
+//--------------------------------------------------------------------------------------------------------------------------
+
+export async function getAllVehicleInfo(
+  fastify: FastifyInstance,
+  request: FastifyRequest<{ Querystring: GetAllQuery }>,
+  reply: FastifyReply,
+) {
+  try {
+    const params: VehicleQueryParams = {
+      page: request.query.page ?? 1,
+      limit: request.query.limit ?? 20,
+      ownerId: request.query.ownerId,
+      modelId: request.query.modelId,
+      search: request.query.search,
+    };
+    const result = await _getAllVehicleInfo(fastify, params);
+    reply.send({ success: true, data: result.data, pagination: result.pagination });
+  } catch (error) {
+    reply.status(500).send({
+      success: false,
+      error: error instanceof Error ? error.message : "Internal server error",
+    });
+  }
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+export async function getVehicleInfoById(
+  fastify: FastifyInstance,
+  request: FastifyRequest<{ Params: IdParams }>,
+  reply: FastifyReply,
+) {
+  try {
+    const id = parseInt(request.params.id);
+    const vehicle: VehicleInfo = await _getVehicleInfoById(fastify, id);
+    console.log("_getVehicleInfoById(---------------------------", vehicle);
+    reply.send({ success: true, data: vehicle });
+  } catch (error) {
+    const status = error instanceof Error && error.message === "Vehicle not found" ? 404 : 500;
+    reply.status(status).send({
+      success: false,
+      error: error instanceof Error ? error.message : "Internal server error",
+    });
+  }
+}
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function getVehicleById(
   fastify: FastifyInstance,
@@ -53,6 +105,7 @@ export async function getVehicleById(
     });
   }
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function getVehicleByPlate(
   fastify: FastifyInstance,

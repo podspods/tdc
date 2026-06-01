@@ -23,6 +23,7 @@ export default function Form({ ...props }: FormProps) {
   }, [props.initialData]);
   function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
+    console.log("handleSubmit vehicule.form", formData);
     props.onSubmit(formData);
   }
 

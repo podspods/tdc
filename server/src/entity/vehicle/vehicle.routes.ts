@@ -2,9 +2,11 @@ import { FastifyInstance } from "fastify";
 import {
   createVehicle,
   deleteVehicle,
+  getAllVehicleInfo,
   getAllVehicles,
   getVehicleById,
   getVehicleByPlate,
+  getVehicleInfoById,
   updateVehicle,
 } from "./vehicle.controller";
 import { CreateVehicleDto, VehicleQueryParams } from "./vehicle.types";
@@ -14,12 +16,21 @@ export default async function vehicleRoutes(fastify: FastifyInstance) {
   fastify.get<{ Querystring: VehicleQueryParams }>("/", (request, response) =>
     getAllVehicles(fastify, request, response),
   );
+
   fastify.get<{ Params: { plate: string } }>("/plate/:plate", (request, response) =>
     getVehicleByPlate(fastify, request, response),
   );
   fastify.get<{ Params: { id: string } }>("/:id", (request, response) =>
     getVehicleById(fastify, request, response),
   );
+  fastify.get<{ Querystring: VehicleQueryParams }>("/info", (request, response) =>
+    getAllVehicleInfo(fastify, request, response),
+  );
+
+  fastify.get<{ Params: { id: string } }>("/info/:id", (request, response) =>
+    getVehicleInfoById(fastify, request, response),
+  );
+
   fastify.post<{ Body: CreateVehicleDto }>("/", (request, response) =>
     createVehicle(fastify, request, response),
   );

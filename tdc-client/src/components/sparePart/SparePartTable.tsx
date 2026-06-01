@@ -1,8 +1,8 @@
 // client/src/components/SparePart/SparePartTable.tsx
 import type { SparePart } from "./sparePart.types";
-import { Table, Th, Td } from "../../common/common.styled"; // adjust import according to your styled components location
+import { Table, Th, Td, Tr } from "../../common/common.styled"; // adjust import according to your styled components location
 import { ActionIcon, Actions } from "./Badge.styled";
-import { Tr } from "./SparePartRow.styled";
+import { useTranslation } from "react-i18next";
 
 type SparePartTableProps = {
   data: SparePart[];
@@ -34,15 +34,17 @@ const formatCurrency = (amount: number): string => {
 };
 
 export function SparePartTable({ data, onEdit, onDelete }: SparePartTableProps) {
+  const { t } = useTranslation(["sparePart"]);
+
   return (
     <Table>
       <thead>
         <tr>
-          <Th>Code</Th>
-          <Th>Name</Th>
-          <Th>Description</Th>
-          <Th>Selling Price</Th>
-          <Th>Actions</Th>
+          <Th>{t("code")}</Th>
+          <Th>{t("name")}</Th>
+          <Th>{t("description")}</Th>
+          <Th>{t("sellingPrice")}</Th>
+          <Th>{t("action")}</Th>
         </tr>
       </thead>
       <tbody>

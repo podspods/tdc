@@ -37,7 +37,25 @@ export type VehicleQueryParams = {
   search?: string; // multi criteria seach
 };
 
-export type VehiculeInfo = Vehicle & {
-  brand: string;
-  model: string;
+export type VehicleInfo = Vehicle & {
+  vehicleId: number;
+  brandName: string;
+  brandCode: string;
+  brandId: number;
+  countryOfOrigin: string;
+  modelName: string;
+  userFirstName: string;
+  userLastName: string;
+};
+
+export type VehicleInfoQueryParams = {
+  page?: number;
+  limit?: number;
+  ownerId?: number;
+  modelId?: number;
+  brandName: string;
+  brandCode: string;
+  modelName: string;
+  brandId?: number;
+  search?: string; // multi criteria seach
 };

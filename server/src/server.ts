@@ -13,6 +13,8 @@ import garageRoutes from "./entity/garage/garage.route";
 import invoiceRoutes from "./entity/invoice/invoice.routes";
 import brandRoutes from "./entity/brand/brand.routes";
 import modelRoutes from "./entity/model/model.routes";
+import correspondanceRoutes from "./entity/correspondance/routes";
+import costRoutes from "./entity/cost/routes";
 
 dotenv.config();
 
@@ -59,6 +61,10 @@ fastify.register(garageRoutes, { prefix: "/api/garage" });
 fastify.register(invoiceRoutes, { prefix: "/api/invoice" });
 fastify.register(brandRoutes, { prefix: "/api/brand" });
 fastify.register(modelRoutes, { prefix: "/api/model" });
+
+// ...
+fastify.register(correspondanceRoutes, { prefix: "/api/correspondance" });
+fastify.register(costRoutes, { prefix: "/api/cost" });
 //--------------------------------------------------------------------------------------------------------------------------
 
 // fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });

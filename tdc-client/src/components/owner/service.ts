@@ -38,16 +38,6 @@ export async function _createOwner(data: CreateOwnerDto): Promise<ApiResponse<Ow
 export async function _updateOwner(id: number, data: UpdateOwnerDto): Promise<ApiResponse<Owner>> {
   const url = `${BASE_URL}/${id}`;
   return apiRequest<Owner>(url, "put", data);
-
-  try {
-    const response = await api.put(`${BASE_URL}/${id}`, data);
-    if (response.data) return { success: true, data: response.data };
-
-    return { success: false, error: "Failed to update owner" };
-  } catch (error) {
-    console.error("Failed to update owner:", error);
-    return { success: false, error: "Failed to update owner" };
-  }
 }
 //--------------------------------------------------------------------------------------------------------------------------
 export async function _deleteOwner(id: number): Promise<ApiResponse<void>> {
@@ -60,15 +50,4 @@ export async function _deleteOwner(id: number): Promise<ApiResponse<void>> {
 export async function _searchOwners(query: string): Promise<ApiResponse<Owner[]>> {
   const url = `${BASE_URL}/info`;
   return apiRequest<Owner[]>(url, "get", query, []);
-  // try {
-  //   const response = await api.get("/owners/search", {
-  //     params: { q: query },
-  //   });
-  //   if (response.data) return { success: true, data: response.data };
-
-  //   return { success: false, error: "Failed to search owner" };
-  // } catch (error) {
-  //   console.error("Failed to search owner:", error);
-  //   return { success: false, error: "Failed to search owner" };
-  // }
 }

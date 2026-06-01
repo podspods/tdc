@@ -27,7 +27,7 @@ const StyledTextarea = styled.textarea`
 const StyledLabel = styled.label<{ $isFloating: boolean }>`
   position: absolute;
   left: 12px;
-  top: ${({ $isFloating }) => ($isFloating ? "6px" : "20px")};
+  top: ${({ $isFloating }) => ($isFloating ? "-8px" : "16px")};
   font-size: ${({ $isFloating }) => ($isFloating ? "12px" : "16px")};
   background-color: ${({ $isFloating }) => ($isFloating ? "white" : "transparent")};
   padding: 0 4px;
@@ -40,12 +40,7 @@ type FloatingLabelTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaEleme
   label: string;
 };
 
-export function FloatingLabelTextarea({
-  label,
-  value,
-  onChange,
-  ...props
-}: FloatingLabelTextareaProps) {
+export function Textarea({ label, value, onChange, ...props }: FloatingLabelTextareaProps) {
   const [isFocused, setIsFocused] = useState(false);
   const hasValue = !!value;
 

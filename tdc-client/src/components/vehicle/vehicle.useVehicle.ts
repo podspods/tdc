@@ -6,7 +6,7 @@ import type {
   VehicleQueryParams,
   VehicleStats,
 } from "./vehicle.types";
-import { STATS_VEHICLE_INIT, VEHICLE_INIT } from "../../common/constant";
+import { STATS_VEHICLE_INIT, vehicleInit } from "../../common/constant";
 import { _createVehicle, _updateVehicle, _vehicleList, _vehicleStats } from "./vehicle.service";
 
 export function useVehicle() {
@@ -69,10 +69,10 @@ export function useVehicle() {
           return response.data;
         }
         setError(response.error || "Failed to create vehicle");
-        return VEHICLE_INIT;
+        return vehicleInit;
       } catch (error) {
         setError("Failed to create vehicle");
-        return VEHICLE_INIT;
+        return vehicleInit;
       } finally {
         setLoading(false);
       }

@@ -3,7 +3,7 @@ import { Garage, CreateGarageDto, UpdateGarageDto, GarageQueryParams } from "./g
 
 function mapDbToGarage(row: any): Garage {
   return {
-    id: row.garage_id,
+    id: row.id,
     name: row.name,
     address: row.address,
     zipcode: row.zipcode,
@@ -12,6 +12,7 @@ function mapDbToGarage(row: any): Garage {
     email: row.email,
     logoUrl: row.logo_url,
     taxCode: row.tax_code,
+    taxRate: row.tax_rate,
     website: row.website,
     bankName: row.bank_name,
     bankAccount: row.bank_account,
@@ -66,7 +67,7 @@ export async function findAllGarages(
 
 export async function findGarageById(fastify: FastifyInstance, id: number): Promise<Garage | null> {
   const { pg } = fastify;
-  const result = await pg.query("SELECT * FROM garage WHERE garage_id = $1", [id]);
+  const result = await pg.query("SELECT * FROM garage WHERE id = $1", [id]);
   return result.rows[0] ? mapDbToGarage(result.rows[0]) : null;
 }
 
@@ -148,15 +149,13 @@ export async function updateGarage(
   if (fields.length === 0) return null;
 
   values.push(id);
-  const query = `UPDATE garage SET ${fields.join(", ")} WHERE garage_id = $${idx} RETURNING *`;
+  const query = `UPDATE garage SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToGarage(result.rows[0]) : null;
 }
 
 export async function deleteGarage(fastify: FastifyInstance, id: number): Promise<boolean> {
   const { pg } = fastify;
-  const result = await pg.query("DELETE FROM garage WHERE garage_id = $1 RETURNING garage_id", [
-    id,
-  ]);
+  const result = await pg.query("DELETE FROM garage WHERE id = $1 RETURNING garage_id", [id]);
   return result.rowCount ? result.rowCount > 0 : false;
 }

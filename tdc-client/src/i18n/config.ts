@@ -10,6 +10,7 @@ import enOwner from "./locales/en/owner.json";
 import enVehicle from "./locales/en/vehicle.json";
 import enTask from "./locales/en/task.json";
 import enSparePart from "./locales/en/sparePart.json";
+import enCorrespondance from "./locales/en/correspondance.json";
 
 import viCommon from "./locales/vi/common.json";
 import viNavigation from "./locales/vi/navigation.json";
@@ -18,6 +19,7 @@ import viOwner from "./locales/vi/owner.json";
 import viVehicle from "./locales/vi/vehicle.json";
 import viTask from "./locales/vi/task.json";
 import viSparePart from "./locales/vi/sparePart.json";
+import viCorrespondance from "./locales/en/correspondance.json";
 
 import frCommon from "./locales/fr/common.json";
 import frNavigation from "./locales/fr/navigation.json";
@@ -26,6 +28,7 @@ import frOwner from "./locales/fr/owner.json";
 import frVehicle from "./locales/fr/vehicle.json";
 import frTask from "./locales/fr/task.json";
 import frSparePart from "./locales/fr/sparePart.json";
+import frCorrespondance from "./locales/en/correspondance.json";
 
 export const resources = {
   en: {
@@ -36,6 +39,7 @@ export const resources = {
     vehicle: enVehicle,
     task: enTask,
     sparePart: enSparePart,
+    correspondance: enCorrespondance,
   },
   vi: {
     common: viCommon,
@@ -45,6 +49,7 @@ export const resources = {
     vehicle: viVehicle,
     task: viTask,
     sparePart: viSparePart,
+    correspondance: viCorrespondance,
   },
   fr: {
     common: frCommon,
@@ -54,6 +59,7 @@ export const resources = {
     vehicle: frVehicle,
     task: frTask,
     sparePart: frSparePart,
+    correspondance: frCorrespondance,
   },
 };
 

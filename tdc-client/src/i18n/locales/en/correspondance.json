@@ -1,0 +1,26 @@
+{
+  "loading": "Loading...",
+  "title": "Correspondance",
+  "error": "Error",
+  "add": "Add",
+  "found": "No correspondances found.",
+  "id": "Id",
+  "subjectCode": "Subject Code",
+  "code": "Code",
+  "valueStr": "Value Str",
+  "valueNum": "Value Num",
+  "description": "Description",
+  "sortOrder": "Sort Order",
+  "createdBy": "Created By",
+  "actions": "Actions",
+  "edit": "Edit",
+  "delete": "Delete",
+  "save": "Save",
+  "editCorrespondance": "Edit Correspondance",
+  "addCorrespondance": "Add Correspondance",
+  "filterSubjectCode": "Filter by subject code",
+  "filterCode": "Filter by code",
+  "clearFilters": "Clear filters",
+
+  "end": "end"
+}

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Select } from "../../common/common.styled";
 import type { Owner } from "../owner/owner.types";
+import { Select } from "../UI/Select";
 
 export type SelectOwnerProps = {
   selectedOwnerId: number;
@@ -12,12 +12,19 @@ export default function SelectOwner({ ...props }: SelectOwnerProps) {
 
   return (
     <>
-      <label>{t("owner")}</label>
       <Select
+        width="10rem"
+        options={props.ownerList.map((owner) => ({
+          value: owner.id.toString(),
+          label: `${owner.firstName} ${owner.lastName} ${owner.phoneNumber}`,
+        }))}
+        placeholder={t("owner")}
+        label={t("owner")}
         value={props.selectedOwnerId}
         onChange={(e) => props.setSelectedOwnerId(Number(e.target.value))}
       >
         <option value={0}>{t("--selectExistingOwner--")}</option>
+
         {props.ownerList.map((owner) => (
           <option key={owner.id} value={owner.id}>
             {owner.firstName} {owner.lastName} ({owner.phoneNumber})

@@ -8,7 +8,7 @@ import {
   StatLabel,
   StatsGrid,
   StatValue,
-} from "./owner.styled";
+} from "../../common/common.styled";
 import type { OwnerStats } from "./owner.types";
 import { formatCurrency } from "../../common/common";
 

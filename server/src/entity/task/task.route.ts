@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { CreateTaskDto, TaskQueryParams, UpdateTaskDto } from "./task.types";
+import { CreateTaskDto, Task, TaskQueryParams, UpdateTaskDto } from "./task.types";
 import {
   createTask,
   deleteTask,
@@ -19,9 +19,11 @@ export default async function taskRoutes(fastify: FastifyInstance) {
   fastify.get<{ Params: { id: string } }>("/:id", (request, response) =>
     getTaskById(fastify, request, response),
   );
-  fastify.post<{ Body: CreateTaskDto }>("/", (request, response) =>
-    createTask(fastify, request, response),
-  );
+
+  fastify.post<{ Body: CreateTaskDto }>("/", (request, response) => {
+    createTask(fastify, request, response);
+  });
+
   fastify.put<{ Params: { id: string }; Body: UpdateTaskDto }>("/:id", (request, response) =>
     updateTask(fastify, request, response),
   );

@@ -7,7 +7,7 @@ import {
   _updateOwner,
   _getAllOwners,
   _getOwnerStats,
-} from "./owner.service";
+} from "./service";
 import { OWNER_INIT, STATS_INIT } from "../../common/constant";
 
 export function useOwner() {

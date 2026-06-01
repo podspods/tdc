@@ -10,8 +10,8 @@ export type SparePart = {
   supplier?: string;
   isActive: number;
   createdBy: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateSparePartDto = {

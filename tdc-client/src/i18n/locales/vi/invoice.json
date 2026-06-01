@@ -5,6 +5,7 @@
   "n°": "Số",
   "issuedOn": "Ngày",
   "taskDescription": "Mô tả công việc",
+  "description": "Mô tả",
   "grossPrice": "Giá gốc",
   "qty": "SLs",
   "quantity": "Số lượng",
@@ -14,8 +15,11 @@
   "servicesPerformed": "Dịch vụ thực hiện",
   "spareParts": "Phụ tùng thay thế",
   "consumable": "Vật tư tiêu hao",
+  "accessoriesSales": "Bán phụ kiện",
+  "others": "Các mục linh tinh hoặc Các dịch vụ khác",
+
   "summary": "Tổng kết",
-  "parts&labor": "Parts and Labor",
+
   "subtotal": "Tổng cộng chưa thuế",
   "grandTotal": "Tổng cộng đã bao gồm thuế",
   "vat": "thuế GTGT",
@@ -32,6 +36,7 @@
   "dueDate": "Ngày đến hạn",
   "status": "Trạng thái",
   "createInvoice": "Lập hóa đơn",
+  "partsAndlabor": "Phụ tùng & Dịch vụ",
 
   "deleteConfirm": "Bạn có chắc chắn muốn xóa hóa đơn này không?",
   "newInvoice": "Tạo hóa đơn mới",

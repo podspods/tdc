@@ -29,6 +29,7 @@ export default function Modal({ ...props }: ModalProps) {
     props.setModalOpen(true);
   }
   function _submit(data: CreateVehicleDto) {
+    console.log("_submit", data);
     props.onSubmit(data);
   }
   return (

@@ -43,7 +43,7 @@ type FloatingLabelInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 export function Input({ label, value, onChange, ...props }: FloatingLabelInputProps) {
   const [isFocused, setIsFocused] = useState(false);
-  const hasValue = !!value;
+  const hasValue = value !== "";
 
   const isFloating = isFocused || hasValue;
 

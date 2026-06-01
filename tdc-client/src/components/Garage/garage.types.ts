@@ -1,12 +1,10 @@
-export type Garage = GarageInfo & {
+export type Garage = CreateGarageDto & {
   id: number;
-  isActive: boolean;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
-export type CreateGarageDto = GarageInfo & {
+export type CreateGarageDto = UpdateGarageDto & {
   createdBy: string;
 };
 
@@ -22,6 +20,7 @@ export type GarageInfo = {
   email: string;
   logoUrl: string;
   taxCode: string;
+  taxRate: number;
   website: string;
   bankName: string;
   bankAccount: string;

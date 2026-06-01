@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Header, MainContainer, Title } from "../common/common.styled";
 import { useState } from "react";
 import type { ViewMode } from "../common/commun.types";
-import { VEHICLE_INIT } from "../common/constant";
+import { vehicleInit } from "../common/constant";
 import type { CreateVehicleDto, Vehicle } from "../components/vehicle/vehicle.types";
 import Modal from "../components/vehicle/vehicle.Modal";
 import { useVehicle } from "../components/vehicle/vehicle.useVehicle";
@@ -29,7 +29,7 @@ export default function Vehicle({ ...props }: VehicleProps) {
   } = useVehicle();
 
   const [viewMode, setViewMode] = useState<ViewMode>("list");
-  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle>(VEHICLE_INIT);
+  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle>(vehicleInit);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -46,14 +46,14 @@ export default function Vehicle({ ...props }: VehicleProps) {
     }
     if (success) {
       setModalOpen(false);
-      setSelectedVehicle(VEHICLE_INIT);
+      setSelectedVehicle(vehicleInit);
     }
   }
   //--------------------------------------------------------------------------------------------------------------------------
 
   function handleCreate() {
     console.log("handleCreate", 0);
-    setSelectedVehicle(VEHICLE_INIT);
+    setSelectedVehicle(vehicleInit);
     setViewMode("create");
     setModalOpen(true);
   }

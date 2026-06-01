@@ -14,24 +14,25 @@ export type CreateFullInvoiceDto = CreateInvoiceDto & {
 };
 export type Invoice = CreateInvoiceDto & {
   id: number;
-  invoiceNumber: string;
+
   createdAt: string;
   updatedAt: string;
 };
-export type InvoiceInfo = {
-  id: number;
-  invoiceNumber: string;
-  issueDate: Date;
-  dueDate: Date;
-  statusCode: number;
+export type InvoiceInfo = Invoice & {
   statusText: string;
-
+  vehicleId: number;
+  ownerId: number;
+  vehicleModelId: number;
+  vehicleBrandId: number;
   ownerFirstName: string;
   ownerLastName: string;
+  ownerAddress: string;
+  ownerCity: string;
+  ownerPhone: string;
   vehicleBrand: string;
   vehicleModel: string;
   vehicleColor: string;
-  vehicleplateNumber: string;
+  vehiclePlateNumber: string;
 };
 
 export type CreateInvoiceDto = UpdateInvoiceDto & {
@@ -39,6 +40,7 @@ export type CreateInvoiceDto = UpdateInvoiceDto & {
 };
 
 export type UpdateInvoiceDto = {
+  invoiceNumber: string;
   garageId: number;
   vehicleId: number;
   issueDate: string;

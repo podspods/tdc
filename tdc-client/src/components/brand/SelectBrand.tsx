@@ -12,7 +12,6 @@ export default function SelectBrand({ ...props }: SelectBrandProps) {
 
   return (
     <>
-      <label>Brand</label>
       <Select
         value={props.selectedBrandId}
         onChange={(e) => props.setSelectedBrandId(Number(e.target.value))}
@@ -21,7 +20,7 @@ export default function SelectBrand({ ...props }: SelectBrandProps) {
         {props.brandList.map((brand) => (
           <option key={brand.id} value={brand.id}>
             {/* {v.plateNumber} - {v.brand} {v.model} */}
-            {brand.brandName}
+            {brand.name}
           </option>
         ))}
       </Select>

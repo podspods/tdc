@@ -6,7 +6,7 @@ import {
   CardTitle,
   CategoryBadge,
   Pagination,
-} from "./owner.styled";
+} from "../../common/common.styled";
 import {
   ActionButton,
   FilterBar,
@@ -122,16 +122,18 @@ export default function List({ ...props }: ListProps) {
                     <tr key={owner.id}>
                       <Td>{owner.id}</Td>
                       <Td>
-                        <strong>{owner.fullName}</strong>
+                        <strong>{`${owner.firstName} ${owner.lastName}  `}</strong>
                       </Td>
                       <Td>{owner.phoneNumber}</Td>
                       <Td>{owner.email || "-"}</Td>
                       <Td>{owner.city || "-"}</Td>
                       <Td>
-                        <CategoryBadge $category={owner.category}>{owner.category}</CategoryBadge>
+                        <CategoryBadge $category={owner.category || 0}>
+                          {owner.category}
+                        </CategoryBadge>
                       </Td>
                       <Td>
-                        <StatusBadge $status={owner.status}>{owner.status}</StatusBadge>
+                        <StatusBadge $status={owner.status || 0}>{owner.status}</StatusBadge>
                       </Td>
                       <Td>{formatCurrency(owner.totalSpent)}</Td>
                       <Td>

@@ -1,11 +1,11 @@
 // client/src/components/Model/ModelList.tsx
 import { useState, useEffect } from "react";
-import { _getAllModels, _deleteModel } from "./model.service";
-import { type MotorcycleModel } from "./model.types";
+import { _getAllModels, _deleteModel } from "./service";
 import { Table, Th, Td, Thead, Tbody, Tr, Button } from "../../common/common.styled";
+import type { Model } from "./types";
 
 export function ModelList() {
-  const [models, setModels] = useState<MotorcycleModel[]>([]);
+  const [models, setModels] = useState<Model[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadModels = async () => {
@@ -40,13 +40,13 @@ export function ModelList() {
       </Thead>
       <Tbody>
         {models.map((m) => (
-          <Tr key={m.modelId}>
-            <Td>{m.brandName || "-"}</Td>
-            <Td>{m.modelName}</Td>
+          <Tr key={m.id}>
+            <Td>{m.brandId || "-"}</Td>
+            <Td>{m.name}</Td>
             <Td>{m.yearStart}</Td>
             <Td>{m.isCurrent ? "Yes" : "No"}</Td>
             <Td>
-              <Button variant="danger" onClick={() => handleDelete(m.modelId)}>
+              <Button variant="danger" onClick={() => handleDelete(m.id)}>
                 Delete
               </Button>
             </Td>

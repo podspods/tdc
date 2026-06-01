@@ -1,3 +1,6 @@
+import type { Brand } from "../brand/brand.types";
+import type { Model } from "../model/types";
+
 export type Vehicle = {
   id: number;
   ownerId: number;
@@ -37,14 +40,6 @@ export type VehicleQueryParams = {
   status?: number;
 };
 
-export const vehicleQueryParamsInit: VehicleQueryParams = {
-  page: 1,
-  limit: 1,
-  search: "",
-  category: 1,
-  status: 1,
-};
-
 export type VehicleStats = {
   total: number;
   active: number;
@@ -52,12 +47,24 @@ export type VehicleStats = {
   blocked: number;
 };
 
-export const createVehicleDtoInit: CreateVehicleDto = {
-  ownerId: 0,
-  modelId: 0,
-  color: "",
-  plateNumber: "",
-  vintage: new Date().getFullYear(),
-  mileage: 0,
-  createdBy: "init",
+export type VehicleInfo = Vehicle & {
+  brandName: string;
+  brandCode: string;
+  brandId: number;
+  countryOfOrigin: string;
+  modelName: string;
+  userFirstName: string;
+  userLastName: string;
+};
+
+export type VehicleInfoQueryParams = {
+  page?: number;
+  limit?: number;
+  ownerId?: number;
+  modelId?: number;
+  brandName: string;
+  brandCode: string;
+  modelName: string;
+  brandId?: number;
+  search?: string; // multi criteria seach
 };

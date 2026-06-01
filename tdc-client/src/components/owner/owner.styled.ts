@@ -97,12 +97,6 @@ export const FormGrid = styled.div`
   gap: 16px;
 `;
 
-export const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-`;
-
 export const Label = styled.label`
   font-size: 14px;
   font-weight: 500;

@@ -1,22 +1,6 @@
 import type { OwnerInfo } from "../owner/owner.types";
-import type { GarageInfo, Invoice } from "./invoice.types";
-import type { InvoiceItem, PdfDataHeader } from "./Pdf.types";
-
-export const dateTest = new Date(2000, 31, 12);
-
-export const garageTest: GarageInfo = {
-  name: "TDC Moto Garage",
-  logoUrl: "/logo.jpg",
-  address: "123 Lê Lợi, Quận 1",
-  city: "TP. Hồ  Chí Minh",
-  phone: "028 1234 5678",
-  email: "contact@tdcmoto.com",
-  taxCode: "1234567890",
-  website: "garage-website.com",
-  bankName: "garage-bankName",
-  bankAccount: "garage-bankAccount",
-  taxRate: 0.1,
-};
+import type { Invoice } from "./invoice.types";
+import type { InvoiceItem } from "./Pdf.types";
 
 export const ownerTest: OwnerInfo = {
   firstName: "Pierre",
@@ -28,14 +12,6 @@ export const ownerTest: OwnerInfo = {
 
 export const vehicleInfoTest: string = "Honda Winner bleu/blanc/rouge 59A1-378.06 40000km";
 export const invoiceNulberText: string = "2026-INV1";
-
-export const headerTest: PdfDataHeader = {
-  garage: garageTest,
-  owner: ownerTest,
-  vehicleInfo: vehicleInfoTest,
-  invoiceNumber: invoiceNulberText,
-  invoiceDate: dateTest,
-};
 
 export const taskListsTest: InvoiceItem[] = [
   { id: 1, name: "un", price: 1000, discount: 0 },
@@ -63,16 +39,3 @@ export const consumablelistTest: InvoiceItem[] = [
   { id: 5, name: "consumable part cinq", price: 910000, discount: 0.5 },
   { id: 6, name: "consumable part six", price: 1100000, discount: 0 },
 ];
-
-export const invoiceTest: Invoice = {
-  invoiceId: 0,
-  garageId: 0,
-  vehicleId: 0,
-  invoiceNumber: "0",
-  issueDate: new Date(),
-  dueDate: new Date(),
-  statusCode: 0,
-  createdBy: "0",
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};

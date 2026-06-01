@@ -1,39 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { _getAllGarages, _createGarage, _updateGarage, _deleteGarage } from "./garage.service";
+
+import type { CreateGarageDto, Garage } from "./garage.types";
+import { CreateGarageDtoInit } from "../../common/constant";
 import {
   Button,
-  Table,
-  Th,
-  Td,
-  Tr,
-  Thead,
-  Tbody,
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
+  CardTitle,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  CardHeader,
 } from "../../common/common.styled";
-import type { CreateGarageDto, Garage } from "./garage.types";
 
 export function GarageManager() {
   const [garages, setGarages] = useState<Garage[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [editing, setEditing] = useState<Garage | null>(null);
-  const [form, setForm] = useState<CreateGarageDto>({
-    name: "",
-    address: "",
-    zipcode: "",
-    city: "",
-    phone: "",
-    email: "",
-    logoUrl: "",
-    taxCode: "",
-    website: "",
-    bankName: "",
-    bankAccount: "",
-    createdBy: "admin",
-  });
-  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState<CreateGarageDto>(CreateGarageDtoInit);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const loadGarages = async () => {
     setLoading(true);
@@ -59,20 +48,7 @@ export function GarageManager() {
     }
     setShowModal(false);
     setEditing(null);
-    setForm({
-      name: "",
-      address: "",
-      zipcode: "",
-      city: "",
-      phone: "",
-      email: "",
-      logoUrl: "",
-      taxCode: "",
-      website: "",
-      bankName: "",
-      bankAccount: "",
-      createdBy: "admin",
-    });
+    setForm(CreateGarageDtoInit);
     await loadGarages();
   };
 
@@ -91,6 +67,7 @@ export function GarageManager() {
       bankName: garage.bankName || "",
       bankAccount: garage.bankAccount || "",
       createdBy: "admin",
+      taxRate: garage.taxRate,
     });
     setShowModal(true);
   };

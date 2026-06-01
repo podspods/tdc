@@ -44,8 +44,8 @@ export default function View({ ...props }: ViewProps) {
           <CardField label={t("isActive")} value={props.task.isActive} />
           <CardField label={t("brandId")} value={props.task.brandId} />
           <CardField label={t("createdBy")} value={props.task.createdBy} />
-          <CardField label={t("createdAt")} value={props.task.createdAt} />
-          <CardField label={t("updatedAt")} value={props.task.updatedAt} />
+          <CardField label={t("createdAt")} value={props.task.createdAt.toDateString()} />
+          <CardField label={t("updatedAt")} value={props.task.updatedAt.toDateString()} />
         </CardContent>
       </Card>
       <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "24px" }}>

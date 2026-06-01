@@ -1,20 +1,8 @@
 import { useTranslation } from "react-i18next";
-import {
-  ActionIcon,
-  Actions,
-  Card,
-  Code,
-  Header,
-  InfoGrid,
-  InfoRow,
-  Label,
-  StatusBadge,
-  Supplier,
-  Title,
-  Value,
-} from "./Badge.styled";
+import { ActionIcon, Actions, Code, StatusBadge, Supplier } from "./Badge.styled";
 import type { SparePart } from "./sparePart.types";
-import { Sticker } from "../UI/Sticker";
+import { Sticker } from "../UI.v0/Sticker";
+import { Card, Header, InfoGrid, Title } from "../../common/common.styled";
 
 export type BadgeProps = {
   sparePart: SparePart;

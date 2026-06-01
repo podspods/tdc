@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { CreateTaskDto, UpdateTaskDto, TaskQueryParams } from "./task.types";
+import { CreateTaskDto, UpdateTaskDto, TaskQueryParams, Task } from "./task.types";
 import {
   _createTask,
   _deleteTask,
@@ -71,6 +71,7 @@ export async function getTaskByCode(
     });
   }
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function createTask(
   fastify: FastifyInstance,
@@ -79,8 +80,20 @@ export async function createTask(
 ) {
   try {
     console.log("createTask", 81);
-    const task = await _createTask(fastify, request.body);
-    reply.status(201).send({ success: true, data: task, message: "Task created successfully" });
+    const task: Task = await _createTask(fastify, request.body);
+    const updatTaskDto: UpdateTaskDto = {
+      code: `${task.code}${String(task.id).padStart(2, "0")}`,
+      name: task.name,
+      description: task.description,
+      durationHours: task.durationHours,
+      skillLevel: task.skillLevel,
+      brandId: task.brandId,
+      isActive: task.isActive,
+    };
+    const taskUpdate: Task = await _updateTask(fastify, task.id, updatTaskDto);
+    reply
+      .status(201)
+      .send({ success: true, data: taskUpdate, message: "Task created successfully" });
   } catch (error) {
     const status = error instanceof Error && error.message.includes("already exists") ? 409 : 500;
     reply.status(status).send({
@@ -89,6 +102,7 @@ export async function createTask(
     });
   }
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function updateTask(
   fastify: FastifyInstance,

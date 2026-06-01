@@ -28,12 +28,17 @@ export async function _taskStats(): Promise<ApiResponse<TaskStats>> {
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
-export async function getTaskById(id: number): Promise<ApiResponse<Task>> {
+export async function _getTaskById(id: number): Promise<ApiResponse<Task>> {
   const url = `${BASE_URL}/${id}`;
   return apiRequest<Task>(url, "get");
 }
 
-export async function getTasksByOwner(ownerId: number): Promise<ApiResponse<Task[]>> {
+export async function _getTasksByOwner(ownerId: number): Promise<ApiResponse<Task[]>> {
   const url = `${BASE_URL}/${ownerId}`;
   return apiRequest<Task[]>(url, "get", []);
+}
+
+export async function _deleteTask(id: number): Promise<ApiResponse<void>> {
+  const url = `${BASE_URL}/${id}`;
+  return apiRequest<void>(url, "delete");
 }

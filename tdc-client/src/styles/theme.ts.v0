@@ -1,0 +1,54 @@
+// src/theme.ts
+export const lightTheme = {
+  colors: {
+    primary: "#CC0000", // Ducati Red
+    secondary: "#0F0F0F", // Carbon Black
+    background: "#FFFFFF",
+    surface: "#F9FAFB",
+    text: {
+      primary: "#0F0F0F",
+      secondary: "#444444",
+      muted: "#6B7280",
+    },
+    border: "#E5E7EB",
+    error: "#EF4444",
+    warning: "#F59E0B",
+    success: "#10B981",
+  },
+  spacing: {
+    xs: "0.25rem",
+    sm: "0.5rem",
+    md: "1rem",
+    lg: "1.5rem",
+    xl: "2rem",
+  },
+  breakpoints: {
+    sm: "640px",
+    md: "768px",
+    lg: "1024px",
+    xl: "1280px",
+  },
+};
+
+export const darkTheme = {
+  colors: {
+    primary: "#CC0000",
+    secondary: "#1F1F1F",
+    background: "#121212",
+    surface: "#1E1E1E",
+    text: {
+      primary: "#FFFFFF",
+      secondary: "#A0A0A0",
+      muted: "#6B7280",
+    },
+    border: "#2C2C2C",
+    error: "#EF4444",
+    warning: "#F59E0B",
+    success: "#10B981",
+  },
+  spacing: { ...lightTheme.spacing },
+  breakpoints: { ...lightTheme.breakpoints },
+};
+
+export type Theme = typeof lightTheme;
+export const theme = lightTheme;

@@ -25,5 +25,6 @@
   "color": "Color",
   "ownerId": "OwnerId",
   "mileage": "Mileage",
+  "selectExistingVehicle": "Select Existing Vehicle",
   "end": "end"
 }

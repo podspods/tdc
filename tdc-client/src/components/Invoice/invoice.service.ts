@@ -10,6 +10,7 @@ import type {
   Invoice,
   InvoiceInfo,
   InvoiceQueryParams,
+  FullInvoicePayload,
 } from "./invoice.types";
 
 const BASE_URL = "/invoice";
@@ -49,18 +50,12 @@ export async function _createInvoice(data: CreateInvoiceDto): Promise<ApiRespons
   return apiRequest<Invoice>(url, "post", data);
 }
 //--------------------------------------------------------------------------------------------------------------------------
-// export async function _createFullInvoice(
-//   payload: FullInvoicePayload,
-// ): Promise<ApiResponse<Invoice>> {
-//   try {
-//     const response = await api.post(`${BASE_URL}/full`, payload);
-//     if (response.data) return { success: true, data: response.data };
-//     return { success: false, error: "error _createInvoice" };
-//   } catch (error) {
-//     console.error("Failed to execute api.post:", error);
-//     return { success: false, error: "catch Failed to execute api.post" };
-//   }
-// }
+export async function _createFullInvoice(
+  payload: FullInvoicePayload,
+): Promise<ApiResponse<Invoice>> {
+  const url = `${BASE_URL}/full`;
+  return apiRequest<Invoice>(url, "post", payload);
+}
 //--------------------------------------------------------------------------------------------------------------------------
 
 /**

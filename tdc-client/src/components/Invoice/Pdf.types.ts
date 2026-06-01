@@ -1,7 +1,7 @@
-import type { Garage } from "../garage/garage.types";
+import { dateInit, INIT_USER, vehicleInit, zgarageInit } from "../../common/constant";
+import type { Garage, GarageInfo } from "../Garage/garage.types";
 import type { Owner, OwnerInfo } from "../owner/owner.types";
 import type { Vehicle } from "../vehicle/vehicle.types";
-import type { GarageInfo } from "./invoice.types";
 
 export type InvoiceItem = {
   id: number;
@@ -18,7 +18,7 @@ export type PdfDataHeader = {
   invoiceDate: Date;
 };
 
-export const ownerInit: OwnerInfo = {
+export const ownerInfoInit: OwnerInfo = {
   firstName: "firstName init",
   lastName: "lastName init",
   phoneNumber: "+33 1234123412",
@@ -26,10 +26,27 @@ export const ownerInit: OwnerInfo = {
   city: "Thành phố Hồ Chí Minh",
 };
 
+export const zownerInit: Owner = {
+  ...ownerInfoInit,
+  id: 0,
+  totalMotorcycles: 0,
+  totalInvoices: 0,
+  totalSpent: 0,
+  lastVisitDate: dateInit,
+  createdBy: INIT_USER,
+  createdAt: dateInit,
+  email: "",
+  category: 0,
+  status: 0,
+  notes: "",
+  updatedAt: dateInit,
+};
+
 export const garageInfoInit: GarageInfo = {
   name: "TDC Moto Garage",
   logoUrl: "/logo.jpg",
   address: "123 Lê Lợi, Quận 1",
+  zipcode: "70000",
   city: "TP. Hồ  Chí Minh",
   phone: "028 1234 5678",
   email: "contact@tdcmoto.com",
@@ -37,14 +54,14 @@ export const garageInfoInit: GarageInfo = {
   website: "garage-website.com",
   bankName: "garage-bankName",
   bankAccount: "garage-bankAccount",
-  taxRate: 0.1,
+  taxRate: 0,
 };
 
 export const PdfHeaderInit: PdfDataHeader = {
-  garage: garageInfoInit,
+  garage: zgarageInit,
 
-  owner: ownerInit,
-  vehicleInfo: "vehicleInfo init",
+  owner: zownerInit,
+  vehicle: vehicleInit,
   invoiceNumber: "invoiceId-init",
   invoiceDate: new Date(1975, 4, 30),
 };

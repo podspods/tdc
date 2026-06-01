@@ -45,7 +45,7 @@ export async function findAllTasks(
   }
   if (search) {
     whereClause += whereClause ? " AND" : " WHERE";
-    whereClause += ` (title ILIKE $${idx} OR code ILIKE $${idx})`;
+    whereClause += ` (name ILIKE $${idx} OR code ILIKE $${idx})`;
     values.push(`%${search}%`);
     idx++;
   }
@@ -54,7 +54,7 @@ export async function findAllTasks(
   const dataQuery = `
     SELECT * FROM task
     ${whereClause}
-    ORDER BY title
+    ORDER BY name
     LIMIT $${idx} OFFSET $${idx + 1}
   `;
 
@@ -71,7 +71,7 @@ export async function findAllTasks(
 
 export async function findTaskById(fastify: FastifyInstance, id: number): Promise<Task | null> {
   const { pg } = fastify;
-  const result = await pg.query("SELECT * FROM task WHERE task_id = $1", [id]);
+  const result = await pg.query("SELECT * FROM task WHERE id = $1", [id]);
   return result.rows[0] ? mapDbToTask(result.rows[0]) : null;
 }
 
@@ -112,7 +112,8 @@ export async function updateTask(
   let idx = 1;
 
   const fieldMap: Record<string, string> = {
-    title: "title",
+    code: "code",
+    name: "name",
     description: "description",
     durationHours: "duration",
     skillLevel: "skill_level",
@@ -130,13 +131,13 @@ export async function updateTask(
   if (fields.length === 0) return null;
 
   values.push(id);
-  const query = `UPDATE task SET ${fields.join(", ")} WHERE task_id = $${idx} RETURNING *`;
+  const query = `UPDATE task SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToTask(result.rows[0]) : null;
 }
 
 export async function deleteTask(fastify: FastifyInstance, id: number): Promise<boolean> {
   const { pg } = fastify;
-  const result = await pg.query("DELETE FROM task WHERE task_id = $1 RETURNING task_id", [id]);
+  const result = await pg.query("DELETE FROM task WHERE id = $1 RETURNING task_id", [id]);
   return result.rowCount ? result.rowCount > 0 : false;
 }

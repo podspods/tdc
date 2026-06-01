@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import type { Owner, CreateOwnerDto } from "./owner.types";
-import { FormGrid, FormGroup, Label, Input } from "./owner.styled";
 import { useTranslation } from "react-i18next";
 import { OWNER_DTO_INIT } from "../../common/constant";
-import { Button, Select, Textarea } from "../../common/common.styled";
+import {
+  Button,
+  FormGrid,
+  FormGroup,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from "../../common/common.styled";
 
 type OwnersFormProps = {
   initialData?: Owner | null;

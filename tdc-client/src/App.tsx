@@ -9,11 +9,15 @@ import i18n from "./i18n";
 import Home from "./pages/Home";
 import Owner from "./pages/Owner";
 import Vehicle from "./pages/Vehicle";
-import Task from "./pages/Task";
 import SparePart from "./pages/SparePart";
 import Invoice from "./pages/Invoice";
 import { GarageManager } from "./components/Garage/GarageManager";
-import Test from "./pages/Test";
+import ToDoList from "./pages/ToDoList";
+import Setting from "./pages/Setting";
+import { TaskManager } from "./components/task/TaskManager";
+import { CostManager } from "./components/cost/CostManager";
+import Correspondance from "./pages/Correspondance";
+import Model from "./pages/Model";
 
 export default function App() {
   return (
@@ -32,14 +36,19 @@ export default function App() {
         <BrowserRouter>
           <Layout>
             <Routes>
-              <Route path="/test" element={<Test />} />
+              <Route path="/todoList" element={<ToDoList />} />
               <Route path="/invoice" element={<Invoice />} />
               <Route path="/admin/garage" element={<GarageManager />} />
+              <Route path="/model" element={<Model />} />
               <Route path="/" element={<Home />} />
               <Route path="/owner" element={<Owner />} />
               <Route path="/vehicle" element={<Vehicle />} />
-              <Route path="/task" element={<Task />} />
+              <Route path="/task" element={<TaskManager />} />
+              <Route path="/cost" element={<CostManager />} />
               <Route path="/spare-parts" element={<SparePart />} />
+              <Route path="/correspondance" element={<Correspondance />} />
+              <Route path="/setting" element={<Setting />} />
+              {/* <Route path="/test" element={<Test />} /> */}
             </Routes>
           </Layout>
         </BrowserRouter>

@@ -10,6 +10,35 @@ import {
   InvoiceInfo,
 } from "./invoice.types";
 
+function mapDbToInvoiceInfo(row: any): InvoiceInfo {
+  return {
+    id: row.id,
+    garageId: row.garage_id,
+    vehicleId: row.vehicle_id,
+    invoiceNumber: row.invoice_number,
+    issueDate: row.issue_date,
+    dueDate: row.due_date,
+    statusCode: row.status_code,
+    notes: row.notes,
+    createdBy: row.created_by,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    statusText: row.statusText,
+    vehicleModelId: row.vehicleModelId,
+    vehicleBrandId: row.vehicleBrandId,
+    ownerId: row.ownerId,
+    ownerFirstName: row.ownerFirstName,
+    ownerLastName: row.ownerLastName,
+    ownerAddress: row.ownerAddress,
+    ownerCity: row.ownerCity,
+    ownerPhone: row.ownerPhone,
+    vehicleBrand: row.vehicleBrand,
+    vehicleModel: row.vehicleModel,
+    vehicleColor: row.vehicleColor,
+    vehiclePlateNumber: row.vehiclePlateNumber,
+  };
+}
+
 function mapDbToInvoice(row: any): Invoice {
   return {
     id: row.id,
@@ -29,7 +58,7 @@ function mapDbToInvoice(row: any): Invoice {
 function mapDbToInvoiceLine(row: any): InvoiceLine {
   return {
     id: row.id,
-    invoiceId: row.invoice_id,
+    invoiceId: row.id,
     lineTypeCode: row.line_type_code,
     description: row.description,
     quantity: parseFloat(row.quantity),
@@ -39,6 +68,7 @@ function mapDbToInvoiceLine(row: any): InvoiceLine {
     createdAt: row.created_at,
   };
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function findAllInvoices(
   fastify: FastifyInstance,
@@ -97,6 +127,7 @@ export async function findAllInvoices(
     total: parseInt(countResult.rows[0].count),
   };
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function findInvoiceById(
   fastify: FastifyInstance,
@@ -104,46 +135,52 @@ export async function findInvoiceById(
 ): Promise<Invoice | null> {
   const { pg } = fastify;
 
-  const query = `SELECT i.*, c.value as status_value
+  const query = `SELECT i.*, c.valuestr as status_value
      FROM invoice i
      LEFT JOIN correspondance c ON i.status_code = c.code AND c.subject_code = 1
-     WHERE i.invoice_id = ${id}`;
+     WHERE i.id = ${id}`;
 
   console.log("findInvoiceById : ", query);
 
   const result = await pg.query(query);
   return result.rows[0] ? mapDbToInvoice(result.rows[0]) : null;
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
-export async function findLinesByInvoiceId(
+export async function findInvoiceLineByInvoiceId(
   fastify: FastifyInstance,
   invoiceId: number,
 ): Promise<InvoiceLine[]> {
   const { pg } = fastify;
-  const query = `SELECT l.*, c.value as line_type_value
+  const query = `SELECT l.*, c.valuestr as line_type_value
      FROM invoice_line l
      LEFT JOIN correspondance c ON l.line_type_code = c.code AND c.subject_code = 200
      WHERE l.invoice_id = ${invoiceId}
-     ORDER BY l.line_id`;
+     ORDER BY l.id`;
   console.log("findInvoiceById : ", query);
 
   const result = await pg.query(query);
   return result.rows.map(mapDbToInvoiceLine);
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function createInvoice(
   fastify: FastifyInstance,
   data: CreateInvoiceDto,
 ): Promise<Invoice> {
+  console.log("createInvoice data", data);
+
   const { pg } = fastify;
-  const { garageId, vehicleId, issueDate, dueDate, statusCode, notes, createdBy } = data;
+  const { garageId, vehicleId, invoiceNumber, issueDate, dueDate, statusCode, notes, createdBy } =
+    data;
   const result = await pg.query(
-    `INSERT INTO invoice (garage_id, vehicle_id, issue_date, due_date, status_code, notes, created_by)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO invoice (garage_id, vehicle_id,invoice_number, issue_date, due_date, status_code, notes, created_by)
+     VALUES ($1, $2, $3, $4, $5, $6, $7,$8)
      RETURNING *`,
     [
       garageId,
       vehicleId,
+      invoiceNumber,
       issueDate || new Date().toISOString().split("T")[0],
       dueDate,
       statusCode,
@@ -151,8 +188,11 @@ export async function createInvoice(
       createdBy,
     ],
   );
+  console.log("createInvoice", result);
+
   return mapDbToInvoice(result.rows[0]);
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function updateInvoice(
   fastify: FastifyInstance,
@@ -166,6 +206,7 @@ export async function updateInvoice(
 
   const fieldMap: Record<string, string> = {
     garageId: "garage_id",
+    invoiceNumber: "invoice_number",
     vehicleId: "vehicle_id",
     issueDate: "issue_date",
     dueDate: "due_date",
@@ -183,17 +224,16 @@ export async function updateInvoice(
   if (fields.length === 0) return null;
 
   values.push(id);
-  const query = `UPDATE invoice SET ${fields.join(", ")} WHERE invoice_id = $${idx} RETURNING *`;
+  const query = `UPDATE invoice SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToInvoice(result.rows[0]) : null;
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function deleteInvoice(fastify: FastifyInstance, id: number): Promise<boolean> {
   const { pg } = fastify;
-  await pg.query("DELETE FROM invoice_line WHERE invoice_id = $1", [id]); // manually cascade
-  const result = await pg.query("DELETE FROM invoice WHERE invoice_id = $1 RETURNING invoice_id", [
-    id,
-  ]);
+  await pg.query("DELETE FROM invoice_line WHERE id = $1", [id]); // manually cascade
+  const result = await pg.query("DELETE FROM invoice WHERE id = $1 RETURNING id", [id]);
   return result.rowCount ? result.rowCount > 0 : false;
 }
 
@@ -203,18 +243,21 @@ export async function getInvoicesInfoList(fastify: FastifyInstance): Promise<Inv
   const { pg } = fastify;
   const query = `
     SELECT
-      i.id AS "invoiceId",
-      i.invoice_number AS "invoiceNumber",
-      i.issue_date AS "issueDate",
-      i.due_date AS "dueDate",
-      i.status_code AS "statusCode",
-      c.value AS "statusText",
+      i.*,
+      c.valueStr AS "statusText",
+      o.id AS "ownerId",
       o.first_name AS "ownerFirstName",
       o.last_name AS "ownerLastName",
+      o.address AS "ownerAddress",
+      o.city AS "ownerCity",
+      o.phone_number AS "ownerPhone",
       b.name AS "vehicleBrand",
+      m.id AS "vehicleModelId",
       m.name AS "vehicleModel",
       v.color AS "vehicleColor",
-      v.plate_number AS "vehiclePlateNumber"
+      v.plate_number AS "vehiclePlateNumber",
+      b.id AS "vehicleBrandId",
+      v.id AS "vehicleId"
     FROM invoice i
     JOIN correspondance c ON i.status_code = c.code AND c.subject_code = 1
     JOIN vehicle v ON i.vehicle_id = v.id
@@ -224,7 +267,7 @@ export async function getInvoicesInfoList(fastify: FastifyInstance): Promise<Inv
     ORDER BY i.issue_date DESC
   `;
   const result = await pg.query(query);
-  return result.rows;
+  return result.rows.map(mapDbToInvoiceInfo);
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -243,6 +286,7 @@ export async function createInvoiceLine(
   );
   return mapDbToInvoiceLine(result.rows[0]);
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function updateInvoiceLine(
   fastify: FastifyInstance,
@@ -272,18 +316,17 @@ export async function updateInvoiceLine(
   if (fields.length === 0) return null;
 
   values.push(lineId);
-  const query = `UPDATE invoice_line SET ${fields.join(", ")} WHERE line_id = $${idx} RETURNING *`;
+  const query = `UPDATE invoice_line SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToInvoiceLine(result.rows[0]) : null;
 }
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function deleteInvoiceLine(
   fastify: FastifyInstance,
   lineId: number,
 ): Promise<boolean> {
   const { pg } = fastify;
-  const result = await pg.query("DELETE FROM invoice_line WHERE line_id = $1 RETURNING line_id", [
-    lineId,
-  ]);
+  const result = await pg.query("DELETE FROM invoice_line WHERE id = $1 RETURNING id", [lineId]);
   return result.rowCount ? result.rowCount > 0 : false;
 }

@@ -9,7 +9,7 @@ export type CreateGarageDto = UpdateGarageDto & {
 };
 
 export type UpdateGarageDto = GarageInfo & {
-  isActive: boolean;
+  isActive?: boolean;
 };
 export type GarageInfo = {
   name: string;
@@ -20,6 +20,7 @@ export type GarageInfo = {
   email: string;
   logoUrl: string;
   taxCode: string;
+  taxRate: number;
   website: string;
   bankName: string;
   bankAccount: string;
@@ -28,6 +29,6 @@ export type GarageInfo = {
 export type GarageQueryParams = {
   page?: number;
   limit?: number;
-  search?: string; // search in name, city, phone
+  search?: string;
   isActive?: boolean;
 };

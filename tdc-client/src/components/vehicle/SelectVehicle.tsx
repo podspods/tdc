@@ -1,4 +1,5 @@
-import { Select } from "../../common/common.styled";
+import { useTranslation } from "react-i18next";
+import { Select } from "../UI/Select";
 import type { Vehicle } from "../vehicle/vehicle.types";
 
 export type SelectVehicleProps = {
@@ -7,21 +8,21 @@ export type SelectVehicleProps = {
   filteredVehicles: Vehicle[];
 };
 export default function SelectVehicle({ ...props }: SelectVehicleProps) {
+  const { t } = useTranslation(["vehicle"]);
+
   return (
     <>
       <label>Vehicle</label>
       <Select
+        label={t("vehicle")}
+        placeholder={t("selectExistingVehicle")}
         value={props.selectedVehicleId}
         onChange={(e) => props.setSelectedVehicleId(Number(e.target.value))}
-      >
-        <option value={0}>-- Select existing vehicle --</option>
-        {props.filteredVehicles.map((vehicle) => (
-          <option key={vehicle.id} value={vehicle.id}>
-            {/* {v.plateNumber} - {v.brand} {v.model} */}
-            {vehicle.plateNumber}
-          </option>
-        ))}
-      </Select>
+        options={props.filteredVehicles.map((vehicle) => ({
+          value: vehicle.id.toString(),
+          label: `${vehicle.plateNumber}`,
+        }))}
+      />
     </>
   );
 }

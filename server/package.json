@@ -1,5 +1,5 @@
 {
-  "name": "postgres-crud-server",
+  "name": "TDC-server",
   "version": "1.0.0",
   "description": "Fastify CRUD API for PostgreSQL",
   "main": "dist/server.js",
