@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import type { CreateVehicleDto } from "./vehicle.types";
+import type { CreateVehicleDto } from "./types";
 import { useEffect, useState } from "react";
-import { _getAllBrands } from "../brand/brand.service";
+import { _getAllBrands } from "../brand/service";
 import { _getAllModels } from "../model/service";
-import type { Brand } from "../brand/brand.types";
+import type { Brand } from "../brand/types";
 import type { Model } from "../model/types";
 import { Input } from "../UI/Input";
 import { Button, Title } from "../../common/common.styled";
@@ -35,22 +35,16 @@ export default function NewVehicle({ ...props }: NewVehicleProps) {
       value: String(item.id),
       label: item.name,
     }));
-    console.log("brandList", brandList);
-    console.log("optionBrrandList", optionList);
     setBrandOptionList(optionList);
   };
   //--------------------------------------------------------------------------------------------------------------------------
   const mapModelToSelect = (idBrand: number) => {
-    console.log("idBrand", idBrand);
-    console.log("modelList", modelList);
     if (idBrand > 0) {
       const modelBrandList = modelList.filter((model) => model.brandId == idBrand);
       const optionList: OptionValue[] = modelBrandList.map((item) => ({
         value: String(item.id),
         label: item.name,
       }));
-      console.log("modelBrandList", modelBrandList);
-      console.log("voptionList", optionList);
       setModelOptionList(optionList);
     } else {
       setModelOptionList([]);

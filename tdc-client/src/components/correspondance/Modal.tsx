@@ -26,8 +26,6 @@ export default function Modal({ ...props }: ModalProps) {
 
   const [formData, setFormData] = useState<Correspondance>(correspondanceInit);
 
-  console.log("editingItem", props.editingItem);
-
   useEffect(() => {
     if (props.editingItem) {
       setFormData(props.editingItem);
@@ -39,13 +37,11 @@ export default function Modal({ ...props }: ModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleSubmit", formData);
     // Validation
     // if (!formData.subjectCode || !formData.code || !formData.value || !formData.createdBy) {
     //   alert("Please fill in all required fields (subjectCode, code, value, createdBy)");
     //   return;
     // }
-    console.log("handleSubmit 2", formData);
 
     try {
       if (props.editingItem) {
@@ -176,10 +172,10 @@ export default function Modal({ ...props }: ModalProps) {
               />
 
               <div className="modal-buttons">
-                <Button type="submit" variant="success">
+                <Button type="submit" $variant="success">
                   ✔
                 </Button>
-                <Button type="button" variant="warning" onClick={() => props.setModalOpen(false)}>
+                <Button type="button" $variant="warning" onClick={() => props.setModalOpen(false)}>
                   🔄
                 </Button>
               </div>

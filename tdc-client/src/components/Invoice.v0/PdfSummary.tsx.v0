@@ -1,0 +1,140 @@
+import { Text, View } from "@react-pdf/renderer";
+import { styles } from "./Pdf.styles";
+import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../common/common";
+import type { GroupedInvoiceLine, InvoiceLine } from "./types";
+import { calculateSumary } from "./invoice.helper";
+
+export type SumaryValue = {
+  name: string;
+  brutAmountText: String;
+  brutAmountValue: number;
+  discountText: String;
+  discountValue: number;
+};
+export type PdfSummaryProps = {
+  groupedInvoiceLineList: GroupedInvoiceLine[];
+  invoiceLineList: InvoiceLine[];
+};
+
+// function buildSumString(discountList: nameValue[]): string {
+//   const discountValueList = discountList
+//     .map((item) => item.value)
+//     .filter((v) => v && v !== 0)
+//     .map(String);
+//   return discountValueList.join("\n+ ");
+// }
+
+export default function PdfSummary({ ...props }: PdfSummaryProps) {
+  useEffect(() => {
+    const newSummaryValue = calculateSumary(props.invoiceLineList, lineTypeList, props.vatRate);
+    setSummaryValue(newSummaryValue);
+  }, [invoiceLineList, lineTypeList, props.vatRate]);
+
+  //   const { t } = useTranslation(["invoice"]);
+
+  //   const discountList: nameValue[] = props.groupedInvoiceLineList.map((record) => ({
+  //     name: String(record.code),
+  //     totalBrutAmount: record.lineList.reduce((sum, item) => sum + (item.unitPrice * (item.quantity ?? 0)), 0),
+  //     totalDidcount: record.lineList.reduce((sum, item) =>sum + (item.unitPrice * (item.discountRate ??0) / 100 ), 0)
+
+  //   }));
+  // ?????????????
+  //   const discountLine = buildSumString(discountList);
+
+  //     const subTotalList: nameValue[] = props.groupedInvoiceLineList.map((record) => ({
+  //     name: String(record.code),
+  //     value:
+  //   }));
+  //   const subTotalLine = buildSumString(subTotalList);
+
+  return (
+    <>
+      <Text style={styles.sectionTitle}>{t("summary")}</Text>
+      <View style={styles.table}>
+        <View style={styles.tableRow}>
+          <Text style={styles.colDesc}>{t("parts&labor")}</Text>
+          <Text style={styles.colAmount}>{partAndLabor}</Text>
+          <Text style={styles.colAmount}>
+            {formatCurrency(
+              subtotalTaskBeforeDiscount +
+                subtotalSparePartBeforeDiscount +
+                subtotalConsumableBeforeDiscount,
+            )}
+          </Text>
+        </View>
+        <View style={styles.tableRow}>
+          <Text style={styles.colDesc}>{t("discount")}</Text>
+          <Text style={styles.colAmount}>{discountRate}</Text>
+          <Text style={styles.colAmount}>
+            {formatCurrency(
+              subtotalTaskDiscount + subtotalSparePartDiscount + subtotalConsumableDiscount,
+            )}
+          </Text>
+        </View>
+        <View style={styles.tableRow}>
+          <Text style={styles.colDesc}>{t("subtotal")}</Text>
+          <Text style={styles.colAmount}></Text>
+          <Text style={styles.colAmount}>
+            {formatCurrency(
+              subtotalTaskBeforeDiscount +
+                subtotalSparePartBeforeDiscount +
+                subtotalConsumableBeforeDiscount -
+                subtotalTaskDiscount -
+                subtotalSparePartDiscount -
+                subtotalConsumableDiscount,
+            )}
+          </Text>
+        </View>
+        <View style={styles.tableRow}>
+          <Text style={styles.colDesc}>{t("vat")}</Text>
+          <Text style={styles.colAmount}>{props.taxRate ? props.taxRate.toFixed(0) : 0}%</Text>
+          <Text style={styles.colAmount}>
+            {props.taxRate
+              ? formatCurrency(
+                  ((subtotalTaskBeforeDiscount +
+                    subtotalSparePartBeforeDiscount +
+                    subtotalConsumableBeforeDiscount -
+                    subtotalTaskDiscount -
+                    subtotalSparePartDiscount -
+                    subtotalConsumableDiscount) *
+                    props.taxRate) /
+                    100,
+                )
+              : 0}
+          </Text>
+        </View>
+        <View style={styles.tableTotalRow}>
+          <Text style={styles.colDesc}>{t("grandTotal")}</Text>
+          <Text style={styles.colAmount}></Text>
+          <Text style={styles.colTotal}>
+            {props.taxRate
+              ? formatCurrency(
+                  subtotalTaskBeforeDiscount +
+                    subtotalSparePartBeforeDiscount +
+                    subtotalConsumableBeforeDiscount -
+                    subtotalTaskDiscount -
+                    subtotalSparePartDiscount -
+                    subtotalConsumableDiscount +
+                    (subtotalTaskBeforeDiscount +
+                      subtotalSparePartBeforeDiscount +
+                      subtotalConsumableBeforeDiscount -
+                      subtotalTaskDiscount -
+                      subtotalSparePartDiscount -
+                      subtotalConsumableDiscount) *
+                      (props.taxRate / 100),
+                )
+              : formatCurrency(
+                  subtotalTaskBeforeDiscount +
+                    subtotalSparePartBeforeDiscount +
+                    subtotalConsumableBeforeDiscount -
+                    subtotalTaskDiscount -
+                    subtotalSparePartDiscount -
+                    subtotalConsumableDiscount,
+                )}
+          </Text>
+        </View>
+      </View>
+    </>
+  );
+}

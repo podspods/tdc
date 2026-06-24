@@ -13,7 +13,7 @@ import {
   FormGroup,
 } from "../../common/common.styled";
 import { _createOwner, _updateOwner } from "./service";
-import type { Owner, CreateOwnerDto, UpdateOwnerDto } from "./owner.types";
+import type { Owner, CreateOwnerDto, UpdateOwnerDto } from "./types";
 import { Input } from "../UI/Input";
 import { Textarea } from "../UI/Textarea";
 import { _getAllCorrespondances } from "../correspondance/service";
@@ -41,15 +41,18 @@ export type ModalProps = {
   onClose: () => void;
   owner: Owner; // null = creation mode
   onSuccess: () => void; // refresh parent list
-  setCurrentOwner: (owner: Owner) => void;
+  setOwner: (owner: Owner) => void;
+  onNewVehicle?: () => void;
 };
 
-export default function Modal({ ...props }: ModalProps) {
+export function Modal({ ...props }: ModalProps) {
+  if (!props.isOpen) return null;
+
   const { t } = useTranslation(["owner"]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [formData, setFormData] = useState<CreateOwnerDto>(ownerInit);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [categoryOptionList, setCategoryOptionList] = useState<OptionValue[]>([]);
   const [statusOptionList, setStatusOptionList] = useState<OptionValue[]>([]);
 
@@ -203,14 +206,12 @@ export default function Modal({ ...props }: ModalProps) {
     }
   };
 
-  if (!props.isOpen) return null;
-
   return (
     <ModalOverlay onClick={props.onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <ModalTitle>{props.owner ? t("editOwner") : t("addOwner")}</ModalTitle>
-          <Button variant="secondary" onClick={props.onClose}>
+          <Button $variant="secondary" onClick={props.onClose}>
             ✖
           </Button>
         </ModalHeader>
@@ -338,10 +339,10 @@ export default function Modal({ ...props }: ModalProps) {
             </FormGrid>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" variant="primary" disabled={isSubmitting}>
+            <Button type="submit" $variant="primary" disabled={isSubmitting}>
               {isSubmitting ? t("saving") : t("save")}
             </Button>
-            <Button type="button" variant="secondary" onClick={props.onClose}>
+            <Button type="button" $variant="secondary" onClick={props.onClose}>
               {t("cancel")}
             </Button>
           </ModalFooter>

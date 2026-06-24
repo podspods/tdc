@@ -33,11 +33,12 @@ const menuItems = [
   { to: "/owner", icon: "🤡", label: "owner" },
   { to: "/vehicle", icon: "🏍", label: "vehicle" },
   { to: "/task", icon: "🛠", label: "task" },
-  { to: "/spare-parts", icon: "🔩", label: "spareParts" },
+  // { to: "/spare-parts", icon: "🔩", label: "spareParts" },
   { isSeparator: true },
   { to: "/model", icon: "⚙️", label: "Model" },
   { to: "/setting", icon: "⚙️", label: "settings" },
   { to: "/correspondance", icon: "⚙️", label: "Correspondance" },
+  { to: "/partAndLabor", icon: "⚙️", label: "partAndLabor" },
 ];
 
 const Separator = styled.hr`

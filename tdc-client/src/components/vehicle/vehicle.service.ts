@@ -7,7 +7,7 @@ import type {
   VehicleInfo,
   VehicleQueryParams,
   VehicleStats,
-} from "./vehicle.types";
+} from "./types";
 
 const BASE_URL = "/vehicle";
 
@@ -50,6 +50,11 @@ export async function _getVehicleInfoById(id: number): Promise<ApiResponse<Vehic
   return apiRequest<VehicleInfo>(url, "get");
 }
 //--------------------------------------------------------------------------------------------------------------------------
+export async function _getVehicleInfoList(): Promise<ApiResponse<VehicleInfo[]>> {
+  const url = `${BASE_URL}/info`;
+  return apiRequest<VehicleInfo[]>(url, "get");
+}
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function _getVehiclesByOwner(ownerId: number): Promise<ApiResponse<Vehicle[]>> {
   const url = `${BASE_URL}/owner/${ownerId}`;
@@ -57,3 +62,9 @@ export async function _getVehiclesByOwner(ownerId: number): Promise<ApiResponse<
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
+export async function _getVehicleInfoByOwnerId(
+  ownerId: number,
+  params?: { page?: number; limit?: number },
+): Promise<ApiResponse<VehicleInfo[]>> {
+  return apiRequest<VehicleInfo[]>(`${BASE_URL}/owner/${ownerId}`, "get", params, []);
+}

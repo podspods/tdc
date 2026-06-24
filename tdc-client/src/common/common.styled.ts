@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.div<{
-  variant?: "primary" | "secondary" | "danger" | "success" | "warning";
+  $variant?: "primary" | "secondary" | "danger" | "success" | "warning";
 }>`
   max-width: 1400px;
   margin: 0 auto;
@@ -9,8 +9,8 @@ export const MainContainer = styled.div<{
   background-color: ${({ theme }) => theme.colors.background.white};
   border-color: ${({ theme }) => theme.colors.border.white};
 
-  color: ${({ theme, variant = "primary" }) => {
-    switch (variant) {
+  color: ${({ theme, $variant = "primary" }) => {
+    switch ($variant) {
       case "secondary":
         return theme.colors.text.secondary;
       case "danger":
@@ -29,7 +29,7 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.lg}`}
+  margin-bottom: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.lg}`};
   flex-wrap: wrap;
   gap: ${({ theme }) => `${theme.spacing.md}`};
 `;
@@ -41,7 +41,7 @@ export const Title = styled.h1`
 `;
 
 export const Button = styled.button<{
-  variant?: "primary" | "secondary" | "danger" | "success" | "warning";
+  $variant?: "primary" | "secondary" | "danger" | "success" | "warning";
   $iconOnly?: boolean;
 }>`
   /* padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.lg}`}; */
@@ -61,8 +61,8 @@ export const Button = styled.button<{
   width: ${({ $iconOnly }) => ($iconOnly ? "auto" : "auto")};
   line-height: 1;
 
-  background-color: ${({ theme, variant = "primary" }) => {
-    switch (variant) {
+  background-color: ${({ theme, $variant = "primary" }) => {
+    switch ($variant) {
       case "secondary":
         return theme.colors.background.secondary;
       case "danger":
@@ -362,13 +362,13 @@ export const Input = styled.input`
   padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.lg}`};
   border: 1px solid #d1d5db;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border-color :  ${({ theme }) => theme.colors.border.primary});
-    font-size: ${({ theme }) => theme.fontSize.base};
+  border-color: ${({ theme }) => theme.colors.border.primary};
+  font-size: ${({ theme }) => theme.fontSize.base};
   min-height: 44px;
 
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.border.warning})
+    border-color: ${({ theme }) => theme.colors.border.warning};
     box-shadow: ${({ theme }) => theme.shadows.lg};
   }
 `;
@@ -384,7 +384,7 @@ export const Th = styled.th`
   text-align: left;
   padding: ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid #e5e7eb;
-  border-color :  ${({ theme }) => theme.colors.border});
+  border-color: ${({ theme }) => theme.colors.border};
   font-weight: 600;
   font-size: ${({ theme }) => theme.fontSize.base};
   background-color: ${({ theme }) => theme.colors.background.primary};
@@ -395,7 +395,7 @@ export const Td = styled.td`
   text-align: left;
   padding: ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid #f3f4f6;
-  border-color :  ${({ theme }) => theme.colors.border.primary});
+  border-color: ${({ theme }) => theme.colors.border.primary};
   font-size: ${({ theme }) => theme.fontSize.base};
   background-color: ${({ theme }) => theme.colors.background.primary};
   color: ${({ theme }) => theme.colors.text.primary};
@@ -496,4 +496,13 @@ export const Pagination = styled.div`
   justify-content: center;
   gap: 8px;
   margin-top: 20px;
+`;
+
+export const LineContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: ${({ theme }) => `0 0 ${theme.spacing.sm} 0`};
 `;

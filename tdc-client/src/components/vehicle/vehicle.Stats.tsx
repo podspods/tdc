@@ -1,4 +1,4 @@
-import type { VehicleStats } from "./vehicle.types";
+import type { VehicleStats } from "./types";
 
 export type StatsProps = {
   stats: VehicleStats;

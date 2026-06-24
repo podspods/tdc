@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Select } from "../../common/common.styled";
-import type { Brand } from "./brand.types";
+import type { Brand } from "./types";
 
 export type SelectBrandProps = {
   selectedBrandId: number;

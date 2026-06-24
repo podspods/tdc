@@ -2,19 +2,19 @@ export type Cost = CreateCostDto & {
   id: number;
 
   createdAt: string;
-  updatedAt: string;
+  updatedAt: Date;
 };
 
 export type CreateCostDto = UpdateCostDto & {
-  createdBy: string;
+  createdBy: Date;
 };
 
 export type UpdateCostDto = {
   monthlyBase: number;
   dayWork: number;
   hourWork: number;
-  effectiveDate: string;
-  endDate: string | null;
+  effectiveDate: Date;
+  endDate: Date | null;
 };
 
 export type CostQueryParams = {

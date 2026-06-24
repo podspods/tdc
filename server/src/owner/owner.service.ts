@@ -139,9 +139,9 @@ export async function _deleteOwner(fastify: FastifyInstance, id: number) {
   }
 
   // Check if owner has motorcycles or invoices
-  if (owner.totalMotorcycles > 0 || owner.totalInvoices > 0) {
-    throw new Error("Cannot delete owner with existing motorcycles or invoices");
-  }
+  // if (owner.totalMotorcycles > 0 || owner.totalInvoices > 0) {
+  //   throw new Error("Cannot delete owner with existing motorcycles or invoices");
+  // }
 
   const deleted = await _delete(fastify, id);
   if (!deleted) {

@@ -5,7 +5,7 @@ import type {
   Vehicle,
   VehicleQueryParams,
   VehicleStats,
-} from "./vehicle.types";
+} from "./types";
 import { STATS_VEHICLE_INIT, vehicleInit } from "../../common/constant";
 import { _createVehicle, _updateVehicle, _vehicleList, _vehicleStats } from "./vehicle.service";
 
@@ -60,8 +60,6 @@ export function useVehicle() {
     async (createVehicleDto: CreateVehicleDto): Promise<Vehicle> => {
       setLoading(true);
       try {
-        console.log("createVehicle", createVehicleDto);
-
         const response = await _createVehicle(createVehicleDto);
         if (response.success && response.data) {
           await vehiclelist();
@@ -84,8 +82,6 @@ export function useVehicle() {
 
   const updateVehicle = useCallback(
     async (id: number, vehicle: UpdateVehicleDto) => {
-      console.log("updateVehicle vehicle", vehicle);
-      console.log("updateVehicle id", id);
       setLoading(true);
       try {
         const response = await _updateVehicle(id, vehicle);

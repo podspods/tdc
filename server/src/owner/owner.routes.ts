@@ -57,7 +57,19 @@ export default async function ownerRoutes(fastify: FastifyInstance) {
     const { firstName, lastName, phoneNumber, createdBy } = request.body;
     const existing = await findByPhone(fastify, phoneNumber);
     if (existing) return reply.send({ success: true, data: existing });
-    const newOwner = await create(fastify, { firstName, lastName, phoneNumber, createdBy });
+    const newOwner = await create(fastify, {
+      firstName,
+      lastName,
+      phoneNumber,
+      createdBy,
+      address: "",
+      city: "",
+      email: "",
+      category: 0,
+      notes: "",
+      updatedAt: new Date(),
+      createdAt: new Date(),
+    });
     return reply.send({ success: true, data: newOwner });
   });
 }

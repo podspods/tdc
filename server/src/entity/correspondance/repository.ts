@@ -78,7 +78,6 @@ export async function findAllCorrespondances(
     pg.query(countQuery, values),
     pg.query(dataQuery, dataParams),
   ]);
-  console.log("dataResult", dataResult);
   return {
     data: dataResult.rows.map(mapDbToCorrespondance),
     total: parseInt(countResult.rows[0].count),

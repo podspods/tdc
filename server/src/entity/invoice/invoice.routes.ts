@@ -16,6 +16,7 @@ import {
   findInvoiceById,
   updateInvoice,
 } from "./invoice.repository";
+import { generateInvoiceNumber } from "../../common/helper";
 
 export default async function invoiceRoutes(fastify: FastifyInstance) {
   // Invoice endpoints
@@ -66,34 +67,37 @@ export default async function invoiceRoutes(fastify: FastifyInstance) {
       notes,
       createdBy,
     });
-    const invoiceNumberchrono = invoice.id.toString().padStart(4, "0");
-    const newInvoiceNumber = invoice.invoiceNumber + invoiceNumberchrono;
-    const invoiceToUpdate: UpdateInvoiceDto = {
-      invoiceNumber: newInvoiceNumber,
-      garageId: invoice.garageId,
-      vehicleId: invoice.vehicleId,
-      issueDate: invoice.issueDate,
-      dueDate: invoice.dueDate,
-      statusCode: invoice.statusCode,
-      notes: invoice.notes,
-    };
-    updateInvoice(fastify, invoice.id, invoiceToUpdate);
 
-    // 2. Ajouter les lignes
-    for (const line of lines) {
-      await createInvoiceLine(fastify, {
-        invoiceId: invoice.id,
-        lineTypeCode: line.lineTypeCode,
-        description: line.description,
-        quantity: line.quantity,
-        unitPrice: line.unitPrice,
-        discountRate: line.discountRate,
-      });
+    if (invoice) {
+      const newInvoiceNumber = generateInvoiceNumber(invoice);
+
+      const invoiceToUpdate: UpdateInvoiceDto = {
+        invoiceNumber: newInvoiceNumber,
+        garageId: invoice.garageId,
+        vehicleId: invoice.vehicleId,
+        issueDate: invoice.issueDate,
+        dueDate: invoice.dueDate,
+        statusCode: invoice.statusCode,
+        notes: invoice.notes,
+      };
+      updateInvoice(fastify, invoice.id, invoiceToUpdate);
+      // 2. Ajouter les lignes
+      for (const line of lines) {
+        await createInvoiceLine(fastify, {
+          invoiceId: invoice.id,
+          lineTypeCode: line.lineTypeCode,
+          description: line.description,
+          quantity: line.quantity,
+          unitPrice: line.unitPrice,
+          discountRate: line.discountRate,
+        });
+      }
+
+      // 3. Recharger la facture avec ses lignes
+      const fullInvoice = await findInvoiceById(fastify, invoice.id);
+      return reply.send({ success: true, data: fullInvoice });
     }
-
-    // 3. Recharger la facture avec ses lignes
-    const fullInvoice = await findInvoiceById(fastify, invoice.id);
-    return reply.send({ success: true, data: fullInvoice });
+    return reply.send({ success: false });
   });
   //--------------------------------------------------------------------------------------------------------------------------
 

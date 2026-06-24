@@ -1,0 +1,22 @@
+{
+  "title": "Gestion des Pièces et main d'oeuvre",
+  "new": "Nouveau",
+  "code": "Code",
+  "name": "Nom",
+  "description": "Description",
+  "skillLevel": "Niveau de compétence",
+  "duration": "Durée",
+  "all": "Tous",
+  "cost": "Coût",
+  "margin": "Marge",
+  "edit": "Éditer",
+  "delete": "Supprimer",
+  "typeLine": "type de ligne",
+  "category": "Catégorie",
+  "subCategory": "Sous-catégorie",
+  "brand": "Marque",
+  "saving": "Sauvegarde en cours",
+  "save": "Sauvegarder",
+  "cancel": "Abandonner",
+  "end": "fin"
+}

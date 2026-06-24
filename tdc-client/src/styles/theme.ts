@@ -17,7 +17,7 @@ export const cherryBlossonBloom = {
     success: "#ffb3c1",
     warning: "#ff8fa3",
     error: "#ff758f",
-    white: "#d1d5db",
+    white: "#FFFFFF",
   },
   border: {
     primary: "#081c15",

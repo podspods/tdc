@@ -45,25 +45,30 @@ INSERT INTO correspondance ( subject_code, code, valueStr, description, sort_ord
 ( 0, 2700, 'brand', 'brand for consumable code', 1);
 
 INSERT INTO correspondance ( subject_code, code, valueStr, description, sort_order) VALUES
+
+
 ( 500,1, 'MA',  'opération de maintenance', 1),
-( 500,2, 'DI',  'Diagnostic', 1),
-( 500,3, 'RE',  'Repair', 1),
+( 500,2, 'DI',  'Diagnostic', 2),
+( 500,3, 'RE',  'Repair', 3),
+
 ( 600,1, 'EN',  'Engine', 1),
-( 600,2, 'BR',  'Brakes', 1),
-( 600,3, 'EC',  'Electronic', 1),
+( 600,2, 'BR',  'Brakes', 2),
+( 600,3, 'EC',  'Electronic', 3),
+( 600,4, 'CA',  'chassis', 4),
+
 ( 700,1, 'AL',  'all brand', 1),
-( 700,2, 'HO',  'Honda', 1),
-( 700,3, 'YA',  'Yamaha', 1),
-( 700,4, 'SU',  'Suzuki', 1),
-( 700,5, 'DU',  'Ducati', 1);
+( 700,2, 'HO',  'Honda', 2),
+( 700,3, 'YA',  'Yamaha', 3),
+( 700,4, 'SU',  'Suzuki', 4),
+( 700,5, 'DU',  'Ducati', 5);
 
 
 
 INSERT INTO correspondance ( subject_code, code, valueStr, description, sort_order) VALUES
 ( 10,1, 'intership',  'no skill needed', 1),
-( 10,2, 'basic',  'basic mecanic', 1),
-( 10,3, 'advanced',  'mecanic skilled', 1),
-( 10,4, 'expert',  'expert or chief mecanics', 1);
+( 10,2, 'basic',  'basic mecanic', 2),
+( 10,3, 'advanced',  'mecanic skilled', 3),
+( 10,4, 'expert',  'expert or chief mecanics', 4);
 
 
 
@@ -97,3 +102,7 @@ select * from correspondance where subject_code = 5
 
 
 
+
+
+INSERT INTO correspondance ( subject_code, code, valueStr, valueNum, description, sort_order) VALUES
+( 6,1, 'Base salary', 300000, 'Base salary for cost calculation', 1)

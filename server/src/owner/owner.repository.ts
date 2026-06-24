@@ -15,14 +15,15 @@ function mapDbToOwner(row: any): Owner {
     city: row.city,
     category: row.category,
     notes: row.notes,
-    totalMotorcycles: row.total_motorcycles || 0,
-    totalInvoices: row.total_invoices || 0,
-    totalSpent: parseFloat(row.total_spent || "0"),
-    lastVisitDate: row.last_visit_date,
+    // status: row.status,
+    // totalMotorcycles: row.total_motorcycles || 0,
+    // totalInvoices: row.total_invoices || 0,
+    // totalSpent: parseFloat(row.total_spent || "0"),
+    // lastVisitDate: row.last_visit_date,
     createdBy: row.created_by,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-    fullName: `${row.first_name} ${row.last_name}`,
+    // fullName: `${row.first_name} ${row.last_name}`,
   };
 }
 
@@ -34,16 +35,7 @@ export async function findAll(
   params: OwnerQueryParams = {},
 ): Promise<{ data: Owner[]; total: number }> {
   const { pg } = fastify;
-  const {
-    page = 1,
-    limit = 20,
-    search,
-    category,
-    city,
-    minSpent,
-    maxSpent,
-    hasOutstandingInvoices,
-  } = params;
+  const { page = 1, limit = 20, search, category, city, minSpent, maxSpent } = params;
   const offset = (page - 1) * limit;
 
   let whereClause = "";
@@ -80,10 +72,10 @@ export async function findAll(
     values.push(maxSpent);
   }
 
-  if (hasOutstandingInvoices) {
-    whereClause += whereClause ? " AND" : " WHERE";
-    whereClause += ` EXISTS (SELECT 1 FROM invoices i WHERE i.owner_id = o.id AND i.status = 'pending')`;
-  }
+  // if (hasOutstandingInvoices) {
+  //   whereClause += whereClause ? " AND" : " WHERE";
+  //   whereClause += ` EXISTS (SELECT 1 FROM invoices i WHERE i.owner_id = o.id AND i.status = 'pending')`;
+  // }
 
   const countQuery = `
     SELECT COUNT(*) 
@@ -270,7 +262,7 @@ export async function getStats(fastify: FastifyInstance): Promise<OwnerStats> {
   // });
 
   return {
-    totalOwners: parseInt(totalResult.rows[0].count),
+    // totalOwners: parseInt(totalResult.rows[0].count),
     // byCategory: ZcategoryCounts,
     totalSpentAll: parseFloat(spentResult.rows[0].total_spent || "0"),
     averageSpentPerOwner: parseFloat(spentResult.rows[0].avg_spent || "0"),
@@ -278,5 +270,10 @@ export async function getStats(fastify: FastifyInstance): Promise<OwnerStats> {
       city: row.city,
       count: parseInt(row.count),
     })),
+    total: 0,
+    active: 0,
+    blocked: 0,
+    inactive: 0,
+    byCategory: { basic: 0, important: 0, vip: 0, gold: 0, platinum: 0 },
   };
 }

@@ -1,7 +1,7 @@
 export type Garage = CreateGarageDto & {
   id: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateGarageDto = UpdateGarageDto & {

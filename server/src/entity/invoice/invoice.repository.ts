@@ -9,6 +9,7 @@ import {
   InvoiceQueryParams,
   InvoiceInfo,
 } from "./invoice.types";
+import { generateInvoiceNumber } from "../../common/helper";
 
 function mapDbToInvoiceInfo(row: any): InvoiceInfo {
   return {
@@ -58,7 +59,7 @@ function mapDbToInvoice(row: any): Invoice {
 function mapDbToInvoiceLine(row: any): InvoiceLine {
   return {
     id: row.id,
-    invoiceId: row.id,
+    invoiceId: row.invoice_id,
     lineTypeCode: row.line_type_code,
     description: row.description,
     quantity: parseFloat(row.quantity),
@@ -167,12 +168,14 @@ export async function findInvoiceLineByInvoiceId(
 export async function createInvoice(
   fastify: FastifyInstance,
   data: CreateInvoiceDto,
-): Promise<Invoice> {
+): Promise<Invoice | null> {
   console.log("createInvoice data", data);
 
   const { pg } = fastify;
   const { garageId, vehicleId, invoiceNumber, issueDate, dueDate, statusCode, notes, createdBy } =
     data;
+  console.log("createInvoice 177 typof dueDate", typeof dueDate);
+  console.log("createInvoice 177  dueDate", dueDate);
   const result = await pg.query(
     `INSERT INTO invoice (garage_id, vehicle_id,invoice_number, issue_date, due_date, status_code, notes, created_by)
      VALUES ($1, $2, $3, $4, $5, $6, $7,$8)
@@ -181,16 +184,21 @@ export async function createInvoice(
       garageId,
       vehicleId,
       invoiceNumber,
-      issueDate || new Date().toISOString().split("T")[0],
+      issueDate || new Date().toISOString(),
       dueDate,
       statusCode,
       notes,
       createdBy,
     ],
   );
-  console.log("createInvoice", result);
+  console.log("createInvoice", result.rows[0]);
+  console.log("createInvoice typof 193", typeof result.rows[0].due_date);
+  console.log("createInvoice valu 193", result.rows[0].due_date);
 
-  return mapDbToInvoice(result.rows[0]);
+  const titi = mapDbToInvoice(result.rows[0]);
+  console.log("createInvoice typofvtiti.dueDate 195s", typeof titi.dueDate);
+  // return mapDbToInvoice(result.rows[0]);
+  return titi;
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -225,7 +233,12 @@ export async function updateInvoice(
 
   values.push(id);
   const query = `UPDATE invoice SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
+
   const result = await pg.query(query, values);
+  console.log("wait pg.query(query,);", query);
+  console.log("wait pg.query(, values);", values);
+  console.log("wait pg.query(, result);", result);
+
   return result.rows[0] ? mapDbToInvoice(result.rows[0]) : null;
 }
 //--------------------------------------------------------------------------------------------------------------------------
@@ -317,6 +330,8 @@ export async function updateInvoiceLine(
 
   values.push(lineId);
   const query = `UPDATE invoice_line SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
+  console.log("query", query);
+  console.log("values", values);
   const result = await pg.query(query, values);
   return result.rows[0] ? mapDbToInvoiceLine(result.rows[0]) : null;
 }

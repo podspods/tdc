@@ -6,29 +6,62 @@ import {
   VehicleQueryParams,
   VehicleInfo,
 } from "./vehicle.types";
+import { Brand } from "../brand/brand.types";
+import { Model } from "../model/model.types";
+import { Owner } from "../../owner/owner.types";
 
-function mapDbToVehicleInfo(row: any): VehicleInfo {
+//--------------------------------------------------------------------------------------------------------------------------
+// Fonctions de mapping pour chaque entité
+function mapDbToBrand(row: any): Brand {
   return {
-    id: row.id,
-    ownerId: row.owner_id,
-    modelId: row.model_id,
-    brandId: row.brandId,
-    brandCode: row.brandCode,
-    brandName: row.brandName,
-    modelName: row.modelName,
-    plateNumber: row.plate_number,
-    vehicleId: row.vehicle_id,
-    countryOfOrigin: row.countryOfOrigin,
-    userFirstName: row.userFirstName,
-    userLastName: row.userLastName,
-    color: row.color,
-    vintage: row.vintage,
-    mileage: row.mileage,
-    createdBy: row.created_by,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
+    id: row.brand_id,
+    name: row.brand_name,
+    code: row.brand_code,
+    countryOfOrigin: row.country_of_origin,
+    createDate: row.create_date, // selon votre schéma
+    createdBy: row.created_by, // selon votre schéma
   };
 }
+
+function mapDbToModel(row: any): Model {
+  return {
+    id: row.model_id,
+    brandId: row.brand_id,
+    name: row.model_name,
+    yearStart: row.year_start,
+    yearEnd: row.year_end,
+    isCurrent: row.is_current,
+    engineDisplacement: row.engine_displacement,
+    engineType: row.engine_type,
+    powerHp: row.power_hp,
+    torqueNm: row.torque_nm,
+    weightKg: row.weight_kg,
+    fuelCapacityLiters: row.fuel_capacity_liters,
+    description: row.model_description,
+    imageUrl: row.image_url,
+    createdAt: row.model_created_at, // selon votre schéma
+    updatedAt: row.model_updated_at, // selon votre schéma
+    createdBy: row.model_created_by, // selon votre schéma
+  };
+}
+
+function mapDbToOwner(row: any): Owner {
+  return {
+    id: row.owner_id,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    phoneNumber: row.phone_number,
+    email: row.email,
+    address: row.address,
+    city: row.city,
+    category: row.category,
+    notes: row.notes,
+    createdAt: row.owner_created_at,
+    updatedAt: row.owner_updated_at,
+    createdBy: row.owner_created_by,
+  };
+}
+
 //--------------------------------------------------------------------------------------------------------------------------
 
 function mapDbToVehicle(row: any): Vehicle {
@@ -112,11 +145,11 @@ export async function findAllVehicles(
 export async function findAllVehicleInfo(
   fastify: FastifyInstance,
   params: VehicleQueryParams = {},
-): Promise<{ data: Vehicle[]; total: number }> {
+): Promise<{ data: VehicleInfo[]; total: number }> {
   const { pg } = fastify;
   const { page = 1, limit = 20, ownerId, modelId, search } = params;
-  const offset = (page - 1) * limit;
 
+  // 1. Construction de la clause WHERE
   let whereClause = "";
   const values: any[] = [];
   let idx = 1;
@@ -137,6 +170,7 @@ export async function findAllVehicleInfo(
     idx++;
   }
 
+  // 2. Requête de comptage (toujours sans LIMIT)
   const countQuery = `
     SELECT COUNT(*)
     FROM vehicle v
@@ -145,62 +179,140 @@ export async function findAllVehicleInfo(
     ${whereClause}
   `;
 
-  const dataQuery = `
+  // 3. Construction de la requête de données (avec ou sans LIMIT/OFFSET)
+  let dataQuery = `
     SELECT v.*, 
-            m.name as "modelName",
-            b.name as "brandName",
-            b.code as "brandCode",
-            b.id as "brandId",
-            o.first_name as "firstName",
-            o.last_name as "lastName",
-            b.code as "brandCode",
-            b.country_of_origin as "countryOfOrigin"
+           b.id AS brand_id,
+           b.name AS brand_name,
+           b.code AS brand_code,
+           b.country_of_origin,
+           m.id AS model_id,
+           m.name AS model_name,
+           m.year_start,
+           m.year_end,
+           m.is_current,
+           m.engine_displacement,
+           m.engine_type,
+           m.power_hp,
+           m.torque_nm,
+           m.weight_kg,
+           m.fuel_capacity_liters,
+           m.description AS model_description,
+           m.image_url,
+           o.id AS owner_id,
+           o.first_name,
+           o.last_name,
+           o.phone_number,
+           o.email,
+           o.address,
+           o.city,
+           o.category,
+           o.notes,
+           o.created_by AS owner_created_by,
+           o.created_at AS owner_created_at,
+           o.updated_at AS owner_updated_at
     FROM vehicle v
     LEFT JOIN owners o ON v.owner_id = o.id
     LEFT JOIN model m ON v.model_id = m.id
     LEFT JOIN brand b ON m.brand_id = b.id
     ${whereClause}
     ORDER BY v.created_at DESC
-    LIMIT $${idx} OFFSET $${idx + 1}
   `;
 
+  // 4. Ajout de LIMIT/OFFSET uniquement si limit > 0
+  const queryParams = [...values];
+  if (limit > 0) {
+    const offset = (page - 1) * limit;
+    dataQuery += ` LIMIT $${idx} OFFSET $${idx + 1}`;
+    queryParams.push(limit, offset);
+    idx += 2;
+  }
+
+  // 5. Exécution des requêtes
   const [countResult, dataResult] = await Promise.all([
     pg.query(countQuery, values),
-    pg.query(dataQuery, [...values, limit, offset]),
+    pg.query(dataQuery, queryParams),
   ]);
 
-  return {
-    data: dataResult.rows.map(mapDbToVehicleInfo),
-    total: parseInt(countResult.rows[0].count),
-  };
+  // 6. Construction des données
+  const total = parseInt(countResult.rows[0].count, 10);
+  if (dataResult.rows.length === 0) {
+    return { data: [], total };
+  }
+
+  const vehicleInfoList: VehicleInfo[] = dataResult.rows.map((row: any) => {
+    const vehicle: Vehicle = mapDbToVehicle(row);
+    const brand: Brand = mapDbToBrand(row);
+    const model: Model = mapDbToModel(row);
+    const owner: Owner = mapDbToOwner(row);
+    return { vehicle, brand, model, owner };
+  });
+
+  return { data: vehicleInfoList, total };
 }
 //--------------------------------------------------------------------------------------------------------------------------
-
 export async function findVehicleInfoById(
   fastify: FastifyInstance,
   id: number,
 ): Promise<VehicleInfo | null> {
   const { pg } = fastify;
   const result = await pg.query(
-    `SELECT v.*, 
-            m.name as "modelName",
-            b.name as "brandName",
-            b.code as "brandCode",
-            b.id as "brandId",
-            o.first_name as "firstName",
-            o.last_name as "lastName",
-            b.code as "brandCode",
-            b.country_of_origin as "countryOfOrigin"
+    `SELECT 
+       v.*,
+       b.id AS brand_id,
+       b.name AS brand_name,
+       b.code AS brand_code,
+       b.country_of_origin,
+       m.id AS model_id,
+       m.name AS model_name,
+       m.year_start,
+       m.year_end,
+       m.is_current,
+       m.engine_displacement,
+       m.engine_type,
+       m.power_hp,
+       m.torque_nm,
+       m.weight_kg,
+       m.fuel_capacity_liters,
+       m.description AS model_description,
+       m.image_url,
+       o.id AS owner_id,
+       o.first_name,
+       o.last_name,
+       o.phone_number,
+       o.email,
+       o.address,
+       o.city,
+       o.category,
+       o.notes,
+       o.created_by AS owner_created_by,
+       o.created_at AS owner_created_at,
+       o.updated_at AS owner_updated_at
      FROM vehicle v
-     LEFT JOIN owners o ON v.owner_id = o.id
      LEFT JOIN model m ON v.model_id = m.id
      LEFT JOIN brand b ON m.brand_id = b.id
+     LEFT JOIN owners o ON v.owner_id = o.id
      WHERE v.id = $1`,
     [id],
   );
-  console.log("result.rows[0]", result.rows[0]);
 
-  return result.rows[0] ? mapDbToVehicleInfo(result.rows[0]) : null;
+  if (result.rows.length === 0) return null;
+
+  const row = result.rows[0];
+
+  // Construction des objets imbriqués
+  const vehicle: Vehicle = mapDbToVehicle(row); // fonction existante
+  const brand: Brand = mapDbToBrand(row);
+  const model: Model = mapDbToModel(row);
+  const owner: Owner = mapDbToOwner(row);
+
+  const zvehicleInfo: VehicleInfo = {
+    vehicle: vehicle,
+    brand: brand,
+    model: model,
+    owner: owner,
+  };
+  return zvehicleInfo;
 }
 //--------------------------------------------------------------------------------------------------------------------------
 

@@ -21,6 +21,24 @@
   "filterSubjectCode": "Filter by subject code",
   "filterCode": "Filter by code",
   "clearFilters": "Clear filters",
+  "taskAndLabor": "Task And Labor",
+
+  "sparePart": "Spare Part",
+  "consumableItem": "Consumable Item",
+  "salesItem": "Sales item",
+  "otherService": "Other service",
+  "maintenanceService": "Maintenance Service",
+  "repair": "Repair",
+  "diagnostic": "Diagnostic",
+  "engine": "engine",
+  "electronic": "electronic",
+  "chassis": "chassis",
+  "brakes": "brakes",
+  "all": "All",
+  "intership": "Intership",
+  "basic": "Basic",
+  "advanced": "Advanced",
+  "expert": "Expert",
 
   "end": "end"
 }

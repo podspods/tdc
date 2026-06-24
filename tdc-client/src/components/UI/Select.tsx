@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import type { OptionValue } from "../../common/commun.types";
+import { defaultPlaceHolder } from "../../common/constant";
 
 const Wrapper = styled.div`
   position: relative;
@@ -57,7 +58,7 @@ export function Select({ ...props }: SelectProps) {
   return (
     <Wrapper style={{ width: props.width || "100%" }}>
       <StyledSelect value={props.value} {...props}>
-        <option>{props.placeholder ? props.placeholder : ".."}</option>
+        <option>{props.placeholder ? props.placeholder : defaultPlaceHolder}</option>
         {props.options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

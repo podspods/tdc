@@ -1,13 +1,7 @@
 import { apiRequest } from "../../api/apirequest";
 import api from "../../api/client";
 import type { ApiResponse } from "../../common/commun.types";
-import type {
-  Owner,
-  OwnerQueryParams,
-  OwnerStats,
-  CreateOwnerDto,
-  UpdateOwnerDto,
-} from "./owner.types";
+import type { Owner, OwnerQueryParams, OwnerStats, CreateOwnerDto, UpdateOwnerDto } from "./types";
 
 const BASE_URL = "/owners";
 

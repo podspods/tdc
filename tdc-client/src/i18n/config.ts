@@ -11,6 +11,10 @@ import enVehicle from "./locales/en/vehicle.json";
 import enTask from "./locales/en/task.json";
 import enSparePart from "./locales/en/sparePart.json";
 import enCorrespondance from "./locales/en/correspondance.json";
+import enGarage from "./locales/en/garage.json";
+import enPartAndLabor from "./locales/en/partAndLabor.json";
+import enPartAndLaborDb from "./locales/en/partAndLaborDb.json";
+import enColor from "./locales/en/color.json";
 
 import viCommon from "./locales/vi/common.json";
 import viNavigation from "./locales/vi/navigation.json";
@@ -19,7 +23,11 @@ import viOwner from "./locales/vi/owner.json";
 import viVehicle from "./locales/vi/vehicle.json";
 import viTask from "./locales/vi/task.json";
 import viSparePart from "./locales/vi/sparePart.json";
-import viCorrespondance from "./locales/en/correspondance.json";
+import viCorrespondance from "./locales/vi/correspondance.json";
+import viGarage from "./locales/vi/garage.json";
+import viPartAndLabor from "./locales/vi/partAndLabor.json";
+import viPartAndLaborDb from "./locales/vi/partAndLaborDb.json";
+import viColor from "./locales/vi/color.json";
 
 import frCommon from "./locales/fr/common.json";
 import frNavigation from "./locales/fr/navigation.json";
@@ -28,7 +36,11 @@ import frOwner from "./locales/fr/owner.json";
 import frVehicle from "./locales/fr/vehicle.json";
 import frTask from "./locales/fr/task.json";
 import frSparePart from "./locales/fr/sparePart.json";
-import frCorrespondance from "./locales/en/correspondance.json";
+import frCorrespondance from "./locales/fr/correspondance.json";
+import frGarage from "./locales/fr/garage.json";
+import frPartAndLabor from "./locales/fr/partAndLabor.json";
+import frPartAndLaborDb from "./locales/fr/partAndLaborDb.json";
+import frColor from "./locales/fr/color.json";
 
 export const resources = {
   en: {
@@ -40,6 +52,10 @@ export const resources = {
     task: enTask,
     sparePart: enSparePart,
     correspondance: enCorrespondance,
+    garage: enGarage,
+    partAndLabor: enPartAndLabor,
+    partAndLaborDb: enPartAndLaborDb,
+    color: enColor,
   },
   vi: {
     common: viCommon,
@@ -50,6 +66,10 @@ export const resources = {
     task: viTask,
     sparePart: viSparePart,
     correspondance: viCorrespondance,
+    garage: viGarage,
+    partAndLabor: viPartAndLabor,
+    partAndLaborDb: viPartAndLaborDb,
+    color: viColor,
   },
   fr: {
     common: frCommon,
@@ -60,6 +80,10 @@ export const resources = {
     task: frTask,
     sparePart: frSparePart,
     correspondance: frCorrespondance,
+    garage: frGarage,
+    partAndLabor: frPartAndLabor,
+    partAndLaborDb: frPartAndLaborDb,
+    color: frColor,
   },
 };
 

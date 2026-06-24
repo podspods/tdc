@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
-import type { Invoice, InvoiceFormData } from "../components/Invoice/Invoice.types";
-import * as invoiceService from "../components/Invoice/Invoice.service";
-import type { Owner } from "../components/owner/owner.types";
-import type { Vehicle } from "../components/vehicle/vehicle.types";
+import type { Invoice, InvoiceFormData } from "../components/invoice/Invoice.types";
+import * as invoiceService from "../components/invoice/Invoice.service";
+import type { Owner } from "../components/owner/types";
+import type { Vehicle } from "../components/vehicle/types";
 import { _getAllOwners } from "../components/owner/owner.service";
 import { _vehicleList } from "../components/vehicle/vehicle.service";
 

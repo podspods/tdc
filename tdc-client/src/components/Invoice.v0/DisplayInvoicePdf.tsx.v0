@@ -1,0 +1,67 @@
+import { MainContainer } from "../../common/common.styled";
+import { LeftSide, RightSide, TwoHalfPage } from "./view.style";
+import { default as GarageSection } from "../garage/Badge";
+import { default as VehicleSection } from "../vehicle/Badge";
+import { default as OwnerSection } from "../owner/Badge";
+import LineSection from "./LineSection";
+import Agreement from "./Agreement";
+
+import DaySection from "./DaySection";
+import { Input } from "../UI/Input";
+import { InvoiceState, type Invoice, type InvoiceInfo, type InvoiceLine } from "./types";
+import { useEffect, useState } from "react";
+import {
+  invoiceInfoInit,
+  invoiceInit,
+  statusCodeDraft,
+  todayDate,
+  vehicleInfoInit,
+  vehicleInit,
+} from "../../common/constant";
+import type { Owner } from "../owner/types";
+import type { Vehicle, VehicleInfo } from "../vehicle/types";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import { generateInvoiceNumber } from "../../common/common";
+import { createInvoice, getInvoiceById, updateInvoice } from "./crud";
+import { getVehicleInfoById } from "../vehicle/Crud";
+import styled from "styled-components";
+import type { Garage } from "../garage/garage.types";
+import type { Correspondance } from "../correspondance/types";
+
+export type DisplayInvoiceProps = {
+  invoice: Invoice;
+  invoiceLineList: InvoiceLine[];
+  typeLineList: Correspondance[];
+  owner: Owner;
+  garage: Garage;
+  vehicle: Vehicle;
+};
+export default function DisplayInvoice({ ...props }: DisplayInvoiceProps) {
+  const { t } = useTranslation(["invoice"]);
+
+  return (
+    <>
+      <MainContainer>
+        <InvoiceHeader>
+          <LeftSide>
+            <GarageSection value={props.garage} />
+          </LeftSide>
+          <RightSide>
+            <OwnerSection value={props.owner} />
+            <VehicleSection value={props.vehicle} owner={props.owner} />
+            <DaySection issueDate={props.invoice.issueDate} dueDate={props.invoice.dueDate} />
+            <Input label={t("invoiceNumber")} value={props.invoice.invoiceNumber} readOnly />
+          </RightSide>
+        </InvoiceHeader>
+        <InvoiceLineDiv>
+          <LineSection value={props.invoiceLineList} typeLineList={props.typeLineList} />
+        </InvoiceLineDiv>
+        <Agreement />
+      </MainContainer>
+    </>
+  );
+}
+
+const InvoiceHeader = styled(TwoHalfPage)``;
+const InvoiceLineDiv = styled.div``;

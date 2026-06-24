@@ -3,8 +3,7 @@ import { Button, Header, MainContainer, Title } from "../common/common.styled";
 import { useState } from "react";
 import type { ViewMode } from "../common/commun.types";
 import { vehicleInit } from "../common/constant";
-import type { CreateVehicleDto, Vehicle } from "../components/vehicle/vehicle.types";
-import Modal from "../components/vehicle/vehicle.Modal";
+import type { CreateVehicleDto, Vehicle } from "../components/vehicle/types";
 import { useVehicle } from "../components/vehicle/vehicle.useVehicle";
 import List from "../components/vehicle/vehicle.List";
 import Stats from "../components/vehicle/vehicle.Stats";
@@ -35,7 +34,6 @@ export default function Vehicle({ ...props }: VehicleProps) {
 
   //--------------------------------------------------------------------------------------------------------------------------
   async function handleSubmit(vehicle: CreateVehicleDto) {
-    console.log("handleSubmit", vehicle);
     let success = false;
     if (viewMode === "create") {
       const result = await createVehicle(vehicle);
@@ -52,7 +50,6 @@ export default function Vehicle({ ...props }: VehicleProps) {
   //--------------------------------------------------------------------------------------------------------------------------
 
   function handleCreate() {
-    console.log("handleCreate", 0);
     setSelectedVehicle(vehicleInit);
     setViewMode("create");
     setModalOpen(true);
@@ -83,12 +80,12 @@ export default function Vehicle({ ...props }: VehicleProps) {
         <Header>
           <Title>{t("vehicleManagement")}</Title>
 
-          <Button variant="primary" onClick={handleCreate}>
+          <Button $variant="primary" onClick={handleCreate}>
             {t("newVehicle")}
           </Button>
         </Header>
 
-        {modalOpen && (
+        {/* {modalOpen && (
           <Modal
             setModalOpen={setModalOpen}
             setViewMode={setViewMode}
@@ -98,7 +95,7 @@ export default function Vehicle({ ...props }: VehicleProps) {
             selectedVehicle={selectedVehicle}
             isLoading={loading}
           />
-        )}
+        )} */}
 
         {stats && <Stats stats={stats} />}
 

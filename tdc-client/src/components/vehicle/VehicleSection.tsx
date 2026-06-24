@@ -1,6 +1,6 @@
 import { Button } from "../../common/common.styled";
 import NewOwner from "../owner/NewOwner";
-import type { Owner } from "../owner/owner.types";
+import type { Owner } from "../owner/types";
 import SelectOwner from "../owner/SelectOwner";
 import NewVehicle from "./NewVehicle";
 import SelectVehicle from "./SelectVehicle";
@@ -23,7 +23,7 @@ export default function VehicleSection({ ...props }: VehicleSectionProps) {
           ownerList={props.ownerList}
         />
 
-        <Button variant="secondary" onClick={() => props.setShowNewOwner(!props.showNewOwner)}>
+        <Button $variant="secondary" onClick={() => props.setShowNewOwner(!props.showNewOwner)}>
           {props.showNewOwner ? t("cancel") : "➕ 👨‍💼"}
         </Button>
         {props.showNewOwner && (
@@ -41,7 +41,7 @@ export default function VehicleSection({ ...props }: VehicleSectionProps) {
               setSelectedVehicleId={props.setSelectedVehicleId}
               filteredVehicles={filteredVehicles}
             />
-            <Button variant="secondary" onClick={() => setShowNewVehicle(!showNewVehicle)}>
+            <Button $variant="secondary" onClick={() => setShowNewVehicle(!showNewVehicle)}>
               {showNewVehicle ? t("cancel") : "➕ 🏍"}
             </Button>
             {showNewVehicle && (

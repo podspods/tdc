@@ -1,3 +1,7 @@
+import { Owner } from "../../owner/owner.types";
+import { Brand } from "../brand/brand.types";
+import { Model } from "../model/model.types";
+
 export type Vehicle = {
   id: number;
   ownerId: number;
@@ -37,16 +41,16 @@ export type VehicleQueryParams = {
   search?: string; // multi criteria seach
 };
 
-export type VehicleInfo = Vehicle & {
-  vehicleId: number;
-  brandName: string;
-  brandCode: string;
-  brandId: number;
-  countryOfOrigin: string;
-  modelName: string;
-  userFirstName: string;
-  userLastName: string;
-};
+// export type VehicleInfo = Vehicle & {
+//   vehicleId: number;
+//   brandName: string;
+//   brandCode: string;
+//   brandId: number;
+//   countryOfOrigin: string;
+//   modelName: string;
+//   userFirstName: string;
+//   userLastName: string;
+// };
 
 export type VehicleInfoQueryParams = {
   page?: number;
@@ -58,4 +62,11 @@ export type VehicleInfoQueryParams = {
   modelName: string;
   brandId?: number;
   search?: string; // multi criteria seach
+};
+
+export type VehicleInfo = {
+  vehicle: Vehicle;
+  brand: Brand;
+  model: Model;
+  owner: Owner;
 };

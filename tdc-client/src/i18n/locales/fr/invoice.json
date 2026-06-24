@@ -59,8 +59,29 @@
   "selectOwner": "Selectionner un propriétaire",
 
   "selectVehicle": "Selectionner un  Véhicule",
+  "invoiceNumber": "Facture N°",
 
   "notes": "Notes",
   "termsConditions": "Conditions générales",
+  "currency": "€",
+  "maintenanceService": "Maintenance",
+  "diagnostic": "Diagnostique",
+  "repair": "Réparation",
+
+  "engine": "Moteur",
+  "electronic": "Electronique",
+  "chassis": "Chassis",
+  "brakes": "Frein",
+
+  "typeLine": "Type Ligne",
+  "category": "Categorie",
+  "subCategory": "Sous Categorie",
+  "brand": "Marque",
+  "partAndLaborCode": "Code",
+  "partAndLaborName": "Designation",
+  "addInvoiceLIne": "Nouvelle ligne de facture",
+  "filterByOwnerOrVehicle": "Propriétaire, véhicule ou plaque",
+  "clearFilters": "Effacer les filtres",
+
   "end": "fin"
 }

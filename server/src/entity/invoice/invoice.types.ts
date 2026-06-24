@@ -1,3 +1,5 @@
+import { dateInit } from "../../common/constant";
+
 export type Correspondance = {
   id: number;
   subjectCode: number;
@@ -5,7 +7,7 @@ export type Correspondance = {
   value: string;
   description?: string;
   sortOrder?: number;
-  createdAt: string;
+  createdAt: Date;
 };
 
 // POST /api/invoices/full
@@ -15,8 +17,8 @@ export type CreateFullInvoiceDto = CreateInvoiceDto & {
 export type Invoice = CreateInvoiceDto & {
   id: number;
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 export type InvoiceInfo = Invoice & {
   statusText: string;
@@ -43,8 +45,8 @@ export type UpdateInvoiceDto = {
   invoiceNumber: string;
   garageId: number;
   vehicleId: number;
-  issueDate: string;
-  dueDate: string;
+  issueDate: Date;
+  dueDate: Date;
   statusCode: number;
   notes: string;
 };
@@ -53,8 +55,8 @@ export type UpdateInvoiceDto = {
 
 export type InvoiceLine = CreateInvoiceLineDto & {
   id: number;
+  createdAt: Date;
   amount: number;
-  createdAt: string;
 };
 
 export type CreateInvoiceLineDto = UpdateInvoiceLineDto & {
@@ -80,3 +82,16 @@ export type InvoiceQueryParams = {
 };
 export type IdParams = { id: string };
 export type LineIdParams = { lineId: string };
+export const invoiceInit: Invoice = {
+  id: 0,
+  garageId: 0,
+  vehicleId: 0,
+  invoiceNumber: "invoiceNumber-init",
+  issueDate: dateInit,
+  dueDate: dateInit,
+  statusCode: 0,
+  createdBy: "Init",
+  createdAt: dateInit,
+  updatedAt: dateInit,
+  notes: "note-init",
+};

@@ -7,7 +7,10 @@ import {
   UpdateInvoiceLineDto,
   InvoiceQueryParams,
   InvoiceInfo,
+  Invoice,
+  invoiceInit,
 } from "./invoice.types";
+import { generateInvoiceNumber } from "../../common/helper";
 
 export async function _getAllInvoices(fastify: FastifyInstance, params: InvoiceQueryParams = {}) {
   const { data, total } = await invoiceRepo.findAllInvoices(fastify, params);
@@ -36,11 +39,41 @@ export async function _getAllInvoicesInfo(fastify: FastifyInstance): Promise<Inv
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
-export async function _createInvoice(fastify: FastifyInstance, data: CreateInvoiceDto) {
-  return await invoiceRepo.createInvoice(fastify, data);
+export async function _createInvoice(
+  fastify: FastifyInstance,
+  data: CreateInvoiceDto,
+): Promise<Invoice> {
+  console.log(
+    "%%%%%%%%%%%%%%%%%%%%%% service _createInvoice newInvoiceNumber 46 data typof ",
+    typeof data.dueDate,
+  );
+  const result = await invoiceRepo.createInvoice(fastify, data);
+  console.log("%%%%%%%%%%%%%%%%%%%%%% service _createInvoice result 47", result);
+  if (result) {
+    console.log("%%%%%%%%%%%%%%%%%%%%%% service _createInvoice newInvoiceNumber", result);
+    console.log(
+      "%%%%%%%%%%%%%%%%%%%%%% service _createInvoice newInvoiceNumber 50 typof ",
+      typeof result.dueDate,
+    );
+
+    const newInvoiceNumber = generateInvoiceNumber(result);
+    console.log("%%%%%%%%%%%%%%%%%%%%%% service _createInvoice newInvoiceNumber", newInvoiceNumber);
+
+    const newInvoice: Invoice = { ...result, invoiceNumber: newInvoiceNumber };
+    const returnValue = await invoiceRepo.updateInvoice(fastify, newInvoice.id, newInvoice);
+    console.log("%%%%%%%%%%%%%%%%%%%%%% service _createInvoice newInvoice", newInvoice);
+    console.log("%%%%%%%%%%%%%%%%%%%%%% service _createInvoice returnValue", returnValue);
+
+    return returnValue || newInvoice;
+  }
+  return { ...invoiceInit, ...data };
 }
 
-export async function _updateInvoice(fastify: FastifyInstance, id: number, data: UpdateInvoiceDto) {
+export async function _updateInvoice(
+  fastify: FastifyInstance,
+  id: number,
+  data: UpdateInvoiceDto,
+): Promise<Invoice> {
   const existing = await invoiceRepo.findInvoiceById(fastify, id);
   if (!existing) throw new Error("Invoice not found");
   const updated = await invoiceRepo.updateInvoice(fastify, id, data);

@@ -142,10 +142,10 @@ export function CostModal({ isOpen, onClose, onSubmit, initialData }: CostModalP
           )}
         </ModalBody>
         <ModalFooter>
-          <Button variant="secondary" onClick={onClose}>
+          <Button $variant="secondary" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button $variant="primary" onClick={handleSubmit}>
             {initialData ? "Update" : "Create"}
           </Button>
         </ModalFooter>

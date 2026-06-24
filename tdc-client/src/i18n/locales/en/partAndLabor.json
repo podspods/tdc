@@ -1,0 +1,24 @@
+{
+  "title": "Part and Labor Managment",
+
+  "new": "New",
+  "code": "Code",
+  "name": "Name",
+  "description": "Description",
+  "skillLevel": "Skill Level",
+  "duration": "Duration",
+  "all": "All",
+  "cost": "Cost",
+  "margin": "Margin",
+  "edit": "Edit",
+  "delete": "Delete",
+  "typeLine": "Type Line",
+  "category": "Category",
+  "subCategory": "Sub Category",
+  "brand": "Brand",
+  "saving": "Saving",
+  "save": "Save",
+  "cancel": "Cancel",
+
+  "end": "end"
+}

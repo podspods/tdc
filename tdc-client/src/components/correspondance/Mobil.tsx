@@ -6,7 +6,7 @@ import {
   CardValue,
   MobileCardContainer,
 } from "../../common/mobil.syled";
-import { Card } from "../owner/owner.styled";
+import { Card } from "../owner/styled";
 import type { Correspondance } from "./types";
 import { Input } from "../UI/Input";
 

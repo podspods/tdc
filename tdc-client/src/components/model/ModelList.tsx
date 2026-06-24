@@ -46,7 +46,7 @@ export function ModelList() {
             <Td>{m.yearStart}</Td>
             <Td>{m.isCurrent ? "Yes" : "No"}</Td>
             <Td>
-              <Button variant="danger" onClick={() => handleDelete(m.id)}>
+              <Button $variant="danger" onClick={() => handleDelete(m.id)}>
                 Delete
               </Button>
             </Td>

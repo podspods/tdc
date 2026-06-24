@@ -1,6 +1,6 @@
-import type { Garage } from "../components/Garage/garage.types";
+import type { Garage } from "../components/garage/garage.types";
+import type { Invoice } from "../components/invoice/types";
 import type { OptionValue } from "./commun.types";
-
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -20,13 +20,17 @@ export function formatDateToYYYYMMDD(date: Date): string {
   const day = String(myDate.getDate()).padStart(2, "0");
   return `${year}${month}${day}`;
 }
-export function formatDateToDDMMYYYY(date: Date): string {
+export function ZformatDateToDDMMYYYY(date: Date): string {
   const myDate = new Date(date);
   const year = myDate.getFullYear();
   const month = String(myDate.getMonth() + 1).padStart(2, "0");
   const day = String(myDate.getDate()).padStart(2, "0");
   return `${day}/${month}/${year}`;
 }
+
+// export function formatDateToYYYYMMDD(isoDate: string): string {
+//   return isoDate.split("T")[0].replace(/-/g, "");
+// }
 
 export function garage2Option(garageList: Garage[]): OptionValue[] {
   const returnValue: OptionValue[] = garageList.map((value) => ({
@@ -59,3 +63,28 @@ export function splitTaskCode(taskCode: string): string[] {
   const sequence = taskCode.substring(6); // "002"
   return [category, subcategory, brand, sequence];
 }
+
+export function generateInvoiceNumber(invoice: Invoice): string {
+  const newGarageId = invoice.garageId ? invoice.garageId : 99;
+  const newVehicleId = invoice.vehicleId ? invoice.vehicleId : 99;
+  const newId = invoice.id ? invoice.id : 99999;
+  const newdate: Date = invoice.issueDate ? invoice.issueDate : new Date();
+
+  return (
+    newGarageId.toString().padStart(2, "0") +
+    newVehicleId.toString().padStart(5, "0") +
+    formatDateToYYYYMMDD(newdate) +
+    "-" +
+    newId.toString().padStart(5, "0")
+  );
+}
+
+// Fonction de formatage manuel (sans espace insécable)
+export const formatNumber = (value: number): string => {
+  const parts = value.toString().split(".");
+  const integerPart = parts[0];
+  const decimalPart = parts[1] ? `,${parts[1]}` : "";
+  // Ajouter un espace normal (espace classique)
+  const formatted = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return `${formatted}${decimalPart}`;
+};

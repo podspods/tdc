@@ -1,4 +1,4 @@
-import type { Vehicle } from "./vehicle.types";
+import type { Vehicle } from "./types";
 
 export type ListProps = {
   vehicleList: Vehicle[];

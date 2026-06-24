@@ -2,7 +2,7 @@
 -- TABLE: model
 -- Description: Motorcycle models with relation to brands
 -- =====================================================
-drop table if exists model CASCADE ;
+-- drop table if exists model CASCADE ;
 
 CREATE TABLE model (
     id SERIAL PRIMARY KEY,
@@ -85,3 +85,13 @@ INSERT INTO model (brand_id, name, year_start, year_end, is_current, engine_disp
 -- KTM
 ((SELECT id FROM brand WHERE name = 'KTM'), '390 Duke', 2017, NULL, TRUE, 373, '4-stroke', 44, 'Entry naked', 'system'),
 ((SELECT id FROM brand WHERE name = 'KTM'), '890 Adventure', 2021, NULL, TRUE, 889, '4-stroke', 105, 'Adventure', 'system');
+
+
+
+
+
+
+
+INSERT INTO model (brand_id, name, year_start, year_end, is_current, engine_displacement, engine_type, power_hp, description, created_by) VALUES
+-- Honda models
+((SELECT id FROM brand WHERE name = 'Honda'), 'Scooter Lead', 2019, NULL, TRUE, 110, '4-stroke', 94, 'Scooter 110 cc', 'system');

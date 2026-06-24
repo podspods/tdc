@@ -14,3 +14,9 @@ export type ApiResponse<T = any> = {
 };
 
 export type OptionValue = { value: string; label: string };
+
+export type ModalIsOpen = {
+  owner: boolean;
+  vehicule: boolean;
+  invoiceLine: boolean;
+};

@@ -1,0 +1,86 @@
+import { useEffect, useState } from "react";
+import { lineTypeSubjectCode } from "../../common/constant";
+import { getCorrespondanceBySubject } from "../correspondance/crud";
+import type { Correspondance } from "../correspondance/types";
+import InvoiceLineDetail from "./InvoiceLineDetail";
+import Summary from "./Summary";
+import { Modal as ModalCreateInvoiceLine } from "../partAndLabor/Modal";
+import { getInvoiceLineById } from "./crud";
+import { Button } from "../../common/common.styled";
+import { useTranslation } from "react-i18next";
+import type { InvoiceLine } from "./types";
+
+export type LineSectionProps = {
+  typeLineList: Correspondance[];
+  value: InvoiceLine[];
+  editMode: boolean;
+};
+export default function LineSection({ ...props }: LineSectionProps) {
+  const { t } = useTranslation(["invoice"]);
+
+  const [lineTypeList, setLineTypeList] = useState<Correspondance[]>([]);
+  const [refreshId, setRefreshId] = useState<number>(0);
+  const [invoiceLineExist, setInvoiceLineExist] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    loadLineType();
+    findInvoiceLine();
+  }, [props.invoiceId, refreshId]);
+
+  const loadLineType = async () => {
+    const lineTypeList: Correspondance[] = await getCorrespondanceBySubject(lineTypeSubjectCode);
+    setLineTypeList(lineTypeList);
+  };
+
+  const findInvoiceLine = async () => {
+    const response = await getInvoiceLineById(props.invoiceId);
+    const newInvoiceLineExist: boolean = response.length > 0;
+    setInvoiceLineExist(newInvoiceLineExist);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleRefresh = () => {
+    setRefreshId((prev) => prev + 1);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleAddLine = () => {
+    setIsModalOpen(true);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    handleRefresh();
+  };
+  return (
+    <>
+      {lineTypeList.map((lineType) => (
+        <InvoiceLineDetail
+          key={lineType.id}
+          lineType={lineType}
+          invoiceId={props.invoiceId}
+          editMode={props.editMode}
+          refreshId={refreshId}
+          setRefresh={handleRefresh}
+        />
+      ))}
+      {!invoiceLineExist && (
+        <Button $iconOnly onClick={handleAddLine} title={t("New Line")}>
+          ➕
+        </Button>
+      )}
+      <ModalCreateInvoiceLine
+        invoiceId={props.invoiceId}
+        typeLineId={0}
+        isOpen={isModalOpen}
+        onClose={handleClose}
+      />
+      <Summary
+        refreshId={refreshId}
+        invoiceId={props.invoiceId}
+        vatRate={10}
+        lineTypeList={lineTypeList}
+      />
+    </>
+  );
+}

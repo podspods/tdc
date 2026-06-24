@@ -1,5 +1,5 @@
 import type { ViewMode } from "../../common/commun.types";
-import type { CreateOwnerDto, Owner } from "./owner.types";
+import type { CreateOwnerDto, Owner } from "./types";
 import { OwnersView } from "./owner.View";
 import { OwnersForm } from "./owner.Form";
 import {

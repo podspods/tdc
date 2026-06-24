@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import {
   _createVehicle,
   _deleteVehicle,
+  _findVehicleInfoByOwnerId,
   _getAllVehicleInfo,
   _getAllVehicles,
   _getVehicleById,
@@ -12,13 +13,17 @@ import {
 import {
   CreateVehicleDto,
   UpdateVehicleDto,
-  VehicleInfo,
   VehicleQueryParams,
+  VehicleInfo,
 } from "./vehicle.types";
+import { getBrandById } from "../brand/brand.service";
+import { getModelById } from "../model/model.controller";
 
 type IdParams = { id: string };
 type PlateParams = { plate: string };
 type GetAllQuery = VehicleQueryParams;
+
+//--------------------------------------------------------------------------------------------------------------------------
 
 export async function getAllVehicles(
   fastify: FastifyInstance,
@@ -76,11 +81,39 @@ export async function getVehicleInfoById(
   try {
     const id = parseInt(request.params.id);
     const vehicle: VehicleInfo = await _getVehicleInfoById(fastify, id);
-    console.log("_getVehicleInfoById(---------------------------", vehicle);
     reply.send({ success: true, data: vehicle });
   } catch (error) {
     const status = error instanceof Error && error.message === "Vehicle not found" ? 404 : 500;
     reply.status(status).send({
+      success: false,
+      error: error instanceof Error ? error.message : "Internal server error",
+    });
+  }
+}
+//--------------------------------------------------------------------------------------------------------------------------
+// vehicle.controller.ts
+export async function getVehicleInfoByOwnerId(
+  fastify: FastifyInstance,
+  request: FastifyRequest<{
+    Params: { ownerId: string };
+    Querystring: { page?: string; limit?: string };
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const ownerId = parseInt(request.params.ownerId, 10);
+    if (isNaN(ownerId)) {
+      return reply.status(400).send({ success: false, error: "Invalid ownerId" });
+    }
+
+    // Récupérer les paramètres de pagination optionnels depuis la query string
+    const page = request.query.page ? parseInt(request.query.page, 10) : 1;
+    const limit = request.query.limit ? parseInt(request.query.limit, 10) : 0;
+
+    const result = await _findVehicleInfoByOwnerId(fastify, ownerId, page, limit);
+    reply.send({ success: true, data: result.data, total: result.total });
+  } catch (error) {
+    reply.status(500).send({
       success: false,
       error: error instanceof Error ? error.message : "Internal server error",
     });

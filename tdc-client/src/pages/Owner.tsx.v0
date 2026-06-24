@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Button, Header, MainContainer, Title } from "../common/common.styled";
 import type { ViewMode } from "../common/commun.types";
-import type { Owner } from "../components/owner/owner.types";
+import type { Owner } from "../components/owner/types";
 import { useState } from "react";
 import { OWNER_INIT } from "../common/constant";
 import Modal from "../components/owner/Modal";

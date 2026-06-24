@@ -1,0 +1,22 @@
+{
+  "title": "Quản lý phụ tùng và nhân công",
+  "new": "Thêm mới",
+  "code": "Mã",
+  "name": "Tên",
+  "description": "Mô tả",
+  "skillLevel": "Trình độ tay nghề",
+  "duration": "Thời lượng",
+  "all": "Toàn bộ",
+  "cost": "Chi phí",
+  "margin": "Lợi nhuận",
+  "edit": "Sửa",
+  "delete": "Xóa",
+  "typeLine": "Loại dòng",
+  "category": "Danh mục",
+  "subCategory": "Danh mục con",
+  "brand": "Thương hiệu",
+  "saving": "Đang lưu lại",
+  "save": "Lưu lại",
+  "cancel": "Hủy bỏ",
+  "end": "kết thúc"
+}

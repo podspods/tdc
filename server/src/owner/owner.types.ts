@@ -1,73 +1,50 @@
-/**
- * Owner/Client Types
- */
-
-// export type OwnerCategory = "basic" | "important" | "vip";
-
-export type Owner = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string; // Unique identifier
-  email?: string;
-  address?: string;
-  city?: string;
-  category: number;
-  notes?: string;
-
-  // Stats
-  totalMotorcycles: number;
-  totalInvoices: number;
-  totalSpent: number;
-  lastVisitDate?: string;
-
-  // Metadata
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-
-  // Virtual fields (computed)
-  fullName?: string;
-};
-
-export type CreateOwnerDto = {
+export type OwnerInfo = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  email?: string;
-  address?: string;
-  city?: string;
-  category?: number;
-  notes?: string;
+  address: string;
+  city: string;
+};
+export type Owner = CreateOwnerDto & {
+  id: number;
+};
+//  dto =data transfert object
+export type CreateOwnerDto = UpdateOwnerDto & {
   createdBy: string;
+  createdAt: Date;
 };
 
-export type UpdateOwnerDto = {
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: string;
-  email?: string;
-  address?: string;
-  city?: string;
-  category?: number;
-  notes?: string;
+export type UpdateOwnerDto = OwnerInfo & {
+  email: string;
+  category: number; // 1= "basic" | 2="important" | 3="vip" | 4="gold" | 5="platinum";
+  notes: string;
+  updatedAt: Date;
+};
+
+export type OwnerStats = {
+  total: number;
+  active: number;
+  inactive: number;
+  blocked: number;
+  byCategory: {
+    basic: number;
+    important: number;
+    vip: number;
+    gold: number;
+    platinum: number;
+  };
+  totalSpentAll: number;
+  averageSpentPerOwner: number;
+  topCities: Array<{ city: string; count: number }>;
 };
 
 export type OwnerQueryParams = {
   page?: number;
   limit?: number;
-  search?: string; // Search in name or phone
+  search?: string;
   category?: number;
   city?: string;
+  status?: number;
   minSpent?: number;
   maxSpent?: number;
-  hasOutstandingInvoices?: boolean;
-};
-
-export type OwnerStats = {
-  totalOwners: number;
-  // byCategory: number;
-  totalSpentAll: number;
-  averageSpentPerOwner: number;
-  topCities: Array<{ city: string; count: number }>;
 };

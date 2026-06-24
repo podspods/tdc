@@ -17,7 +17,7 @@ import {
 import { Input } from "../UI/Input";
 import { Textarea } from "../UI/Textarea";
 import SelectBrand from "../brand/SelectBrand";
-import type { Brand } from "../brand/brand.types";
+import type { Brand } from "../brand/types";
 
 // Additional styled components for this modal
 const FormGrid = styled.div`
@@ -45,8 +45,7 @@ export default function ModelModal({ ...props }: ModalProps) {
   const [formData, setFormData] = useState<CreateModelDto>(modelInit);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [selectedBrandId, setSelectedBrandId] = useState<number>(props.editingItem?.brandId || 0);
-  console.log("brandList", props.brandList);
-  // Sync form when editingItem changes
+  s; // Sync form when editingItem changes
   useEffect(() => {
     if (props.editingItem) {
       setFormData({
@@ -151,7 +150,7 @@ export default function ModelModal({ ...props }: ModalProps) {
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <ModalTitle>{props.editingItem ? t("editModel") : t("addModel")}</ModalTitle>
-          <Button variant="secondary" onClick={() => props.setModalOpen(false)}>
+          <Button $variant="secondary" onClick={() => props.setModalOpen(false)}>
             ✖
           </Button>
         </ModalHeader>
@@ -270,10 +269,10 @@ export default function ModelModal({ ...props }: ModalProps) {
             </FormGrid>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" variant="primary" disabled={isSubmitting}>
+            <Button type="submit" $variant="primary" disabled={isSubmitting}>
               {isSubmitting ? t("saving") : t("save")}
             </Button>
-            <Button type="button" variant="secondary" onClick={() => props.setModalOpen(false)}>
+            <Button type="button" $variant="secondary" onClick={() => props.setModalOpen(false)}>
               {t("cancel")}
             </Button>
           </ModalFooter>

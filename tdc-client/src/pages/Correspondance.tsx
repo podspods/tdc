@@ -95,7 +95,6 @@ export default function Correspondance({ ...props }: CorrespondanceProps) {
   };
 
   const openEditModal = (item: Correspondance) => {
-    console.log("openEditModal", item);
     setEditingItem(item);
     setFormData({
       id: item.id,
@@ -211,7 +210,7 @@ export default function Correspondance({ ...props }: CorrespondanceProps) {
             onChange={(e) => setFilterCode(e.target.value)}
           />
           <Button
-            variant="secondary"
+            $variant="secondary"
             onClick={() => {
               setFilterSubjectCode("");
               setFilterCode("");

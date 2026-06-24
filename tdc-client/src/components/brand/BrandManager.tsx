@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { _getAllBrands, _createBrand, _updateBrand, _deleteBrand } from "./brand.service";
-import type { MotorcycleBrand, CreateBrandDto } from "./brand.types";
+import { _getAllBrands, _createBrand, _updateBrand, _deleteBrand } from "./service";
+import type { Brand, CreateBrandDto } from "./types";
 import {
   Button,
   Input,
@@ -17,11 +17,12 @@ import {
 } from "../../common/common.styled";
 
 export function BrandManager() {
-  const [brands, setBrands] = useState<MotorcycleBrand[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<MotorcycleBrand | null>(null);
+  const [editing, setEditing] = useState<Brand | null>(null);
   const [form, setForm] = useState<CreateBrandDto>({
-    brandName: "",
+    code: "",
+    name: "",
     countryOfOrigin: "",
     createdBy: "admin",
   });
@@ -46,20 +47,21 @@ export function BrandManager() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editing) {
-      await _updateBrand(editing.brandId, form);
+      await _updateBrand(editing.id, form);
     } else {
       await _createBrand(form);
     }
     setShowModal(false);
     setEditing(null);
-    setForm({ brandName: "", countryOfOrigin: "", createdBy: "admin" });
+    setForm({ name: "", countryOfOrigin: "", createdBy: "admin", code: "" });
     await loadBrands();
   };
 
-  const handleEdit = (brand: MotorcycleBrand) => {
+  const handleEdit = (brand: Brand) => {
     setEditing(brand);
     setForm({
-      brandName: brand.brandName,
+      code: brand.code,
+      name: brand.name,
       countryOfOrigin: brand.countryOfOrigin,
       createdBy: brand.createdBy,
     });
@@ -77,7 +79,7 @@ export function BrandManager() {
     <Card>
       <CardHeader>
         <CardTitle>Motorcycle Brands</CardTitle>
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+        <Button $variant="primary" onClick={() => setShowModal(true)}>
           Add Brand
         </Button>
       </CardHeader>
@@ -102,17 +104,17 @@ export function BrandManager() {
             </Thead>
             <Tbody>
               {brands.map((b) => (
-                <Tr key={b.brandId}>
-                  <Td>{b.brandId}</Td>
-                  <Td>{b.brandName}</Td>
+                <Tr key={b.id}>
+                  <Td>{b.id}</Td>
+                  <Td>{b.name}</Td>
                   <Td>{b.countryOfOrigin}</Td>
                   <Td>
-                    <Button variant="secondary" onClick={() => handleEdit(b)}>
+                    <Button $variant="secondary" onClick={() => handleEdit(b)}>
                       Edit
                     </Button>
                     <Button
-                      variant="danger"
-                      onClick={() => handleDelete(b.brandId)}
+                      $variant="danger"
+                      onClick={() => handleDelete(b.id)}
                       style={{ marginLeft: 8 }}
                     >
                       Delete
@@ -144,9 +146,9 @@ export function BrandManager() {
             <h2>{editing ? "Edit Brand" : "New Brand"}</h2>
             <form onSubmit={handleSubmit}>
               <Input
-                name="brandName"
+                name="name"
                 placeholder="Brand name"
-                value={form.brandName}
+                value={form.name}
                 onChange={handleInputChange}
                 required
               />
@@ -159,7 +161,7 @@ export function BrandManager() {
                 style={{ marginTop: 8 }}
               />
               <div style={{ marginTop: 16, display: "flex", justifyContent: "flex-end", gap: 8 }}>
-                <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>
+                <Button type="button" $variant="secondary" onClick={() => setShowModal(false)}>
                   Cancel
                 </Button>
                 <Button type="submit">Save</Button>

@@ -1,6 +1,6 @@
 import { Button } from "../../common/common.styled";
 import { Input } from "../UI/Input";
-import { type CreateOwnerDto } from "./owner.types";
+import { type CreateOwnerDto } from "./types";
 import { useTranslation } from "react-i18next";
 
 export type NewOwnerProps = {

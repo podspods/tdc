@@ -41,8 +41,6 @@ export async function getAllOwners(
       city: request.query.city,
       minSpent: request.query.minSpent ?? undefined,
       maxSpent: request.query.maxSpent ?? undefined,
-
-      hasOutstandingInvoices: request.query.hasOutstandingInvoices ?? false,
     };
 
     const result = await _getAllOwners(fastify, params);

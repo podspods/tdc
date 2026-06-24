@@ -18,8 +18,8 @@ import {
   Pagination,
   PageButton,
 } from "../common/common.styled";
-import { _getAllBrands } from "../components/brand/brand.service";
-import type { Brand } from "../components/brand/brand.types";
+import { _getAllBrands } from "../components/brand/service";
+import type { Brand } from "../components/brand/types";
 
 // Mobile card container (visible on small screens)
 const MobileCardContainer = styled.div`
@@ -170,7 +170,7 @@ export default function Model() {
         }}
       >
         <h1>{t("title")}</h1>
-        <Button variant="primary" onClick={openCreateModal}>
+        <Button $variant="primary" onClick={openCreateModal}>
           ➕ {t("add")}
         </Button>
       </div>
@@ -237,7 +237,7 @@ export default function Model() {
             width: "100px",
           }}
         />
-        <Button variant="secondary" onClick={() => setFilters({ page: 1, limit: 10 })}>
+        <Button $variant="secondary" onClick={() => setFilters({ page: 1, limit: 10 })}>
           {t("clearFilters")}
         </Button>
       </FilterBar>
@@ -273,10 +273,10 @@ export default function Model() {
                 <Td>{model.powerHp || "-"}</Td>
                 <Td>
                   <ActionButtons>
-                    <Button variant="secondary" onClick={() => openEditModal(model)}>
+                    <Button $variant="secondary" onClick={() => openEditModal(model)}>
                       🖍
                     </Button>
-                    <Button variant="danger" onClick={() => handleDelete(model.id)}>
+                    <Button $variant="danger" onClick={() => handleDelete(model.id)}>
                       🗑
                     </Button>
                   </ActionButtons>
@@ -317,10 +317,10 @@ export default function Model() {
               <strong>{t("power")}:</strong> {model.powerHp ? `${model.powerHp} hp` : "-"}
             </CardField>
             <ActionButtons style={{ marginTop: "0.5rem" }}>
-              <Button variant="secondary" onClick={() => openEditModal(model)}>
+              <Button $variant="secondary" onClick={() => openEditModal(model)}>
                 🖍 {t("edit")}
               </Button>
-              <Button variant="danger" onClick={() => handleDelete(model.id)}>
+              <Button $variant="danger" onClick={() => handleDelete(model.id)}>
                 🗑 {t("delete")}
               </Button>
             </ActionButtons>

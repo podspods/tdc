@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { _getAllCosts, _createCost, _updateCost, _deleteCost } from "./service";
 import type { Cost, CreateCostDto } from "./types";
 import { CostModal } from "./CostModal";
@@ -71,7 +71,7 @@ export function CostManager() {
     <Card>
       <CardHeader>
         <CardTitle>Cost Management</CardTitle>
-        <Button variant="primary" onClick={handleCreate}>
+        <Button $variant="primary" onClick={handleCreate}>
           + New Cost
         </Button>
       </CardHeader>
@@ -99,13 +99,13 @@ export function CostManager() {
                 <Td>{cost.endDate ? new Date(cost.endDate).toLocaleDateString() : "∞"}</Td>
                 <Td>
                   <Button
-                    variant="secondary"
+                    $variant="secondary"
                     onClick={() => handleEdit(cost)}
                     style={{ marginRight: "8px" }}
                   >
                     ✏️
                   </Button>
-                  <Button variant="danger" onClick={() => handleDelete(cost.id)}>
+                  <Button $variant="danger" onClick={() => handleDelete(cost.id)}>
                     🗑️
                   </Button>
                 </Td>

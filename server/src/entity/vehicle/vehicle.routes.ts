@@ -7,6 +7,7 @@ import {
   getVehicleById,
   getVehicleByPlate,
   getVehicleInfoById,
+  getVehicleInfoByOwnerId,
   updateVehicle,
 } from "./vehicle.controller";
 import { CreateVehicleDto, VehicleQueryParams } from "./vehicle.types";
@@ -16,6 +17,7 @@ export default async function vehicleRoutes(fastify: FastifyInstance) {
   fastify.get<{ Querystring: VehicleQueryParams }>("/", (request, response) =>
     getAllVehicles(fastify, request, response),
   );
+  // route GET /api/vehicles/:id/complete
 
   fastify.get<{ Params: { plate: string } }>("/plate/:plate", (request, response) =>
     getVehicleByPlate(fastify, request, response),
@@ -30,6 +32,11 @@ export default async function vehicleRoutes(fastify: FastifyInstance) {
   fastify.get<{ Params: { id: string } }>("/info/:id", (request, response) =>
     getVehicleInfoById(fastify, request, response),
   );
+
+  fastify.get<{
+    Params: { ownerId: string };
+    Querystring: { page?: string; limit?: string };
+  }>("/owner/:ownerId", (request, reply) => getVehicleInfoByOwnerId(fastify, request, reply));
 
   fastify.post<{ Body: CreateVehicleDto }>("/", (request, response) =>
     createVehicle(fastify, request, response),

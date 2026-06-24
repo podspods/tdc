@@ -22,7 +22,7 @@ export const SidebarContainer = styled.aside<{ $isOpen: boolean }>`
   left: 0;
   bottom: 0;
   width: 280px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background.white};
   box-shadow: ${({ theme }) => theme.shadows.lg};
   transform: translateX(${({ $isOpen }) => ($isOpen ? "0" : "-100%")});
   transition: transform 0.3s ease;
@@ -35,21 +35,21 @@ export const SidebarContainer = styled.aside<{ $isOpen: boolean }>`
     top: 0;
     height: 100vh;
     box-shadow: none;
-    border-right: 1px solid ${({ theme }) => theme.colors.gray200};
+    border-right: 1px solid ${({ theme }) => theme.colors.border.primary};
     width: 260px;
   }
 `;
 
 export const SidebarHeader = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.primary};
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 export const SidebarLogo = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xl};
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 export const Nav = styled.nav`
@@ -63,18 +63,18 @@ export const NavItem = styled(NavLink)`
   padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  color: ${({ theme }) => theme.colors.gray700};
+  color: ${({ theme }) => theme.colors.text.primary};
   transition: all 0.2s ease;
   min-height: 44px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.gray100};
-    color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.background.primary};
+    color: ${({ theme }) => theme.colors.text.secondary};
   }
 
   &.active {
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: white;
+    background-color: ${({ theme }) => theme.colors.background.primary};
+    color: ${({ theme }) => theme.colors.text.success};
   }
 `;
 
@@ -87,6 +87,6 @@ export const NavSectionTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xs};
   font-weight: 600;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.gray500};
+  color: ${({ theme }) => theme.colors.text.primary};
   letter-spacing: 0.5px;
 `;

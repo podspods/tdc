@@ -1,16 +1,16 @@
 import { useState } from "react";
-import type { Owner } from "../components/owner/owner.types";
-import Modal from "../components/owner/Modal";
+import type { Owner } from "../components/owner/types";
+import { Modal } from "../components/owner/Modal";
 import { Button } from "../common/common.styled";
 import { ownerInit } from "../common/constant";
 
 export type OwnerProps = {};
 export default function Owner({ ...props }: OwnerProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingOwner, setEditingOwner] = useState<Owner | null>(null);
+  const [editingOwner, setEditingOwner] = useState<Owner>(ownerInit);
 
   const openCreateModal = () => {
-    setEditingOwner(null);
+    setEditingOwner(ownerInit);
     setModalOpen(true);
   };
 
@@ -23,14 +23,17 @@ export default function Owner({ ...props }: OwnerProps) {
     console.log("fetchOwners", fetchOwners);
   };
   //--------------------------------------------------------------------------------------------------------------------------
-
+  const handleNewVehicle = () => {};
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
     <>
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        editingOwner={editingOwner}
         onSuccess={fetchOwners}
+        newVehicle={handleNewVehicle}
+        owner={editingOwner}
+        setCurrentOwner={setEditingOwner}
       />
       <Button onClick={openCreateModal}>create</Button>
       <Button onClick={openEditModal}>edit</Button>

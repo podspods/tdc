@@ -37,6 +37,22 @@ export async function _getAllVehicleInfo(
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
+export async function _findVehicleInfoByOwnerId(
+  fastify: FastifyInstance,
+  ownerId: number,
+  page?: number,
+  limit?: number,
+): Promise<{ data: VehicleInfo[]; total: number }> {
+  // On réutilise findAllVehicleInfo avec le filtre ownerId
+  return vehicleRepo.findAllVehicleInfo(fastify, {
+    ownerId, // ← restriction sur le propriétaire
+    page: page || 1,
+    limit: limit || 0, // 0 = pas de pagination (retourne tous les véhicules du propriétaire)
+    // search: undefined, // on ne filtre pas par texte
+  });
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
 export async function _getVehicleInfoById(fastify: FastifyInstance, id: number) {
   const vehicle: VehicleInfo | null = await vehicleRepo.findVehicleInfoById(fastify, id);
   if (!vehicle) throw new Error("Vehicle not found");

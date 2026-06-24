@@ -1,0 +1,19 @@
+import { dateInit, INIT_USER, vehicleInit, zgarageInit } from "../../common/constant";
+import type { Garage } from "../garage/garage.types";
+import type { Owner } from "../owner/types";
+import type { Vehicle } from "../vehicle/types";
+
+export type InvoiceItem = {
+  id: number;
+  name: string;
+  price: number;
+  discount: number;
+};
+
+export type PdfDataHeader = {
+  garage: Garage;
+  owner: Owner;
+  vehicle: Vehicle;
+  invoiceNumber: string;
+  invoiceDate: Date;
+};

@@ -1,8 +1,8 @@
 export type Cost = CreateCostDto & {
   id: number;
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateCostDto = UpdateCostDto & {

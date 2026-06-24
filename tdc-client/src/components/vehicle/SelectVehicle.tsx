@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Select } from "../UI/Select";
-import type { Vehicle } from "../vehicle/vehicle.types";
+import type { Vehicle } from "../vehicle/types";
 
 export type SelectVehicleProps = {
   selectedVehicleId: number;

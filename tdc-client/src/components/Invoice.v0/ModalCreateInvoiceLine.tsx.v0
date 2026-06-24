@@ -1,0 +1,217 @@
+import { useTranslation } from "react-i18next";
+import {
+  Button,
+  FormGrid,
+  FormGroup,
+  ModalBody,
+  ModalFooter,
+  ModalOverlay,
+  ModalTitle,
+} from "../../common/common.styled";
+import { ModalContent, ModalHeader } from "./InvoiceLineDetail";
+import { Input } from "../UI/Input";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import { Description } from "./view.style";
+import { Select } from "../UI/Select";
+import type { OptionValue } from "../../common/commun.types";
+import type { Correspondance } from "../correspondance/types";
+import { getCorrespondanceBySubject } from "../correspondance/Crud";
+import {
+  brandTaskSubjectCode,
+  categoryTaskSubjectCode,
+  lineTypeInit,
+  lineTypeSubjectCode,
+  subCategoryTaskSubjectCode,
+} from "../../common/constant";
+import { getBrandList } from "../brand/crud";
+import type { Brand } from "../brand/types";
+import { brandsToSelectOptions } from "../brand/brand.helper";
+
+export type ModalCreateInvoiceLineProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  typeLineId: number;
+};
+
+export default function ModalCreateInvoiceLine({ ...props }: ModalCreateInvoiceLineProps) {
+  if (!props.isOpen) return null;
+
+  const { t } = useTranslation(["invoice"]);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [typeLineOptionList, setTypeLineOptionList] = useState<OptionValue[]>([]);
+  const [currentLineType, setCurrentLineType] = useState<Correspondance>(lineTypeInit);
+  const [categoryOptionList, setCategoryOptionList] = useState<OptionValue[]>([]);
+  const [subCategoryOptionList, setSubCategoryOptionList] = useState<OptionValue[]>([]);
+  const [brandOptionList, setBrandOptionList] = useState<OptionValue[]>([]);
+  const [lineTypeList, setLineTypeList] = useState<Correspondance[]>([]);
+
+  useEffect(() => {
+    loadLineType();
+    loadCategory();
+    loadSubCategory();
+    loadBrand();
+    loadBrand();
+  }, [props.typeLineId]);
+
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  const loadLineType = async () => {
+    const lineTypeList: Correspondance[] = await getCorrespondanceBySubject(lineTypeSubjectCode);
+    setLineTypeList(lineTypeList);
+    const newtypeLineOptionList: OptionValue[] = lineTypeList.map((lineType) => ({
+      value: lineType.code.toString(),
+      label: t(lineType.valueStr),
+    }));
+    const newCurrentTypeLine = lineTypeList.find((line) => line.code === props.typeLineId);
+    setCurrentLineType(newCurrentTypeLine || lineTypeInit);
+    setTypeLineOptionList(newtypeLineOptionList);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const loadCategory = async () => {
+    const categoryList: Correspondance[] =
+      await getCorrespondanceBySubject(categoryTaskSubjectCode);
+    const newCategoryOptionList: OptionValue[] = categoryList.map((lineType) => ({
+      value: lineType.code.toString(),
+      label: `${lineType.valueStr} - ${t(lineType.description)}`,
+    }));
+    setCategoryOptionList(newCategoryOptionList);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const loadSubCategory = async () => {
+    const subCategoryList: Correspondance[] = await getCorrespondanceBySubject(
+      subCategoryTaskSubjectCode,
+    );
+    const newSubCategoryOptionList: OptionValue[] = subCategoryList.map((lineType) => ({
+      value: lineType.code.toString(),
+      label: `${lineType.valueStr} - ${t(lineType.description)}`,
+    }));
+    setSubCategoryOptionList(newSubCategoryOptionList);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const loadBrand = async () => {
+    const brandList: Correspondance[] = await getCorrespondanceBySubject(brandTaskSubjectCode);
+
+    const newBrandOptionList: OptionValue[] = brandList.map((lineType) => ({
+      value: lineType.code.toString(),
+      label: `${lineType.valueStr} - ${t(lineType.description)}`,
+    }));
+    setBrandOptionList(newBrandOptionList);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  const handleSubmit = () => {
+    setIsSubmitting(true);
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    setIsSubmitting(false);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handlePartAndLaborCodeChange = () => {};
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handlePartAndLaborNameChange = () => {};
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleQuantityChange = () => {};
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleDiscountRateChange = () => {};
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  return (
+    <ModalOverlay onClick={props.onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <ModalHeader>
+          <ModalTitle>{t("addInvoiceLIne")}</ModalTitle>
+          <Button variant="secondary" onClick={props.onClose}>
+            ✖
+          </Button>
+        </ModalHeader>
+        <form onSubmit={handleSubmit}>
+          <ModalBody>
+            <FormGrid>
+              <Select
+                label="typeLine"
+                options={typeLineOptionList}
+                value={currentLineType.code}
+              ></Select>
+              <Select label="Category" options={categoryOptionList}></Select>
+              <Select label="SubCategory" options={subCategoryOptionList}></Select>
+              <Select label="Brand" options={brandOptionList}></Select>
+              <Input
+                label={t("PartAndLaborCode")}
+                type="text"
+                name="PartAndLaborCode"
+                value="toto"
+                onChange={handlePartAndLaborCodeChange}
+                required
+              />
+              <Input
+                label={t("PartAndLaborName")}
+                type="text"
+                name="PartAndLaborName"
+                value="toto"
+                onChange={handlePartAndLaborNameChange}
+                required
+              />
+              <Input
+                label={t("Quantity")}
+                type="number"
+                name="PartAndLaQuantityborName"
+                value="toto"
+                onChange={handleQuantityChange}
+                required
+              />
+              <Input
+                label={t("DiscountRate")}
+                type="number"
+                name="DiscountRate"
+                value="toto"
+                onChange={handleDiscountRateChange}
+                required
+              />
+              {/* First name */}
+              {/* <FormGroup>
+                <Input
+                  label={t("firstName")}
+                  type="text"
+                  name="firstName"
+                  value="toto"
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup> */}
+
+              {/* createdBy (readonly in edit mode, but still visible) */}
+              {/* <FormGroup>
+                <Input
+                  label={t("createdBy")}
+                  type="text"
+                  name="createdBy"
+                  value="formData.createdBy"
+                  onChange={handleChange}
+                  //   disabled={!!props.owner}
+                  required
+                />
+              </FormGroup> */}
+            </FormGrid>
+          </ModalBody>
+          <ModalFooter>
+            <Button type="submit" variant="primary" disabled={isSubmitting}>
+              {isSubmitting ? t("saving") : t("save")}
+            </Button>
+            <Button type="button" variant="secondary" onClick={props.onClose}>
+              {t("cancel")}
+            </Button>
+          </ModalFooter>
+        </form>
+      </ModalContent>
+    </ModalOverlay>
+  );
+}
+
+const Category = styled.div``;
+const SubCategory = styled.div``;
+const Brand = styled.div``;
+const PartAndLaborCode = styled.div``;
+const PartAndLaborName = styled.div``;
+const Quantity = styled.div``;
+const DiscountRate = styled.div``;

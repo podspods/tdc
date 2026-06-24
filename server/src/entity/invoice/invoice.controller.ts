@@ -89,6 +89,11 @@ export async function createInvoice(
   request: FastifyRequest<{ Body: CreateInvoiceDto }>,
   reply: FastifyReply,
 ) {
+  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% createInvoice   body92", request.body);
+  console.log(
+    "%%%%%%%%%%%%%%%%%%%%----------- createInvoice   body 92 typeof",
+    typeof request.body.dueDate,
+  );
   try {
     const invoice = await _createInvoice(fastify, request.body);
     reply

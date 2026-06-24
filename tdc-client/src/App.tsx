@@ -9,15 +9,15 @@ import i18n from "./i18n";
 import Home from "./pages/Home";
 import Owner from "./pages/Owner";
 import Vehicle from "./pages/Vehicle";
-import SparePart from "./pages/SparePart";
 import Invoice from "./pages/Invoice";
-import { GarageManager } from "./components/Garage/GarageManager";
+import { GarageManager } from "./components/garage/GarageManager";
 import ToDoList from "./pages/ToDoList";
 import Setting from "./pages/Setting";
-import { TaskManager } from "./components/task/TaskManager";
+// import { TaskManager } from "./components/task/TaskManager";
 import { CostManager } from "./components/cost/CostManager";
 import Correspondance from "./pages/Correspondance";
 import Model from "./pages/Model";
+import PartAndLabor from "./pages/PartAndLabor";
 
 export default function App() {
   return (
@@ -43,10 +43,11 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/owner" element={<Owner />} />
               <Route path="/vehicle" element={<Vehicle />} />
-              <Route path="/task" element={<TaskManager />} />
+              {/* <Route path="/task" element={<TaskManager />} /> */}
               <Route path="/cost" element={<CostManager />} />
-              <Route path="/spare-parts" element={<SparePart />} />
+              {/* <Route path="/spare-parts" element={<SparePart />} /> */}
               <Route path="/correspondance" element={<Correspondance />} />
+              <Route path="/partAndLabor" element={<PartAndLabor />} />
               <Route path="/setting" element={<Setting />} />
               {/* <Route path="/test" element={<Test />} /> */}
             </Routes>

@@ -5,8 +5,6 @@ import pinoPretty from "pino-pretty";
 import databasePlugin from "./plugins/database";
 
 import vehicleRoutes from "./entity/vehicle/vehicle.routes";
-import taskRoutes from "./entity/task/task.route";
-import sparePartRoutes from "./entity/sparePart/sparePart.route";
 
 import ownerRoutes from "./owner/owner.routes";
 import garageRoutes from "./entity/garage/garage.route";
@@ -15,6 +13,7 @@ import brandRoutes from "./entity/brand/brand.routes";
 import modelRoutes from "./entity/model/model.routes";
 import correspondanceRoutes from "./entity/correspondance/routes";
 import costRoutes from "./entity/cost/routes";
+import partAndLaborRoutes from "./entity/partAndLabor/route";
 
 dotenv.config();
 
@@ -55,16 +54,16 @@ fastify.get("/health", async () => {
 // Register all routes
 fastify.register(ownerRoutes, { prefix: "/api/owners" });
 fastify.register(vehicleRoutes, { prefix: "/api/vehicle" });
-fastify.register(taskRoutes, { prefix: "/api/task" });
-fastify.register(sparePartRoutes, { prefix: "/api/spare-part" });
+// fastify.register(taskRoutes, { prefix: "/api/task" });
+// fastify.register(sparePartRoutes, { prefix: "/api/spare-part" });
 fastify.register(garageRoutes, { prefix: "/api/garage" });
 fastify.register(invoiceRoutes, { prefix: "/api/invoice" });
 fastify.register(brandRoutes, { prefix: "/api/brand" });
 fastify.register(modelRoutes, { prefix: "/api/model" });
 
-// ...
 fastify.register(correspondanceRoutes, { prefix: "/api/correspondance" });
 fastify.register(costRoutes, { prefix: "/api/cost" });
+fastify.register(partAndLaborRoutes, { prefix: "/api/part-and-labor" });
 //--------------------------------------------------------------------------------------------------------------------------
 
 // fastify.register(motorcycleBrandRoutes, { prefix: "/api/motorcycle-brands" });

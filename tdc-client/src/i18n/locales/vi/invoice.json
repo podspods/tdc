@@ -57,8 +57,28 @@
   "actions": "Hành động",
   "selectOwner": "Chọn chủ xe",
   "selectVehicle": "Chọn xe",
+  "invoiceNumber": "Số hóa đơn",
 
   "notes": "Ghi chú",
   "termsConditions": "Điều khoản và điều kiện",
+  "currency": "₫",
+  "maintenanceService": "bảo trì",
+  "diagnostic": "Chẩn đoán",
+  "repair": "Sửa chữa",
+
+  "engine": "Động cơ",
+  "electronic": "Hệ thống điện",
+  "chassis": "Khung",
+  "brakes": "Hệ thống phanh",
+  "typeLine": "Loại mục",
+  "category": "Nhóm",
+  "subCategory": "Nhóm con",
+  "brand": "Thương hiệu",
+  "partAndLaborCode": "Mã linh kiện & công",
+  "partAndLaborName": "Tên linh kiện & công",
+  "addInvoiceLIne": "Thêm mục mới",
+  "filterByOwnerOrVehicle": "Chủ xe, xe hoặc biển số",
+  "clearFilters": "Xóa bộ lọc",
+
   "end": "kết thúc"
 }

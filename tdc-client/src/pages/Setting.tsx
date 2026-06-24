@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Garage } from "../components/Garage/garage.types";
-import { _getAllGarages } from "../components/Garage/garage.service";
+import type { Garage } from "../components/garage/garage.types";
+import { _getAllGarages } from "../components/garage/garage.service";
 import { Select } from "../components/UI/Select";
 import type { OptionValue } from "../common/commun.types";
 import { garage2Option, saveSelectedGarageId } from "../common/common";
@@ -17,7 +17,6 @@ export default function Setting({ ...props }: SettingProps) {
   const loadGarages = async () => {
     setLoading(true);
     const response = await _getAllGarages();
-    console.log("response", response);
     if (response.success) {
       if (response.data?.length) {
         const optionList = garage2Option(response.data);

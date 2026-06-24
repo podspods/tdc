@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { Owner } from "../owner/owner.types";
+import type { Owner } from "../owner/types";
 import { Select } from "../UI/Select";
 
 export type SelectOwnerProps = {
@@ -9,7 +9,6 @@ export type SelectOwnerProps = {
 };
 export default function SelectOwner({ ...props }: SelectOwnerProps) {
   const { t } = useTranslation(["owner"]);
-
   return (
     <>
       <Select
