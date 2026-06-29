@@ -1,7 +1,6 @@
 {
-  "title": "Xe",
   "_below": "_below_",
-  "vehicleManagement": "Quản lý xe",
+  "title": "Quản lý xe",
   "newVehicle": "+ xe mới",
   "totalVehicles": "Tổng số c xe",
   "active": "Tích cực",

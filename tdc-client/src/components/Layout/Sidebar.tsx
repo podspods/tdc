@@ -22,23 +22,20 @@ interface SidebarProps {
 
 const menuItems = [
   { to: "/", icon: "🏠", label: "home" },
-  { to: "/todoList", icon: "🗒", label: "TodoList" },
+  { to: "/todoList", icon: "🗒", label: "todoList" },
   { isSeparator: true },
-  // { to: "/test", icon: "📄", label: "Test" },
   { to: "/invoice", icon: "🧾", label: "invoice" },
   { isSeparator: true },
   { to: "/admin/garage", icon: "🔧", label: "Garage" },
-
-  { to: "/cost", icon: "💰", label: "cost" },
   { to: "/owner", icon: "🤡", label: "owner" },
   { to: "/vehicle", icon: "🏍", label: "vehicle" },
-  { to: "/task", icon: "🛠", label: "task" },
-  // { to: "/spare-parts", icon: "🔩", label: "spareParts" },
+  { to: "/brand", icon: "⚙️", label: "brand" },
+  { to: "/model", icon: "⚙️", label: "model" },
   { isSeparator: true },
-  { to: "/model", icon: "⚙️", label: "Model" },
-  { to: "/setting", icon: "⚙️", label: "settings" },
-  { to: "/correspondance", icon: "⚙️", label: "Correspondance" },
+  { to: "/correspondance", icon: "⚙️", label: "correspondance" },
+  { to: "/cost", icon: "💰", label: "cost" },
   { to: "/partAndLabor", icon: "⚙️", label: "partAndLabor" },
+  { to: "/setting", icon: "⚙️", label: "settings" },
 ];
 
 const Separator = styled.hr`

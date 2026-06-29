@@ -8,16 +8,16 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import Home from "./pages/Home";
 import Owner from "./pages/Owner";
-import Vehicle from "./pages/Vehicle";
 import Invoice from "./pages/Invoice";
-import { GarageManager } from "./components/garage/GarageManager";
 import ToDoList from "./pages/ToDoList";
 import Setting from "./pages/Setting";
-// import { TaskManager } from "./components/task/TaskManager";
-import { CostManager } from "./components/cost/CostManager";
 import Correspondance from "./pages/Correspondance";
 import Model from "./pages/Model";
 import PartAndLabor from "./pages/PartAndLabor";
+import Garage from "./pages/Garage";
+import Cost from "./pages/Cost";
+import Vehicle from "./pages/Vehicle";
+import Brand from "./pages/Brand";
 
 export default function App() {
   return (
@@ -36,20 +36,18 @@ export default function App() {
         <BrowserRouter>
           <Layout>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/todoList" element={<ToDoList />} />
               <Route path="/invoice" element={<Invoice />} />
-              <Route path="/admin/garage" element={<GarageManager />} />
-              <Route path="/model" element={<Model />} />
-              <Route path="/" element={<Home />} />
+              <Route path="/admin/garage" element={<Garage />} />
               <Route path="/owner" element={<Owner />} />
               <Route path="/vehicle" element={<Vehicle />} />
-              {/* <Route path="/task" element={<TaskManager />} /> */}
-              <Route path="/cost" element={<CostManager />} />
-              {/* <Route path="/spare-parts" element={<SparePart />} /> */}
+              <Route path="/brand" element={<Brand />} />
+              <Route path="/model" element={<Model />} />
               <Route path="/correspondance" element={<Correspondance />} />
+              <Route path="/cost" element={<Cost />} />
               <Route path="/partAndLabor" element={<PartAndLabor />} />
               <Route path="/setting" element={<Setting />} />
-              {/* <Route path="/test" element={<Test />} /> */}
             </Routes>
           </Layout>
         </BrowserRouter>

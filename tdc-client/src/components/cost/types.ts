@@ -10,15 +10,16 @@ export type CreateCostDto = UpdateCostDto & {
 };
 
 export type UpdateCostDto = {
+  name: string;
   monthlyBase: number;
   dayWork: number;
   hourWork: number;
-  effectiveDate: string;
-  endDate: string | null;
+  effectiveDate: Date;
+  endDate: Date | null;
 };
 
 export type CostQueryParams = {
   page?: number;
   limit?: number;
-  effectiveDate?: string; // find rate applicable at this date
+  effectiveDate?: Date; // find rate applicable at this date
 };

@@ -1,106 +1,123 @@
 import styled from "styled-components";
 import type { Owner } from "./types";
-import SelectOwner from "./SelectOwner";
-import { useEffect, useState } from "react";
+import type { ComponentStatus } from "../../common/commun.types";
+import SelectBar from "../UI/SelectBar";
+import { useEffect, useMemo, useState } from "react";
 import { ownerInit } from "../../common/constant";
-import { getAllOwner } from "./crud";
-import { Button } from "../../common/common.styled";
+import { getOwnerList } from "./crud";
+import { Select } from "../UI/Select";
 import { useTranslation } from "react-i18next";
-import { Modal } from "./Modal";
+import { Button } from "../../common/common.styled";
 
 export type BadgeProps = {
   value: Owner;
   editMode?: boolean;
+  listMode?: boolean;
   setOwner?: (owner: Owner) => void;
   onNewVehicle?: () => void;
+
+  onAction?: (state: ComponentStatus, owner: Owner) => void;
 };
 export default function Badge({ ...props }: BadgeProps) {
   const { t } = useTranslation(["owner"]);
 
-  const [owner, setOwner] = useState<Owner>(props.value);
   const [ownerList, setOwnerList] = useState<Owner[]>([]);
-  const [isOpen, setOpen] = useState<boolean>(false);
-  const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
-    const loadOwnerList = async () => {
-      const ownerList = await getAllOwner();
-      setOwnerList(ownerList);
-    };
     loadOwnerList();
-  }, [refresh]);
-
-  useEffect(() => {
-    setOwner(props.value);
   }, [props.value]);
+
+  const ownerOptionList = useMemo(() => {
+    return ownerList.map((record) => ({
+      value: record.id.toString(),
+      label: `${record.lastName} ${record.firstName}`,
+    }));
+  }, [ownerList]);
   //--------------------------------------------------------------------------------------------------------------------------
-  const handleOwnerSelected = (id: number) => {
-    if (id !== owner.id) {
-      const newOwner = ownerList.find((owner) => owner.id === id);
-      setOwner(newOwner || ownerInit);
-      props.setOwner?.(newOwner || ownerInit);
-    }
-  };
-  const handleNewOwner = () => {
-    setOpen(true);
-  };
-  //--------------------------------------------------------------------------------------------------------------------------
-  const handleClose = () => {
-    setOpen(false);
+
+  const loadOwnerList = async () => {
+    const newOwnerList = await getOwnerList();
+    setOwnerList(newOwnerList);
   };
   //--------------------------------------------------------------------------------------------------------------------------
-  const handleSuccess = () => {
-    setRefresh((prev) => (prev = 1));
-    setOpen(false);
+  const handleOnAction = (state: ComponentStatus) => {
+    console.log("handleOnAction", state);
+    props.onAction?.(state, props.value);
   };
   //--------------------------------------------------------------------------------------------------------------------------
+  const handleOwnerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const idSelected = Number(event.target.value);
+    const newOwner: Owner = ownerList.find((record) => record.id === idSelected) || ownerInit;
+
+    if (newOwner.id !== ownerInit.id) props.setOwner?.(newOwner);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+
   return (
     <MainContainer>
       {props.editMode && (
         <Row>
-          <SelectOwner
-            selectedOwnerId={owner.id}
-            setSelectedOwnerId={handleOwnerSelected}
-            ownerList={ownerList}
+          <Select
+            label={t("owner")}
+            options={ownerOptionList}
+            onChange={handleOwnerChange}
+            value={props.value.id}
           />
-          <Button $iconOnly onClick={handleNewOwner} title={t("newOwner")}>
+          <Button $iconOnly onClick={props.onNewVehicle} title={t("newVehicle")}>
             👨‍💼
           </Button>
         </Row>
       )}
-
-      {owner && (
+      {props.value && (
         <>
-          <Name> {`${owner.lastName} ${owner.firstName}`}</Name>
-          <Address>{owner.address}</Address>
-          <City>{owner.city}</City>
-          <Phone> 📞{owner.phoneNumber}</Phone>
+          <Name> {`${props.value.lastName} ${props.value.firstName}`}</Name>
+          <Body>
+            <Address>{props.value.address}</Address>
+            <City>{props.value.city}</City>
+            <Phone> 📞{props.value.phoneNumber}</Phone>
+          </Body>
         </>
       )}
-
-      <Modal
-        isOpen={isOpen}
-        onClose={handleClose}
-        owner={owner}
-        onSuccess={handleSuccess}
-        setOwner={setOwner}
-        onNewVehicle={props.onNewVehicle}
-      />
+      <Footer>{props.listMode && <SelectBar onAction={handleOnAction} />}</Footer>
     </MainContainer>
   );
 }
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
 
-const Name = styled.div`
+  width: "100%";
+`;
+
+const Name = styled.p`
   font-size: ${({ theme }) => `${theme.fontSize.base}`};
   font-weight: 700;
 `;
-const Address = styled.div`
+const Address = styled.p`
   font-size: ${({ theme }) => `${theme.fontSize.xs}`};
 `;
+
 const City = styled(Address)``;
 const Phone = styled(Address)``;
 
+const Body = styled.div`
+  font-size: ${({ theme }) => `${theme.fontSize.xs}`};
+  width: 300px; /* largeur fixe */
+  height: 100px; /* hauteur fixe */
+  overflow: auto; /* scroll automatique en cas de dépassement */
+  flex-shrink: 0; /* optionnel : empêche le rétrécissement dans un conteneur flex */
+`;
+
+const Footer = styled.div`
+  font-size: ${({ theme }) => `${theme.fontSize.xs}`};
+  border-top: 1px solid ${({ theme }) => `${theme.colors.border.success}`};
+  padding: ${({ theme }) => `${theme.spacing.xs}`};
+`;
+
 const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   text-align: left;
   font-size: ${({ theme }) => `${theme.fontSize.base}`};
   color: ${({ theme }) => theme.colors.text.primary};
@@ -108,12 +125,4 @@ const MainContainer = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid black;
   border-color: ${({ theme }) => theme.colors.text.primary};
-  width: "100%";
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  width: "100%";
 `;

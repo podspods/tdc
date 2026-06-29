@@ -2,210 +2,222 @@ import { useTranslation } from "react-i18next";
 import {
   Button,
   ModalBody,
-  ModalContent,
+  ModalContent as StyledModalContent,
   ModalHeader,
   ModalOverlay,
   ModalTitle,
 } from "../../common/common.styled";
-import type { Vehicle } from "./types";
-import { useEffect, useState } from "react";
+import type { VehicleInfo } from "./types";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import type { Owner } from "../owner/types";
-import { getAllOwner } from "../owner/crud";
 import { Select } from "../UI/Select";
 import { Input } from "../UI/Input";
-import type { OptionValue } from "../../common/commun.types";
+import type { ComponentStatus } from "../../common/commun.types";
 import { getBrandList } from "../brand/crud";
 import { getModelList } from "../model/crud";
-import { brandInit, vehicleInit } from "../../common/constant";
-import { createVehicle, updateVehicle } from "./crud";
-import toast from "react-hot-toast";
+import { brandInit, modelInit, ownerInit, vehicleInit } from "../../common/constant";
+import { updateOrCreate } from "./crud";
+import { getOwnerList } from "../owner/crud";
+import { inputChange } from "../../common/common";
+import type { Brand } from "../brand/types";
+import type { Model } from "../model/types";
+import QuitButton from "../UI/QuitButton";
+import ActionBar from "../UI/ActionBar";
 
 export type ModalProps = {
+  value: VehicleInfo;
+  componentStatus: ComponentStatus;
   editMode?: boolean;
-  isOpen: boolean;
-  vehicle: Vehicle; // null = creation mode
-  owner: Owner;
+  isModalOpen: boolean;
+  setModalOpen: (isOpen: boolean) => void;
   onClose: () => void;
-  onSuccess: () => void; // refresh parent list
-  setVehicle: (vehicle: Vehicle) => void;
-  onNewOwner: () => void;
-  onNewVehicle?: () => void;
+  onNewOwner?: () => void;
 };
 export function Modal({ ...props }: ModalProps) {
-  if (!props.isOpen) return null;
-
   const { t } = useTranslation(["vehicle"]);
 
-  // const [currentEditMode, setCurrentEditMode] = useState<boolean>(props.editMode || false);
-  const [vehicle, setVehicle] = useState<Vehicle>(props.vehicle);
+  const [vehicleInfo, setVehicleInfo] = useState<VehicleInfo>(props.value);
   const [isBusy, setBusy] = useState<boolean>(false);
+  const [ownerList, setOwnerList] = useState<Owner[]>([]);
+  const [brandList, setBrandList] = useState<Brand[]>([]);
+  const [modelList, setModelList] = useState<Model[]>([]);
 
-  const [ownerOptionList, setOwnerOptionList] = useState<OptionValue[]>([]);
-  const [brandOptionList, setBrandOptionList] = useState<OptionValue[]>([]);
-  const [currentBrandId, setCurrentBrandId] = useState<number>(brandInit.id);
-
-  const [modelOptionList, setModelOptionList] = useState<OptionValue[]>([]);
-  useEffect(() => {
-    const newVehicle: Vehicle = { ...props.vehicle, ownerId: props.owner.id };
-    setVehicle(newVehicle);
-  }, [props.editMode, props.vehicle, props.owner]);
-
-  useEffect(() => {
-    const loadOwnerList = async () => {
-      const ownerList = await getAllOwner();
-      // setOwnerList(ownerList);
-      const newOwnerOptionList: OptionValue[] = ownerList.map((record) => ({
-        value: record.id.toString(),
-        label: `${record.firstName} ${record.lastName}`,
-      }));
-      setOwnerOptionList(newOwnerOptionList);
-    };
-    loadOwnerList();
-    loadBrand();
-    loadModel();
-  }, []);
-
-  useEffect(() => {
-    loadModel();
-  }, [currentBrandId]);
-
-  const loadBrand = async () => {
-    const brandlist = await getBrandList();
-
-    const newBrandOptionList: OptionValue[] = brandlist.map((record) => ({
-      value: record.id.toString(),
-      label: record.name,
-    }));
-    setBrandOptionList(newBrandOptionList);
-  };
-  //--------------------------------------------------------------------------------------------------------------------------
-  const loadModel = async () => {
-    const modelList = await getModelList();
-    // setModelList(modelList);
-    const newModelOptionList: OptionValue[] = modelList
-      .filter((record) => record.brandId === currentBrandId)
+  const modelListOption = useMemo(() => {
+    return modelList
+      .filter((model: Model) => model.brandId === vehicleInfo.brand.id)
       .map((record) => ({
         value: record.id.toString(),
         label: record.name,
       }));
-    setModelOptionList(newModelOptionList);
+  }, [vehicleInfo.brand.id, modelList]);
+
+  const brandListOption = useMemo(() => {
+    return brandList.map((record) => ({
+      value: record.id.toString(),
+      label: record.name,
+    }));
+  }, [brandList]);
+
+  const ownerOptionList = useMemo(() => {
+    return ownerList.map((record) => ({
+      value: record.id.toString(),
+      label: `${record.lastName} ${record.firstName}`,
+    }));
+  }, [ownerList]);
+
+  useEffect(() => {
+    setVehicleInfo(props.value);
+    loadOwnerList();
+    loadBrandList();
+    loadModelList();
+  }, [props.value]);
+
+  // //--------------------------------------------------------------------------------------------------------------------------
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const newVehicle = inputChange(e, vehicleInfo.vehicle);
+    const newVehicleInfo = { ...vehicleInfo, vehicle: newVehicle };
+    setVehicleInfo(newVehicleInfo);
   };
   //--------------------------------------------------------------------------------------------------------------------------
-  const handleCreate = async () => {
+
+  const loadOwnerList = async () => {
+    const newOwnerList = await getOwnerList();
+    setOwnerList(newOwnerList);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const loadBrandList = async () => {
+    const newBrandlist = await getBrandList();
+    setBrandList(newBrandlist);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const loadModelList = async () => {
+    const newModellist = await getModelList();
+    setModelList(newModellist);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  const handleSave = async () => {
     setBusy(true);
-    const result: Vehicle =
-      vehicle.id > 0 ? await updateVehicle(vehicle) : await createVehicle(vehicle);
+    const result = await updateOrCreate(vehicleInfo.vehicle);
     if (result.id !== vehicleInit.id) {
-      setVehicle(result);
-      props.setVehicle(result);
-      props.onSuccess();
-    } else {
-      toast.error("error creating vehicle");
+      const newVehicleInfo: VehicleInfo = { ...vehicleInfo, vehicle: result };
+      setVehicleInfo(newVehicleInfo);
     }
+
     setBusy(false);
   };
   //--------------------------------------------------------------------------------------------------------------------------
+  const handleOwnerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = Number(event.target.value);
+    const newOwner: Owner =
+      ownerList.find((record: Owner) => record.id === selectedId) ?? ownerInit;
+    if (newOwner.id !== ownerInit.id)
+      setVehicleInfo((prev) => ({
+        ...prev,
+        owner: newOwner,
+        vehicle: { ...prev.vehicle, ownerId: selectedId },
+      }));
+  };
 
-  const handleOwnerChange = (event: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
-    const newVehicle: Vehicle = { ...vehicle, ownerId: Number(event.target.value) };
-    setVehicle(newVehicle);
+  //--------------------------------------------------------------------------------------------------------------------------  //--------------------------------------------------------------------------------------------------------------------------
+  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = Number(event.target.value);
+    const newBrand: Brand =
+      brandList.find((record: Brand) => record.id === selectedId) ?? brandInit;
+    if (newBrand.id !== brandInit.id) setVehicleInfo((prev) => ({ ...prev, brand: newBrand }));
   };
-  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => {
-    const newBrandid = Number(event.target.value);
-    setCurrentBrandId(newBrandid);
-  };
+  //--------------------------------------------------------------------------------------------------------------------------  //--------------------------------------------------------------------------------------------------------------------------
   const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newVehicle: Vehicle = { ...vehicle, modelId: Number(event.target.value) };
-    setVehicle(newVehicle);
-  };
-  const handlePlateNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVehicle: Vehicle = { ...vehicle, plateNumber: event.target.value };
-    setVehicle(newVehicle);
-  };
-  const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVehicle: Vehicle = { ...vehicle, color: event.target.value };
-    setVehicle(newVehicle);
+    const selectedId = Number(event.target.value);
+    const newModel: Model =
+      modelList.find((record: Model) => record.id === selectedId) ?? modelInit;
+    if (newModel.id !== modelInit.id) setVehicleInfo((prev) => ({ ...prev, model: newModel }));
   };
 
-  const handleVintageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVehicle: Vehicle = { ...vehicle, vintage: Number(event.target.value) };
-    setVehicle(newVehicle);
+  const handleReset = () => {
+    setVehicleInfo((prev) => ({ ...prev, vehicle: vehicleInit }));
   };
-  const handleMileageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVehicle: Vehicle = { ...vehicle, mileage: Number(event.target.value) };
-    setVehicle(newVehicle);
-  };
-
   //--------------------------------------------------------------------------------------------------------------------------
+  const handleQuit = () => {
+    props.setModalOpen(false);
+    props.onClose();
+  };
+  //--------------------------------------------------------------------------------------------------------------------------  //--------------------------------------------------------------------------------------------------------------------------
+  if (!props.isModalOpen) return null;
   return (
     <>
-      <ModalOverlay onClick={() => props.onClose()}>
-        <ModalContent onClick={(e) => e.stopPropagation()}>
+      <ModalOverlay>
+        <ModalContent onClick={(e) => e.stopPropagation()} style={{ width: "500px" }}>
           <ModalHeader>
             <ModalTitle>{t("title")}</ModalTitle>
-            <button onClick={() => props.onClose()}>✕</button>
+            <QuitButton onClick={props.onClose} />
           </ModalHeader>
           <ModalBody>
-            <p>modal body</p>
-            <Row>
+            <OwnerROw>
               <Select
                 label={t("owner")}
                 options={ownerOptionList}
                 onChange={handleOwnerChange}
-                width={"30%"}
-                value={vehicle.ownerId}
+                value={vehicleInfo.owner.id}
               />
-              <Button $iconOnly onClick={props.onNewOwner} title={t("newOwner")}>
+              <Button
+                $iconOnly
+                onClick={props.onNewOwner}
+                title={t("newOwner")}
+                style={{ flex: "0 0 auto" }}
+              >
                 👨‍💼
               </Button>
-            </Row>
+            </OwnerROw>
             <Row>
               <Select
                 label={t("brand")}
-                options={brandOptionList}
+                options={brandListOption}
                 onChange={handleBrandChange}
-                value={currentBrandId}
-                width={"30%"}
+                value={vehicleInfo.brand.id}
               />
               <Select
                 label={t("Model")}
-                options={modelOptionList}
+                options={modelListOption}
                 onChange={handleModelChange}
-                value={vehicle.modelId}
-                width={"30%"}
+                value={vehicleInfo.model.id}
               />
             </Row>
             <Row>
               <Input
-                width="30%"
                 label={t("plateNumber")}
-                value={vehicle.plateNumber}
-                onChange={handlePlateNumberChange}
+                name="plateNumber"
+                value={vehicleInfo.vehicle.plateNumber}
+                onChange={handleInputChange}
               />
               <Input
-                width="30%"
                 label={t("vintage")}
-                value={vehicle.vintage}
+                value={vehicleInfo.vehicle.vintage}
                 type="number"
-                onChange={handleVintageChange}
-              />
-              <Input
-                width="30%"
-                label={t("color")}
-                value={vehicle.color}
-                onChange={handleColorChange}
-              />
-              <Input
-                width="30%"
-                label={t("mileag")}
-                value={vehicle.mileage}
-                onChange={handleMileageChange}
+                onChange={handleInputChange}
               />
             </Row>
-            <Button onClick={handleCreate} disabled={isBusy}>
-              {t("createVehicle")}
-            </Button>
+            <Row>
+              <Input
+                label={t("color")}
+                name="color"
+                value={vehicleInfo.vehicle.color}
+                onChange={handleInputChange}
+              />
+              <Input
+                label={t("mileage")}
+                value={vehicleInfo.vehicle.mileage}
+                onChange={handleInputChange}
+              />
+            </Row>
+            <ActionBar
+              handleQuit={handleQuit}
+              handleReset={handleReset}
+              handleSave={handleSave}
+              isBusy={isBusy}
+            />
           </ModalBody>
         </ModalContent>
       </ModalOverlay>
@@ -216,6 +228,43 @@ export function Modal({ ...props }: ModalProps) {
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
 
+  & > * {
+    flex: 0 0 calc(50% - 0.25rem); /* 0.25rem = moitié du gap */
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    & > * {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+  }
+`;
+
+const ModalContent = styled(StyledModalContent)`
+  width: 500px;
+  max-width: 95%;
+  margin: 1rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    margin: 0.5rem;
+    border-radius: 0;
+  }
+`;
+
+const OwnerROw = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: "nowrap";
+  gap: "0.5rem";
   width: "100%";
+  align-items: "center";
 `;

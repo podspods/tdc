@@ -1,6 +1,13 @@
 {
-  "title": "Gestion des Garages",
+  "title": "Gestion du garage",
   "garage": "Garage",
-
-  "end": "end"
+  "selectExistingGarage": "Sélectionner un garage existant",
+  "editGarage": "Modifier le garage",
+  "addGarage": "Ajouter un garage",
+  "name": "Nom",
+  "save": "Enregistrer",
+  "reset": "Réinitialiser",
+  "quit": "Quitter",
+  "filterByNameOrAddress": "Filtrer par nom ou adresse",
+  "end": "Fin"
 }

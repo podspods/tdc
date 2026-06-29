@@ -1,0 +1,12 @@
+{
+  "title": "Quản lý thương hiệu",
+  "clearFilters": "Xóa bộ lọc",
+  "editBrand": "Chỉnh sửa thương hiệu",
+  "addBrand": "Thêm thương hiệu",
+  "code": "Mã",
+  "name": "Tên",
+  "countryOfOrigin": "Nước xuất xứ",
+  "createdBy": "Người tạo",
+  "createdAt": "Ngày tạo",
+  "end": "Kết thúc"
+}

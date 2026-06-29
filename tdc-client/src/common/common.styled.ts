@@ -134,6 +134,8 @@ export const FilterSelect = styled.select`
 
 export const FilterBar = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: center;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.md};
   margin-bottom: ${({ theme }) => theme.spacing.md};

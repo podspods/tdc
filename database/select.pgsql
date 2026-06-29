@@ -107,9 +107,21 @@ select * from model;
      LEFT JOIN brand b ON m.brand_id = b.id
      WHERE m.id = 27;
 
-     select * from vehicle
+     select * from vehicle;
 
 
 
 
-     selec
+     select * from invoice_line order by id;
+
+
+     select * from garage;
+
+     update garage set updated_at = '2025-06-25T21:55:05.596Z' where id = 3;
+
+
+     select * from owners;
+
+     select * from correspondance  where code = 2;
+
+     select * from brand;

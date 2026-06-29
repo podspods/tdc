@@ -4,6 +4,8 @@
   "error": "Error",
   "success": "Success",
   "save": "Save",
+  "reset": "Reset",
+  "quit": "Quit",
   "cancel": "Cancel",
   "delete": "Delete",
   "edit": "Edit",

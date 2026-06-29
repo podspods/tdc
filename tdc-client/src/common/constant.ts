@@ -1,5 +1,6 @@
 import type { Brand } from "../components/brand/types";
 import type { Correspondance } from "../components/correspondance/types";
+import type { Cost } from "../components/cost/types";
 import type { CreateGarageDto, Garage, GarageInfo } from "../components/garage/garage.types";
 import type {
   Invoice,
@@ -9,7 +10,7 @@ import type {
   SummaryValue,
 } from "../components/invoice/types";
 import type { InvoiceDisplay } from "../components/invoice/types";
-import type { Model } from "../components/model/types";
+import type { Model, ModelInfo } from "../components/model/types";
 import type {
   CreateOwnerDto,
   Owner,
@@ -70,6 +71,7 @@ export const iconList: string[] = [
   "📞",
   "🏠",
   "🔍",
+  "⏳",
 ];
 export const GARAGE_NAME = "Tommy''s Ducati CLub";
 export const defaulIdGarage = 1;
@@ -367,20 +369,20 @@ export const ownerInit: Owner = {
 };
 
 export const garageInit: Garage = {
-  name: "init",
-  address: "init",
-  zipcode: "init",
-  city: "init",
-  phone: "init",
-  email: "init",
-  logoUrl: "init",
-  taxCode: "init",
+  name: "",
+  address: "",
+  zipcode: "",
+  city: "",
+  phone: "",
+  email: "",
+  logoUrl: "",
+  taxCode: "",
   taxRate: 0,
-  website: "init",
-  bankName: "init",
-  bankAccount: "init",
+  website: "",
+  bankName: "",
+  bankAccount: "",
   isActive: false,
-  createdBy: "init",
+  createdBy: "Admin",
   id: 0,
   createdAt: dateInit,
   updatedAt: dateInit,
@@ -388,7 +390,7 @@ export const garageInit: Garage = {
 
 export const invoiceInfoInit: InvoiceInfo = {
   ...invoiceInit,
-  statusText: "init",
+  statusText: "",
   vehicleId: 0,
   ownerId: 0,
   vehicleModelId: 0,
@@ -521,4 +523,22 @@ export const modalIsOpenInit: ModalIsOpen = {
   owner: false,
   vehicule: false,
   invoiceLine: false,
+};
+
+export const costInit: Cost = {
+  id: 0,
+  name: "cost-init",
+  monthlyBase: 0,
+  dayWork: 0,
+  hourWork: 0,
+  effectiveDate: dateInit,
+  endDate: null,
+  createdAt: dateInit,
+  updatedAt: dateInit,
+  createdBy: "Init",
+};
+
+export const modelInfoInit: ModelInfo = {
+  model: modelInit,
+  brand: brandInit,
 };

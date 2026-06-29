@@ -3,6 +3,7 @@ import { CreateModelDto, UpdateModelDto, ModelQueryParams } from "./model.types"
 import {
   _createModel,
   _deleteModel,
+  _getAllModelInfo,
   _getAllModels,
   _getModelById,
   _getModelsByBrand,
@@ -121,6 +122,26 @@ export async function deleteModel(
     let status = 500;
     if (error instanceof Error && error.message === "Model not found") status = 404;
     reply.status(status).send({
+      success: false,
+      error: error instanceof Error ? error.message : "Internal server error",
+    });
+  }
+}
+
+export async function getAllModelInfo(
+  fastify: FastifyInstance,
+  request: FastifyRequest<{ Querystring: ModelQueryParams }>,
+  reply: FastifyReply,
+) {
+  try {
+    const result = await _getAllModelInfo(fastify, request.query);
+    reply.send({
+      success: true,
+      data: result.data,
+      total: result.total,
+    });
+  } catch (error) {
+    reply.status(500).send({
       success: false,
       error: error instanceof Error ? error.message : "Internal server error",
     });

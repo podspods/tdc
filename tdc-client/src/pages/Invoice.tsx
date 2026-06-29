@@ -12,13 +12,14 @@ import { invoiceInit, ownerInit } from "../common/constant";
 import { _getGarageById } from "../components/garage/garage.service";
 import List from "../components/invoice/List";
 import View from "../components/invoice/View";
-import { InvoiceState, type Invoice, type InvoiceInfo } from "../components/invoice/types";
+import { type Invoice, type InvoiceInfo } from "../components/invoice/types";
 import type { Owner } from "../components/owner/types";
 import { getOwnerById } from "../components/owner/crud";
 import ToPdf from "../components/pdf/ToPdf";
+import { ComponentStatus } from "../common/commun.types";
 
 export default function Invoice() {
-  const [invoiceState, setInvoiceState] = useState<InvoiceState>(InvoiceState.InitState);
+  const [invoiceState, setInvoiceState] = useState<ComponentStatus>(ComponentStatus.Init);
   const [invoice, setInvoice] = useState<Invoice>(invoiceInit);
   const [owner, setOwner] = useState<Owner>(ownerInit);
 
@@ -45,19 +46,36 @@ export default function Invoice() {
     }
   };
   //--------------------------------------------------------------------------------------------------------------------------
+  const handleOnStateChange = (state: ComponentStatus) => {
+    setInvoiceState(state);
+    if (state === ComponentStatus.Create) {
+      setInvoice(invoiceInit);
+      setOwner(ownerInit);
+    }
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
     <MainContainer>
-      {invoiceState === InvoiceState.InitState && (
-        <List onStateChange={setInvoiceState} onSelected={handleSelect} />
+      {invoiceState === ComponentStatus.Init && (
+        <List onStateChange={handleOnStateChange} onSelected={handleSelect} />
       )}
-      {invoiceState === InvoiceState.Edit && (
-        <View onStateChange={setInvoiceState} invoiceId={invoice.id} invoiceState={invoiceState} />
+      {(invoiceState === ComponentStatus.View ||
+        invoiceState === ComponentStatus.Edit ||
+        invoiceState === ComponentStatus.Create) && (
+        <View
+          onStateChange={handleOnStateChange}
+          invoiceId={invoice.id}
+          invoiceState={invoiceState}
+        />
       )}
-      {invoiceState === InvoiceState.View && (
-        <View onStateChange={setInvoiceState} invoiceId={invoice.id} invoiceState={invoiceState} />
-      )}
-      {invoiceState === InvoiceState.ToPdf && (
-        <ToPdf onStateChange={setInvoiceState} invoiceId={invoice.id} invoiceState={invoiceState} />
+
+      {invoiceState === ComponentStatus.ToPdf && (
+        <ToPdf
+          onStateChange={handleOnStateChange}
+          invoiceId={invoice.id}
+          invoiceState={invoiceState}
+        />
       )}
     </MainContainer>
   );

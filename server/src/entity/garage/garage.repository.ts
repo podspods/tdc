@@ -85,6 +85,7 @@ export async function createGarage(
     email,
     logoUrl,
     taxCode,
+    taxRate,
     website,
     bankName,
     bankAccount,
@@ -92,9 +93,9 @@ export async function createGarage(
   } = data;
   const result = await pg.query(
     `INSERT INTO garage (
-      name, address, zipcode, city, phone, email, logo_url, tax_code,
-      website, bank_name, bank_account, created_by
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      name, address, zipcode, city, phone, email, logo_url, tax_code,tax_rate
+      website, bank_name, bank_account, created_by, created_at, updated_at
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,$13,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
     RETURNING *`,
     [
       name,
@@ -133,6 +134,7 @@ export async function updateGarage(
     email: "email",
     logoUrl: "logo_url",
     taxCode: "tax_code",
+    taxRate: "tax_rate",
     website: "website",
     bankName: "bank_name",
     bankAccount: "bank_account",
@@ -145,7 +147,7 @@ export async function updateGarage(
       values.push(value);
     }
   }
-
+  fields.push(`updated_at = CURRENT_TIMESTAMP`);
   if (fields.length === 0) return null;
 
   values.push(id);

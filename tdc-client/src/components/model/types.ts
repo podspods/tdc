@@ -1,3 +1,5 @@
+import type { Brand } from "../brand/types";
+
 export type Model = CreateModelDto & {
   id: number;
   createdAt: Date;
@@ -32,4 +34,9 @@ export type ModelQueryParams = {
   search?: string; // search in model_name
   minYear?: number;
   maxYear?: number;
+};
+
+export type ModelInfo = {
+  model: Model;
+  brand: Brand;
 };

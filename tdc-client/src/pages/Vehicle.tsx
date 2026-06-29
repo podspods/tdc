@@ -1,118 +1,125 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Header, MainContainer, Title } from "../common/common.styled";
-import { useState } from "react";
-import type { ViewMode } from "../common/commun.types";
-import { vehicleInit } from "../common/constant";
-import type { CreateVehicleDto, Vehicle } from "../components/vehicle/types";
-import { useVehicle } from "../components/vehicle/vehicle.useVehicle";
-import List from "../components/vehicle/vehicle.List";
-import Stats from "../components/vehicle/vehicle.Stats";
+import type { Vehicle, VehicleInfo } from "../components/vehicle/types";
+import { ownerInit, vehicleInfoInit } from "../common/constant";
+import { ComponentStatus } from "../common/commun.types";
+import { getAllVehicleInfo } from "../components/vehicle/crud";
+import { MainContainer } from "../common/common.styled";
+import List from "../components/vehicle/List";
+import { Modal as ModalVehicle } from "../components/vehicle/Modal";
+import { Modal as ModalOwner } from "../components/owner/Modal";
 
-export type VehicleProps = {};
-export default function Vehicle({ ...props }: VehicleProps) {
+export type ModalOpen = {
+  owner: boolean;
+  vehicle: boolean;
+};
+export const modalOpenInit: ModalOpen = {
+  owner: false,
+  vehicle: false,
+};
+
+export type statusVehicle = {
+  owner: ComponentStatus;
+  vehicle: ComponentStatus;
+};
+export const statusVehicleInit: statusVehicle = {
+  owner: ComponentStatus.Init,
+  vehicle: ComponentStatus.Init,
+};
+export default function Vehicle() {
   const { t } = useTranslation(["vehicle"]);
-  const {
-    vehicleList,
-    loading,
-    stats,
-    total,
-    page,
-    limit,
-    setPage,
-    setFilters,
-    createVehicle,
-    updateVehicle,
-    deleteVehicle,
-    searchVehicles,
-    refresh,
-  } = useVehicle();
 
-  const [viewMode, setViewMode] = useState<ViewMode>("list");
-  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle>(vehicleInit);
+  const [vehicleInfo, setVehicleInfo] = useState<VehicleInfo>(vehicleInfoInit);
+  const [vehicleInfoList, setVehicleList] = useState<VehicleInfo[]>([]);
+  const [isModalOpen, setModalOpen] = useState<ModalOpen>(modalOpenInit);
+  const [refresh, setRefresh] = useState<number>(0);
+  const [componentStatus, setComponentStatus] = useState<statusVehicle>(statusVehicleInit);
 
-  const [modalOpen, setModalOpen] = useState(false);
-
+  useEffect(() => {
+    fetchVehicleInfo();
+  }, [refresh]);
   //--------------------------------------------------------------------------------------------------------------------------
-  async function handleSubmit(vehicle: CreateVehicleDto) {
-    let success = false;
-    if (viewMode === "create") {
-      const result = await createVehicle(vehicle);
-      success = !!result;
-    } else if (viewMode === "edit" && selectedVehicle) {
-      const result = await updateVehicle(selectedVehicle.id, vehicle);
-      success = !!result;
+  const fetchVehicleInfo = async () => {
+    try {
+      const result = await getAllVehicleInfo();
+      setVehicleList(result);
+    } catch (err) {
+      console.error("catch Error loading Vehicle", err);
     }
-    if (success) {
-      setModalOpen(false);
-      setSelectedVehicle(vehicleInit);
-    }
-  }
+  };
   //--------------------------------------------------------------------------------------------------------------------------
-
-  function handleCreate() {
-    setSelectedVehicle(vehicleInit);
-    setViewMode("create");
-    setModalOpen(true);
-  }
-
-  function handleEdit() {
-    console.log("handleEdit", 0);
-  }
-  function handleDelete() {
-    console.log("handleDelete", 0);
-  }
-  function handleView() {
-    console.log("handleView", 0);
-  }
-  function handlePageChange() {
-    console.log("handlePageChange", 0);
-  }
-  function handleSearch() {
-    console.log("handleSearch", 0);
-  }
-  function handleFilterChange() {
-    console.log("handleFilterChange", 0);
-  }
-
+  const handleStateChange = (vehicleStatus: ComponentStatus) => {
+    setComponentStatus({ ...componentStatus, vehicle: vehicleStatus });
+    const newModalOpen = {
+      ...isModalOpen,
+      vehicle:
+        vehicleStatus === ComponentStatus.Create ||
+        vehicleStatus === ComponentStatus.Edit ||
+        vehicleStatus === ComponentStatus.View,
+    };
+    setModalOpen(newModalOpen);
+    if (componentStatus.vehicle === ComponentStatus.Create) setVehicleInfo(vehicleInfoInit);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleSelect = (vehicleInfo: VehicleInfo) => {
+    setVehicleInfo(vehicleInfo);
+    const newModalOpen = { ...isModalOpen, vehicle: true };
+    setModalOpen(newModalOpen);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleSetModalOwnerOpen = (isOpen: boolean) => {
+    const newModalOpen = { ...isModalOpen, owner: isOpen };
+    setModalOpen(newModalOpen);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleSetModalVehicleOpen = (isOpen: boolean) => {
+    const newModalOpen = { ...isModalOpen, vehicle: isOpen };
+    setModalOpen(newModalOpen);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleModalVehicleClose = () => {
+    const newModalOpen = { ...isModalOpen, vehicle: false };
+    setModalOpen(newModalOpen);
+    setRefresh((prev) => prev + 1);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleModalOwnerClose = () => {
+    const newModalOpen = { ...isModalOpen, owner: false };
+    setModalOpen(newModalOpen);
+    setRefresh((prev) => prev + 1);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleNewOwner = () => {
+    handleSetModalOwnerOpen(true);
+    setVehicleInfo((prev) => ({ ...prev, owner: ownerInit }));
+    setComponentStatus((prev) => ({ ...prev, owner: ComponentStatus.Create }));
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
-    <>
-      <MainContainer>
-        <Header>
-          <Title>{t("vehicleManagement")}</Title>
+    <MainContainer>
+      <h1>{t("title")}</h1>
 
-          <Button $variant="primary" onClick={handleCreate}>
-            {t("newVehicle")}
-          </Button>
-        </Header>
+      <List
+        onSelected={handleSelect}
+        onStateChange={handleStateChange}
+        vehicleInfoList={vehicleInfoList}
+      />
 
-        {/* {modalOpen && (
-          <Modal
-            setModalOpen={setModalOpen}
-            setViewMode={setViewMode}
-            setSelectedVehicle={setSelectedVehicle}
-            onSubmit={handleSubmit}
-            viewMode={viewMode}
-            selectedVehicle={selectedVehicle}
-            isLoading={loading}
-          />
-        )} */}
-
-        {stats && <Stats stats={stats} />}
-
-        <List
-          vehicleList={vehicleList}
-          loading={loading}
-          total={total}
-          page={page}
-          limit={limit}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onView={handleView}
-          onPageChange={handlePageChange}
-          onSearch={handleSearch}
-          onFilterChange={handleFilterChange}
-        />
-      </MainContainer>
-    </>
+      <ModalVehicle
+        value={vehicleInfo}
+        isModalOpen={isModalOpen.vehicle}
+        setModalOpen={handleSetModalVehicleOpen}
+        componentStatus={componentStatus.vehicle}
+        onClose={handleModalVehicleClose}
+        onNewOwner={handleNewOwner}
+      />
+      <ModalOwner
+        value={vehicleInfo.owner}
+        componentStatus={componentStatus.owner}
+        isModalOpen={isModalOpen.owner}
+        onClose={handleModalOwnerClose}
+        setModalOpen={handleSetModalOwnerOpen}
+      />
+    </MainContainer>
   );
 }

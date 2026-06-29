@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { InvoiceState, type InvoiceInfo } from "./types";
+import { type InvoiceInfo } from "./types";
 import { _getAllInvoices, _getInvoiceById, _getInvoicesInfoList } from "./service";
 import { useTranslation } from "react-i18next";
 import { _getGarageById } from "../garage/garage.service";
@@ -8,25 +8,22 @@ import styled from "styled-components";
 import Badge from "./Badge";
 import { Button, FilterBar, SearchInput } from "../../common/common.styled";
 import { getInvoicesInfoList } from "./crud";
+import type { ComponentStatus } from "../../common/commun.types";
 
 export type ListProps = {
-  onStateChange: (state: InvoiceState) => void;
+  onStateChange: (state: ComponentStatus) => void;
   onSelected: (invoiceInfo: InvoiceInfo) => void;
 };
 export default function List({ ...props }: ListProps) {
   const { t } = useTranslation(["invoice"]);
 
   const [invoiceInfoList, setInvoiceInfoList] = useState<InvoiceInfo[]>([]);
-  // const [currentGarage, setCurrentGarage] = useState<Garage>(garageInit);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  // const [dummyNumber, setDummyNumber] = useState<number>(42);
 
   // Load all invoices on mount
   useEffect(() => {
     fetchInvoices();
-    // fetchGarage();
   }, []);
-  // }, [dummyNumber]);
   //--------------------------------------------------------------------------------------------------------------------------
   // Filter invoices based on search term
   const filteredInvoices = useMemo(() => {
@@ -69,9 +66,9 @@ export default function List({ ...props }: ListProps) {
   };
 
   //--------------------------------------------------------------------------------------------------------------------------
-  const handleStateChange = async (state: InvoiceState, invoiceId: number) => {
-    const invoiceInfoSelected = invoiceInfoList.find((invoiceInfo) => invoiceInfo.id === invoiceId);
-    props.onSelected(invoiceInfoSelected || invoiceInfoInit);
+  const handleStateChange = (state: ComponentStatus, invoiceInfo: InvoiceInfo) => {
+    console.log("handleStateChange inv 70oiceInfo", invoiceInfo);
+    props.onSelected(invoiceInfo);
     props.onStateChange(state);
   };
   //--------------------------------------------------------------------------------------------------------------------------

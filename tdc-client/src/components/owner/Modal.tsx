@@ -7,347 +7,229 @@ import {
   ModalContent,
   ModalHeader,
   ModalTitle,
-  ModalBody,
-  ModalFooter,
-  Button,
-  FormGroup,
+  ModalBody as StyledModalBody,
 } from "../../common/common.styled";
 import { _createOwner, _updateOwner } from "./service";
-import type { Owner, CreateOwnerDto, UpdateOwnerDto } from "./types";
+import type { Owner } from "./types";
 import { Input } from "../UI/Input";
 import { Textarea } from "../UI/Textarea";
 import { _getAllCorrespondances } from "../correspondance/service";
 import { ownerCategorySubjectCode, ownerInit, ownerStatusSubjectCode } from "../../common/constant";
 import { Select } from "../UI/Select";
-import type { OptionValue } from "../../common/commun.types";
-import toast from "react-hot-toast";
-
-// Form grid for two columns on larger screens
-const FormGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
+import { ComponentStatus, type OptionValue } from "../../common/commun.types";
+import { inputChange } from "../../common/common";
+import { createOrUpdate } from "./crud";
+import { getCorrespondanceBySubject } from "../correspondance/crud";
+import ActionBar from "../UI/ActionBar";
+import QuitButton from "../UI/QuitButton";
 
 const FullWidth = styled.div`
   grid-column: 1 / -1;
 `;
 
 export type ModalProps = {
-  isOpen: boolean;
+  value: Owner;
+  componentStatus: ComponentStatus;
+  isModalOpen: boolean;
+  setModalOpen: (isOpen: boolean) => void;
   onClose: () => void;
-  owner: Owner; // null = creation mode
-  onSuccess: () => void; // refresh parent list
-  setOwner: (owner: Owner) => void;
-  onNewVehicle?: () => void;
 };
 
 export function Modal({ ...props }: ModalProps) {
-  if (!props.isOpen) return null;
-
   const { t } = useTranslation(["owner"]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const [formData, setFormData] = useState<CreateOwnerDto>(ownerInit);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [categoryOptionList, setCategoryOptionList] = useState<OptionValue[]>([]);
-  const [statusOptionList, setStatusOptionList] = useState<OptionValue[]>([]);
-
-  // Sync form with props.owner when modal opens
-
-  const fetchCorrespondance = async () => {
-    setLoading(true);
-
-    try {
-      const response = await _getAllCorrespondances({ limit: -1 });
-      if (response.success && response.data) {
-        const categoryOptionListInput: OptionValue[] = response.data
-          .filter((row) => row.subjectCode === ownerCategorySubjectCode)
-          .map((ownerCat) => ({ value: ownerCat.code.toString(), label: ownerCat.valueStr }));
-        setCategoryOptionList(categoryOptionListInput);
-
-        const statusOptionListInput: OptionValue[] = response.data
-          .filter((row) => row.subjectCode === ownerStatusSubjectCode)
-          .map((ownerCat) => ({ value: ownerCat.code.toString(), label: ownerCat.valueStr }));
-        setStatusOptionList(statusOptionListInput);
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const [owner, setOwner] = useState<Owner>(ownerInit);
+  const [isBusy, setBusy] = useState<boolean>(false);
+  const [ownerCategoryOptionList, setOwnerCategoryOptionList] = useState<OptionValue[]>([]);
+  const [ownerStatusOptionList, setOwnerStatusOptionList] = useState<OptionValue[]>([]);
   useEffect(() => {
-    fetchCorrespondance();
-  }, []);
+    setOwner(props.value);
+    fetchOwnerCategory();
+    fetchOwnerStatus();
+  }, [props.value]);
 
-  useEffect(() => {
-    if (props.owner) {
-      setFormData({
-        firstName: props.owner.firstName,
-        lastName: props.owner.lastName,
-        phoneNumber: props.owner.phoneNumber,
-        address: props.owner.address || "",
-        city: props.owner.city || "",
-        email: props.owner.email || "",
-        category: props.owner.category,
-        status: props.owner.status,
-        notes: props.owner.notes || "",
-        createdBy: props.owner.createdBy,
-        createdAt: props.owner.createdAt,
-        updatedAt: new Date(),
-      });
-    } else {
-      // Reset form for creation, but keep current user for createdBy
-      setFormData({
-        ...ownerInit,
-        createdBy: localStorage.getItem("userName") || "system",
-      });
-    }
-  }, [props.owner, props.isOpen]);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
-    const { name, value, type } = e.target;
-    let parsedValue: any = value;
-    if (type === "number") {
-      parsedValue = value === "" ? 0 : Number(value);
-    }
-    setFormData((prev) => ({ ...prev, [name]: parsedValue }));
-  };
-
-  const validate = (): boolean => {
-    if (!formData.firstName.trim()) {
-      alert(t("validation.firstNameRequired"));
-      return false;
-    }
-    if (!formData.lastName.trim()) {
-      alert(t("validation.lastNameRequired"));
-      return false;
-    }
-    if (!formData.phoneNumber.trim()) {
-      alert(t("validation.phoneRequired"));
-      return false;
-    }
-    if (!formData.createdBy) {
-      alert(t("validation.createdByRequired"));
-      return false;
-    }
-    return true;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
+  //--------------------------------------------------------------------------------------------------------------------------
+  const fetchOwnerCategory = async () => {
     try {
-      if (props.owner.id > 0) {
-        // Update mode: only send updatable fields (UpdateOwnerDto)
-        const updatePayload: UpdateOwnerDto = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phoneNumber: formData.phoneNumber,
-          address: formData.address,
-          city: formData.city,
-          email: formData.email,
-          category: formData.category,
-          status: formData.status,
-          notes: formData.notes,
-          updatedAt: new Date(),
-        };
-        const response = await _updateOwner(props.owner.id, updatePayload);
-        if (response.success) {
-          props.setCurrentOwner({
-            ...formData,
-            id: response.data?.id || 0,
-            createdBy: props.owner.createdBy,
-            createdAt: props.owner.createdAt,
-          });
-          props.onSuccess();
-          props.onClose();
-        } else {
-          toast.error(response.message || t("updateFailed"));
-        }
-      } else {
-        // Create mode
-        const createPayload: CreateOwnerDto = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phoneNumber: formData.phoneNumber,
-          address: formData.address,
-          city: formData.city,
-          email: formData.email,
-          category: formData.category,
-          status: formData.status,
-          notes: formData.notes,
-          createdBy: formData.createdBy,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
-        const response = await _createOwner(createPayload);
-        if (response.success) {
-          props.setCurrentOwner({ ...formData, id: response.data?.id || 0 });
-          props.onSuccess();
-          props.onClose();
-        } else {
-          toast.error(response.message || t("createFailed"));
-        }
-      }
+      const result = await getCorrespondanceBySubject(ownerCategorySubjectCode);
+      const newOwnerCategoryOptionList: OptionValue[] = result.map((record) => ({
+        value: record.code.toString(),
+        label: record.valueStr,
+      }));
+
+      setOwnerCategoryOptionList(newOwnerCategoryOptionList);
     } catch (err) {
-      console.error(err);
-      toast.error(t("saveError"));
-    } finally {
-      setIsSubmitting(false);
+      console.error("catch Error loading Owner", err);
     }
   };
+
+  //--------------------------------------------------------------------------------------------------------------------------
+  const fetchOwnerStatus = async () => {
+    try {
+      const result = await getCorrespondanceBySubject(ownerStatusSubjectCode);
+      const newOwnerStatusOptionList: OptionValue[] = result.map((record) => ({
+        value: record.code.toString(),
+        label: record.valueStr,
+      }));
+      setOwnerStatusOptionList(newOwnerStatusOptionList);
+    } catch (err) {
+      console.error("catch Error loading Owner", err);
+    }
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const newOwner = inputChange(e, owner);
+    setOwner(newOwner);
+  };
+  // Sync form with props.owner when modal opens
+  const handleTextAeraChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value, name } = e.target;
+
+    setOwner({ ...owner, [name]: value });
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleSave = async () => {
+    setBusy(true);
+    const result = await createOrUpdate(owner);
+    setOwner(result);
+    setBusy(false);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleReset = () => {
+    setOwner(props.value);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleQuit = () => {
+    props.setModalOpen(false);
+    props.onClose();
+  };
+
+  if (!props.isModalOpen) return null;
 
   return (
-    <ModalOverlay onClick={props.onClose}>
+    <ModalOverlay>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
-          <ModalTitle>{props.owner ? t("editOwner") : t("addOwner")}</ModalTitle>
-          <Button $variant="secondary" onClick={props.onClose}>
-            ✖
-          </Button>
+          <ModalTitle>
+            {props.value.id !== ownerInit.id ? t("editOwner") : t("addOwner")}
+          </ModalTitle>
+          <QuitButton onClick={props.onClose} title={t("quit")} />
         </ModalHeader>
-        <form onSubmit={handleSubmit}>
-          <ModalBody>
-            <FormGrid>
-              {/* First name */}
-              <FormGroup>
-                <Input
-                  label={t("firstName")}
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
+        <ModalBody>
+          <Input
+            label={t("firstName")}
+            type="text"
+            name="firstName"
+            value={owner.firstName}
+            onChange={handleInputChange}
+            readOnly={props.componentStatus === ComponentStatus.View}
+          />
 
-              {/* Last name */}
-              <FormGroup>
-                <Input
-                  label={t("lastName")}
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
+          <Input
+            label={t("lastName")}
+            type="text"
+            name="lastName"
+            value={owner.lastName}
+            onChange={handleInputChange}
+            readOnly={props.componentStatus === ComponentStatus.View}
+          />
+          <Input
+            label={t("phoneNumber")}
+            type="text"
+            name="phoneNumber"
+            value={owner.phoneNumber}
+            onChange={handleInputChange}
+            readOnly={props.componentStatus === ComponentStatus.View}
+          />
+          <Input
+            label={t("email")}
+            type="email"
+            name="email"
+            value={owner.email}
+            onChange={handleInputChange}
+            readOnly={props.componentStatus === ComponentStatus.View}
+          />
+          <Input
+            label={t("address")}
+            type="text"
+            name="address"
+            value={owner.address}
+            onChange={handleInputChange}
+            readOnly={props.componentStatus === ComponentStatus.View}
+          />
+          <Input
+            label={t("city")}
+            type="text"
+            name="city"
+            value={owner.city}
+            onChange={handleInputChange}
+            readOnly={props.componentStatus === ComponentStatus.View}
+          />
+          <Select
+            label={t("category")}
+            name="category"
+            value={owner.category}
+            onChange={handleInputChange}
+            options={ownerCategoryOptionList}
+            disabled={props.componentStatus === ComponentStatus.View}
+          />
+          <Select
+            label={t("status")}
+            name="status"
+            value={owner.status}
+            onChange={handleInputChange}
+            options={ownerStatusOptionList}
+            disabled={props.componentStatus === ComponentStatus.View}
+          />
+          <FullWidth>
+            <Textarea
+              label={t("notes")}
+              name="notes"
+              value={owner.notes}
+              onChange={handleTextAeraChange}
+              rows={3}
+              readOnly={props.componentStatus === ComponentStatus.View}
+            />
+          </FullWidth>
 
-              {/* Phone number */}
-              <FormGroup>
-                <Input
-                  label={t("phoneNumber")}
-                  type="text"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
+          <Input
+            label={t("createdBy")}
+            type="text"
+            name="createdBy"
+            value={owner.createdBy}
+            onChange={handleInputChange}
+            disabled={!!props.value}
+          />
+        </ModalBody>
 
-              {/* Email */}
-              <FormGroup>
-                <Input
-                  label={t("email")}
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </FormGroup>
-
-              {/* Address */}
-              <FormGroup>
-                <Input
-                  label={t("address")}
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                />
-              </FormGroup>
-
-              {/* City */}
-              <FormGroup>
-                <Input
-                  label={t("city")}
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                />
-              </FormGroup>
-
-              {/* Category */}
-              <FormGroup>
-                <Select
-                  label={t("category")}
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  options={categoryOptionList}
-                />
-              </FormGroup>
-
-              {/* Status */}
-              <FormGroup>
-                <Select
-                  label={t("status")}
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  options={statusOptionList}
-                />
-              </FormGroup>
-
-              {/* Notes - full width */}
-              <FullWidth>
-                <FormGroup>
-                  <Textarea
-                    label={t("notes")}
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleChange}
-                    rows={3}
-                  />
-                </FormGroup>
-              </FullWidth>
-
-              {/* createdBy (readonly in edit mode, but still visible) */}
-              <FullWidth>
-                <FormGroup>
-                  <Input
-                    label={t("createdBy")}
-                    type="text"
-                    name="createdBy"
-                    value={formData.createdBy}
-                    onChange={handleChange}
-                    disabled={!!props.owner}
-                    required
-                  />
-                </FormGroup>
-              </FullWidth>
-            </FormGrid>
-          </ModalBody>
-          <ModalFooter>
-            <Button type="submit" $variant="primary" disabled={isSubmitting}>
-              {isSubmitting ? t("saving") : t("save")}
-            </Button>
-            <Button type="button" $variant="secondary" onClick={props.onClose}>
-              {t("cancel")}
-            </Button>
-          </ModalFooter>
-        </form>
+        {(props.componentStatus === ComponentStatus.Create ||
+          props.componentStatus === ComponentStatus.Edit) && (
+          <ActionBar
+            handleQuit={handleQuit}
+            handleReset={handleReset}
+            handleSave={handleSave}
+            isBusy={isBusy}
+          />
+        )}
       </ModalContent>
     </ModalOverlay>
   );
 }
+
+const ModalBody = styled(StyledModalBody)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+
+  & > * {
+    flex: 0 0 calc(50% - 0.5rem); /* 50% - la moitié du gap */
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    & > * {
+      flex: 0 0 100%;
+    }
+  }
+`;

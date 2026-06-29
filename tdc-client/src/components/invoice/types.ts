@@ -88,14 +88,14 @@ export type FullInvoicePayload = UpdateInvoiceDto & {
   lines: CreateInvoiceFormLine[];
 };
 
-export const InvoiceState = {
-  InitState: 0,
-  View: 1,
-  Edit: 2,
-  Create: 3,
-  ToPdf: 4,
-} as const;
-export type InvoiceState = (typeof InvoiceState)[keyof typeof InvoiceState];
+// export const ZInvoiceState = {
+//   InitState: 0,
+//   View: 1,
+//   Edit: 2,
+//   Create: 3,
+//   ToPdf: 4,
+// } as const;
+// export type ComponentStatus = (typeof ComponentStatus)[keyof typeof ComponentStatus];
 
 export type SummaryValue = {
   partandLaborList: number[];

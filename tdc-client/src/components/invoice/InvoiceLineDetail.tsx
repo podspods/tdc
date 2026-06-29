@@ -13,7 +13,7 @@ export type InvoiceLineDetailProps = {
   lineType: Correspondance;
   editMode?: boolean;
   setModalCreateOpen?: (isOpen: boolean) => void;
-
+  onRefresh: () => void;
   onClose?: () => void;
   onChange?: () => void;
 };
@@ -53,7 +53,7 @@ export default function InvoiceLineDetail({ ...props }: InvoiceLineDetailProps) 
 
   //--------------------------------------------------------------------------------------------------------------------------
   const handleAddLine = () => {
-    props?.setModalCreateOpen ? props?.setModalCreateOpen(true) : null;
+    props.setModalCreateOpen?.(true);
   };
 
   //--------------------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,13 @@ export default function InvoiceLineDetail({ ...props }: InvoiceLineDetailProps) 
     <>
       <MainSubject>
         <LineTitle>{t(`correspondance:${props.lineType.description}`)}</LineTitle>
-        <BadgeLine key={0} value={InvoiceLineInit} typeLine={headerLine} index={0} />
+        <BadgeLine
+          key={0}
+          value={InvoiceLineInit}
+          typeLine={headerLine}
+          index={0}
+          onRefresh={props.onRefresh}
+        />
         {props.value.map((line, index) => (
           <BadgeLine
             key={line.id}
@@ -70,6 +76,7 @@ export default function InvoiceLineDetail({ ...props }: InvoiceLineDetailProps) 
             index={index + 1}
             editMode={props.editMode}
             onChange={props.onChange}
+            onRefresh={props.onRefresh}
           />
         ))}
         {props.editMode && (
@@ -77,7 +84,13 @@ export default function InvoiceLineDetail({ ...props }: InvoiceLineDetailProps) 
             ➕
           </Button>
         )}
-        <BadgeLine key={"T"} value={total} typeLine={totalLine} index={0} />
+        <BadgeLine
+          key={"T"}
+          value={total}
+          typeLine={totalLine}
+          index={0}
+          onRefresh={props.onRefresh}
+        />
       </MainSubject>
     </>
   );

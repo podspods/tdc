@@ -12,6 +12,11 @@
   "logout": "Logout",
   "language": "Language",
   "mainMenu": "Main Menu",
+  "todoList": "TodoList",
+  "cost": "Cost",
+  "model": "Model",
   "home": "Home",
+  "partAndLabor": "Part & Labor",
+  "correspondance": "Correspondance",
   "end": "End"
 }

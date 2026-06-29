@@ -6,6 +6,7 @@ const Wrapper = styled.div<{ $hasLabel: boolean }>`
   position: relative;
   margin-top: ${({ $hasLabel, theme }) => ($hasLabel ? theme.spacing.md : "0")};
   width: 100%;
+  overflow: visible;
 `;
 
 const StyledInput = styled.input<{ $customFontSize?: string }>`
@@ -18,7 +19,8 @@ const StyledInput = styled.input<{ $customFontSize?: string }>`
   transition: border-color 0.2s;
   background: ${({ theme }) => theme.colors.background.white};
   color: ${({ theme }) => theme.colors.text.primary};
-
+  z-index: 1;
+  /* position: relative; */
   &:focus {
     border-color: ${({ theme }) => theme.colors.text.brand};
   }
@@ -41,7 +43,7 @@ const StyledLabel = styled.label<{ $isFloating: boolean; $maxWidth?: string }>`
     $isFloating ? theme.colors.text.brand : theme.colors.text.secondary};
   transition: all 0.2s ease;
   pointer-events: none;
-
+  z-index: 0;
   /*text Troncature  */
   max-width: ${({ $maxWidth }) => $maxWidth || "calc(100% - 24px)"};
   white-space: nowrap;

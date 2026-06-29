@@ -4,6 +4,7 @@ import { Cost, CreateCostDto, UpdateCostDto, CostQueryParams } from "./types";
 function mapDbToCost(row: any): Cost {
   return {
     id: row.id,
+    name: row.name,
     monthlyBase: parseFloat(row.monthly_base),
     dayWork: parseFloat(row.day_work),
     hourWork: parseFloat(row.hour_work),
@@ -75,12 +76,12 @@ export async function findActiveCostByDate(
 
 export async function createCost(fastify: FastifyInstance, data: CreateCostDto): Promise<Cost> {
   const { pg } = fastify;
-  const { monthlyBase, dayWork = 0, hourWork = 0, effectiveDate, endDate, createdBy } = data;
+  const { name, monthlyBase, dayWork = 0, hourWork = 0, effectiveDate, endDate, createdBy } = data;
   const result = await pg.query(
-    `INSERT INTO cost (monthly_base, day_work, hour_work, effective_date, end_date, created_by)
-     VALUES ($1, $2, $3, $4, $5, $6)
+    `INSERT INTO cost (name, monthly_base, day_work, hour_work, effective_date, end_date, created_by)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING *`,
-    [monthlyBase, dayWork, hourWork, effectiveDate, endDate || null, createdBy],
+    [name, monthlyBase, dayWork, hourWork, effectiveDate, endDate || null, createdBy],
   );
   return mapDbToCost(result.rows[0]);
 }
@@ -96,6 +97,7 @@ export async function updateCost(
   let idx = 1;
 
   const fieldMap: Record<string, string> = {
+    name: "name",
     monthlyBase: "monthly_base",
     dayWork: "day_work",
     hourWork: "hour_work",

@@ -1,6 +1,13 @@
 {
-  "title": "Quản lý tiệm",
-  "garage": "tiệm sữa xe",
-
-  "end": "end"
+  "title": "Quản lý Garage",
+  "garage": "Garage",
+  "selectExistingGarage": "Chọn garage có sẵn",
+  "editGarage": "Chỉnh sửa garage",
+  "addGarage": "Thêm garage",
+  "name": "Tên",
+  "save": "Lưu",
+  "reset": "Đặt lại",
+  "quit": "Thoát",
+  "filterByNameOrAddress": "Lọc theo tên hoặc địa chỉ",
+  "end": "Kết thúc"
 }

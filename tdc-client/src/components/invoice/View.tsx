@@ -1,6 +1,11 @@
-import { InvoiceState, type InvoiceDisplay } from "./types";
+import { type InvoiceDisplay } from "./types";
 import { _getInvoiceById } from "./service";
-import { invoiceDisplayInit, modalIsOpenInit, vehicleInfoInit } from "../../common/constant";
+import {
+  invoiceDisplayInit,
+  invoiceInit,
+  modalIsOpenInit,
+  vehicleInfoInit,
+} from "../../common/constant";
 import type { Owner } from "../owner/types";
 import ActionBar from "./ActionBar";
 import { Modal as ModalCreateInvoiceLine } from "../partAndLabor/Modal";
@@ -10,45 +15,53 @@ import { Modal as ModalVehicle } from "../vehicle/Modal";
 import DisplayInvoice from "./DisplayInvoice";
 import { useEffect, useState } from "react";
 import type { Vehicle, VehicleInfo } from "../vehicle/types";
-import type { ModalIsOpen } from "../../common/commun.types";
+import { ComponentStatus, type ModalIsOpen } from "../../common/commun.types";
 import { fetchInvoiceDisplay } from "./helper";
 
 export type ViewProps = {
-  onStateChange: (state: InvoiceState, invoiceId: number) => void;
+  onStateChange: (state: ComponentStatus, invoiceId: number) => void;
   invoiceId: number;
-  invoiceState: InvoiceState;
+  invoiceState: ComponentStatus;
 };
 export default function View({ ...props }: ViewProps) {
   const [invoiceDisplay, setInvoiceDisplay] = useState<InvoiceDisplay>(invoiceDisplayInit);
   const [isModalOpen, setModalOpen] = useState<ModalIsOpen>(modalIsOpenInit);
   const [ownerChange, setOwnerChange] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
     const loadData = async (id: number) => {
       try {
         const newInvoiceDisplay = await fetchInvoiceDisplay(id);
+        console.log("fetchInvoiceDisplay 30", id);
+        console.log("newInvoiceDisplay 31", newInvoiceDisplay);
         setInvoiceDisplay(newInvoiceDisplay);
       } catch (error) {
         console.error("Erreur lors du chargement des données:", error);
       }
     };
-    loadData(props.invoiceId);
-  }, [props.invoiceId]);
+    if (props.invoiceId !== invoiceInit.id) loadData(props.invoiceId);
+  }, [props.invoiceId, refresh]);
 
   //--------------------------------------------------------------------------------------------------------------------------
-
-  const handleAction = (state: InvoiceState) => {
+  const handleAction = (state: ComponentStatus) => {
     props.onStateChange(state, invoiceDisplay.invoice.id);
   };
-
   // //--------------------------------------------------------------------------------------------------------------------------
 
   const handleNewOwner = () => {
-    const newModalIsOpenInit: ModalIsOpen = { ...modalIsOpenInit, owner: true };
-    setModalOpen(newModalIsOpenInit);
+    setModalOpen((prev) => ({ ...prev, owner: true }));
   };
   //--------------------------------------------------------------------------------------------------------------------------
-
+  const handleModalOwnerOpen = (isOpen: boolean) => {
+    setModalOpen((prev) => ({ ...prev, owner: isOpen }));
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleModalVehicleOpen = (isOpen: boolean) => {
+    setModalOpen((prev) => ({ ...prev, vehicule: isOpen }));
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
   const handleNewVehicle = () => {
     const newModalIsOpenInit: ModalIsOpen = { ...modalIsOpenInit, vehicule: true };
     setModalOpen(newModalIsOpenInit);
@@ -59,7 +72,7 @@ export default function View({ ...props }: ViewProps) {
     setModalOpen(newModalIsOpenInit);
   };
   //--------------------------------------------------------------------------------------------------------------------------
-  const HandleSetOwner = (newOwner: Owner) => {
+  const handleSetOwner = (newOwner: Owner) => {
     setOwnerChange(invoiceDisplay.vehicleInfo.owner.id !== newOwner.id);
     if (invoiceDisplay.vehicleInfo.owner.id !== newOwner.id) {
       const newVehicleInfo: VehicleInfo = { ...vehicleInfoInit, owner: newOwner };
@@ -81,41 +94,44 @@ export default function View({ ...props }: ViewProps) {
   //--------------------------------------------------------------------------------------------------------------------------
   const handleModalClose = () => {
     setModalOpen(modalIsOpenInit);
+    setRefresh((prev) => prev + 1);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleOnRefresh = () => {
+    setRefresh((prev) => prev + 1);
   };
   //--------------------------------------------------------------------------------------------------------------------------
   return (
     <>
-      {props.invoiceState === InvoiceState.ToPdf && null}
+      <ActionBar onAction={handleAction} withPdf />
 
-      {props.invoiceState !== InvoiceState.ToPdf && (
+      <DisplayInvoice
+        onStateChange={props.onStateChange}
+        invoiceDisplay={invoiceDisplay}
+        invoiceState={props.invoiceState}
+        ownerChange={ownerChange}
+        onNewOwner={handleNewOwner}
+        setOwner={handleSetOwner}
+        onNewInvoiceLine={handleNewInvoiceLine}
+        onRefresh={handleOnRefresh}
+      />
+
+      {props.invoiceState === ComponentStatus.Edit && (
         <>
-          <ActionBar onAction={handleAction} />
-
-          <DisplayInvoice
-            onStateChange={props.onStateChange}
-            invoiceDisplay={invoiceDisplay}
-            invoiceState={props.invoiceState}
-            ownerChange={ownerChange}
-            onNewOwner={handleNewOwner}
-            setOwner={HandleSetOwner}
-          />
           <ModalOwner
-            isOpen={isModalOpen.owner}
-            owner={invoiceDisplay.vehicleInfo.owner}
-            onNewVehicle={handleNewOwner}
+            value={invoiceDisplay.vehicleInfo.owner}
+            componentStatus={props.invoiceState}
+            isModalOpen={isModalOpen.owner}
+            setModalOpen={handleModalOwnerOpen}
             onClose={handleModalClose}
-            onSuccess={handleModalClose}
-            setOwner={HandleSetOwner}
           />
           <ModalVehicle
-            isOpen={isModalOpen.vehicule}
-            vehicle={invoiceDisplay.vehicleInfo.vehicle}
-            owner={invoiceDisplay.vehicleInfo.owner}
-            onNewOwner={handleNewOwner}
+            value={invoiceDisplay.vehicleInfo}
+            componentStatus={props.invoiceState}
+            isModalOpen={isModalOpen.vehicule}
+            setModalOpen={handleModalVehicleOpen}
             onClose={handleModalClose}
-            onSuccess={handleModalClose}
-            setVehicle={handleSetVehicle}
-            onNewVehicle={handleNewVehicle}
+            onNewOwner={handleNewOwner}
           />
           <ModalCreateInvoiceLine
             isOpen={isModalOpen.invoiceLine}

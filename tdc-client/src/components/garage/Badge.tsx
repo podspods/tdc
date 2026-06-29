@@ -2,6 +2,8 @@ import { _getGarageById } from "./garage.service";
 import type { Garage } from "./garage.types";
 import styled from "styled-components";
 import Select from "./Select";
+import type { ComponentStatus } from "../../common/commun.types";
+import SelectBar from "../UI/SelectBar";
 
 const MainContainer = styled.div`
   font-size: ${({ theme }) => `${theme.fontSize.base}`};
@@ -14,7 +16,9 @@ const MainContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 80%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
 `;
 
 const Footer = styled.div`
@@ -30,16 +34,26 @@ const Phone = styled.p`
   color: ${({ theme }) => theme.colors.text.secondary};
   font-size: ${({ theme }) => theme.fontSize.base};
 `;
+const Name = styled.p`
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: 600;
+`;
 
 export type BadgeProps = {
   value: Garage;
   garageList?: Garage[];
   editMode?: boolean;
+  listMode?: boolean;
   onChange?: (garageId: number) => void;
+  onAction?: (state: ComponentStatus, garage: Garage) => void;
 };
 export default function Badge({ ...props }: BadgeProps) {
   //--------------------------------------------------------------------------------------------------------------------------
-
+  const HandleOnAction = (state: ComponentStatus) => {
+    props.onAction?.(state, props.value);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
   return (
     <>
       <MainContainer>
@@ -52,6 +66,7 @@ export default function Badge({ ...props }: BadgeProps) {
             />
           </>
         )}
+        <Name>{props.value.name} </Name>
         {props.value.logoUrl && (
           <Image src={props.value.logoUrl} alt={props.value.name} title={props.value.name} />
         )}
@@ -60,6 +75,7 @@ export default function Badge({ ...props }: BadgeProps) {
 
           <Phone>📞 {props.value.phone}</Phone>
         </Footer>
+        {props.listMode && <SelectBar onAction={HandleOnAction} withPdf />}
       </MainContainer>
     </>
   );

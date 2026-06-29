@@ -10,6 +10,7 @@ export type CreateCostDto = UpdateCostDto & {
 };
 
 export type UpdateCostDto = {
+  name: string;
   monthlyBase: number;
   dayWork: number;
   hourWork: number;

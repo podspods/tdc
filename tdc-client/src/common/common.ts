@@ -88,3 +88,21 @@ export const formatNumber = (value: number): string => {
   const formatted = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   return `${formatted}${decimalPart}`;
 };
+
+export function inputChange<T extends Record<string, any>>(
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  currentValue: T,
+): T {
+  const { value, name, type } = e.target;
+  if (type === "checkbox") {
+    return { ...currentValue, [name]: e.target.checked };
+  }
+  if (type === "number") {
+    return { ...currentValue, [name]: value === "" ? undefined : Number(value) };
+  }
+  if (type === "date") {
+    return { ...currentValue, [name]: value === "" ? null : value };
+  }
+
+  return { ...currentValue, [name]: value };
+}

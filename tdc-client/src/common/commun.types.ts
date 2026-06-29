@@ -20,3 +20,12 @@ export type ModalIsOpen = {
   vehicule: boolean;
   invoiceLine: boolean;
 };
+
+export const ComponentStatus = {
+  Init: 0,
+  View: 1,
+  Edit: 2,
+  Create: 3,
+  ToPdf: 4,
+} as const;
+export type ComponentStatus = (typeof ComponentStatus)[keyof typeof ComponentStatus];

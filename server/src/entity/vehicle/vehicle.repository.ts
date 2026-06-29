@@ -306,13 +306,13 @@ export async function findVehicleInfoById(
   const model: Model = mapDbToModel(row);
   const owner: Owner = mapDbToOwner(row);
 
-  const zvehicleInfo: VehicleInfo = {
+  const vehicleInfo: VehicleInfo = {
     vehicle: vehicle,
     brand: brand,
     model: model,
     owner: owner,
   };
-  return zvehicleInfo;
+  return vehicleInfo;
 }
 //--------------------------------------------------------------------------------------------------------------------------
 

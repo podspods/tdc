@@ -1,5 +1,5 @@
 import type { ApiResponse } from "../../common/commun.types";
-import type { CreateModelDto, UpdateModelDto, ModelQueryParams, Model } from "./types";
+import type { CreateModelDto, UpdateModelDto, ModelQueryParams, Model, ModelInfo } from "./types";
 import { apiRequest } from "../../api/apirequest";
 
 const BASE_URL = "/model";
@@ -32,4 +32,11 @@ export async function _updateModel(id: number, data: UpdateModelDto): Promise<Ap
 export async function _deleteModel(id: number): Promise<ApiResponse<void>> {
   const url = `${BASE_URL}/${id}`;
   return apiRequest<void>(url, "delete");
+}
+
+export async function _getAllModelInfo(
+  params?: ModelQueryParams,
+): Promise<ApiResponse<ModelInfo[]>> {
+  const url = `${BASE_URL}/info`;
+  return apiRequest<ModelInfo[]>(url, "get", params, []);
 }

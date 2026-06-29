@@ -8,7 +8,7 @@ import Agreement from "./Agreement";
 
 import DaySection from "./DaySection";
 import { Input } from "../UI/Input";
-import { InvoiceState, type Invoice, type InvoiceDisplay } from "./types";
+import { type Invoice, type InvoiceDisplay } from "./types";
 import { useEffect, useState } from "react";
 import { invoiceInit, statusCodeDraft } from "../../common/constant";
 import type { Owner } from "../owner/types";
@@ -16,29 +16,50 @@ import { useTranslation } from "react-i18next";
 import { generateInvoiceNumber } from "../../common/common";
 import { createInvoice, updateInvoice } from "./crud";
 import styled from "styled-components";
+import { ComponentStatus } from "../../common/commun.types";
 
 export type DisplayInvoiceProps = {
   invoiceDisplay: InvoiceDisplay;
-  onStateChange?: (state: InvoiceState, invoiceId: number) => void;
-  invoiceState: InvoiceState;
+  onStateChange?: (state: ComponentStatus, invoiceId: number) => void;
+  invoiceState: ComponentStatus;
   ownerChange?: boolean;
   onNewOwner?: () => void;
   setOwner?: (owner: Owner) => void;
   onNewVehicle?: () => void;
   onNewInvoiceLine?: () => void;
+  onRefresh: () => void;
 };
 export default function DisplayInvoice({ ...props }: DisplayInvoiceProps) {
   const { t } = useTranslation(["invoice"]);
 
   const [invoiceDisplay, setInvoiceDisplay] = useState<InvoiceDisplay>(props.invoiceDisplay);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     setInvoiceDisplay(props.invoiceDisplay);
   }, [props.invoiceDisplay]);
 
+  useEffect(() => {
+    setEditMode(
+      props.invoiceState === ComponentStatus.Edit || props.invoiceState === ComponentStatus.Create,
+    );
+  }, [props.invoiceState]);
   //--------------------------------------------------------------------------------------------------------------------------
   const handleGarageChange = async (garageId: number) => {
     const newInvoiceNewGarage: Invoice = { ...invoiceDisplay.invoice, garageId: garageId };
+    const invoiceNumber = generateInvoiceNumber(newInvoiceNewGarage);
+
+    const newInvoice: Invoice = { ...newInvoiceNewGarage, invoiceNumber: invoiceNumber };
+
+    const invoiceResult = await updateOrCreate(newInvoice);
+    const newInvoiceDisplay: InvoiceDisplay = { ...invoiceDisplay, invoice: invoiceResult };
+    setInvoiceDisplay(newInvoiceDisplay);
+  };
+  //--------------------------------------------------------------------------------------------------------------------------
+  const handleOwnerChange = async (ownerId: number) => {
+    // ???????????????????????????????????????????????,
+
+    const newInvoiceNewGarage: Invoice = { ...invoiceDisplay.invoice, ownerId: ownerId };
     const invoiceNumber = generateInvoiceNumber(newInvoiceNewGarage);
 
     const newInvoice: Invoice = { ...newInvoiceNewGarage, invoiceNumber: invoiceNumber };
@@ -115,22 +136,23 @@ export default function DisplayInvoice({ ...props }: DisplayInvoiceProps) {
           <LeftSide>
             <GarageSection
               value={invoiceDisplay.garage}
-              editMode={props.invoiceState === InvoiceState.Edit}
+              editMode={editMode}
               onChange={handleGarageChange}
             />
           </LeftSide>
           <RightSide>
             <OwnerSection
               value={invoiceDisplay.vehicleInfo.owner}
-              editMode={props.invoiceState === InvoiceState.Edit}
+              editMode={editMode}
               setOwner={props?.setOwner}
               onNewVehicle={props.onNewVehicle}
+              onChange={handleOwnerChange}
             />
             <VehicleSection
               value={invoiceDisplay.vehicleInfo.vehicle}
               ownerChange={props.ownerChange}
               owner={invoiceDisplay.vehicleInfo.owner}
-              editMode={props.invoiceState === InvoiceState.Edit}
+              editMode={editMode}
               onChange={handleVehicleChange}
               onNewOwner={props.onNewOwner}
               onNewVehicle={props.onNewVehicle}
@@ -140,7 +162,7 @@ export default function DisplayInvoice({ ...props }: DisplayInvoiceProps) {
               dueDate={invoiceDisplay.invoice.dueDate}
               handleDueDateChange={handleDueDateChange}
               handleIssueDateChange={handleIssueDateChange}
-              editMode={props.invoiceState === InvoiceState.Edit}
+              editMode={editMode}
             />
             <Input
               label={t("invoiceNumber")}
@@ -152,9 +174,10 @@ export default function DisplayInvoice({ ...props }: DisplayInvoiceProps) {
         <InvoiceLineDiv>
           <LineSection
             onNewInvoiceLine={props.onNewInvoiceLine}
-            editMode={props.invoiceState === InvoiceState.Edit}
+            editMode={editMode}
             invoiceDisplay={invoiceDisplay}
             setIsModalOpen={props.onNewInvoiceLine}
+            onRefresh={props.onRefresh}
           />
         </InvoiceLineDiv>
         <Agreement />

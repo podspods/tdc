@@ -18,8 +18,8 @@ export const GlobalStyles = createGlobalStyle`
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: ${({ theme }) => theme.colors.gray100};
-    color: ${({ theme }) => theme.colors.gray900};
+    background-color: ${({ theme }) => theme.colors.background.primary};
+    color: ${({ theme }) => theme.colors.text.primary};
     line-height: 1.5;
   }
 
@@ -47,16 +47,16 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.colors.gray200};
+    background: ${({ theme }) => theme.colors.background.primary};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.gray400};
+    background: ${({ theme }) => theme.colors.background.secondary};
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.colors.gray500};
+    background: ${({ theme }) => theme.colors.background.warning};
   }
 
   /* Animations */

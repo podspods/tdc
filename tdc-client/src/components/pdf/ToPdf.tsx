@@ -1,14 +1,15 @@
 import { useEffect, useRef } from "react";
 import { pdf } from "@react-pdf/renderer";
-import { InvoiceState, type InvoiceDisplay } from "../invoice/types";
+import { type InvoiceDisplay } from "../invoice/types";
 import ActionBar from "../invoice/ActionBar";
 import { fetchInvoiceDisplay } from "../invoice/helper";
 import DisplayInvoice from "./DisplayInvoice";
+import { ComponentStatus } from "../../common/commun.types";
 
 export type ToPdfProps = {
-  onStateChange: (state: InvoiceState, invoiceId: number) => void;
+  onStateChange: (state: ComponentStatus, invoiceId: number) => void;
   invoiceId: number;
-  invoiceState: InvoiceState;
+  invoiceState: ComponentStatus;
 };
 export default function ToPdf({ ...props }: ToPdfProps) {
   const generatedRef = useRef(false);
@@ -27,7 +28,7 @@ export default function ToPdf({ ...props }: ToPdfProps) {
   }, [props.invoiceId]);
 
   //--------------------------------------------------------------------------------------------------------------------------
-  const handleAction = (state: InvoiceState) => {
+  const handleAction = (state: ComponentStatus) => {
     props.onStateChange(state, props.invoiceId);
   };
   //--------------------------------------------------------------------------------------------------------------------------
@@ -37,7 +38,7 @@ export default function ToPdf({ ...props }: ToPdfProps) {
     const url = URL.createObjectURL(blob);
     window.open(url, "TDC-PDF");
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    // props.onStateChange(InvoiceState.View, invoiceDisplay.invoice.id);
+    // props.onStateChange(ComponentStatus.View, invoiceDisplay.invoice.id);
   };
 
   return (

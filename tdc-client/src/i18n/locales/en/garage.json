@@ -2,6 +2,12 @@
   "title": "Garage Managment",
   "garage": "Garage",
   "selectExistingGarage": "Select Existing Garage",
-
+  "editGarage": "Edit Garage",
+  "addGarage": "Add Garage",
+  "name": "Name",
+  "save": "Save",
+  "reset": "Reset",
+  "quit": "Quit",
+  "filterByNameOrAddress": "Filter By Name Or Address",
   "end": "end"
 }

@@ -1,0 +1,12 @@
+{
+  "title": "Gestion des marques",
+  "clearFilters": "Effacer les filtres",
+  "editBrand": "Modifier la marque",
+  "addBrand": "Ajouter une marque",
+  "code": "Code",
+  "name": "Nom",
+  "countryOfOrigin": "Pays d'origine",
+  "createdBy": "Créé par",
+  "createdAt": "Créé le",
+  "end": "Fin"
+}

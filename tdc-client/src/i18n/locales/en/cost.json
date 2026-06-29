@@ -1,0 +1,23 @@
+{
+  "title": "Cost Managment",
+  "days": "Days",
+  "hours": "Hours",
+  "currency": "£",
+
+  "clearFilters": "Clear Filters",
+  "filterByNameEffectifDate": "Filter By Name Effectif Date",
+
+  "dayWord": "Days Word",
+  "year2026": "Year 2026",
+  "year2027": "Year 2027",
+  "no_end_date": "No End Date",
+  "half_time": "Half Time",
+  "hourWork": "Hours  Work",
+  "effectiveDate": "Effective Date",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
+  "endDate": "End Date",
+  "monthlyBase": "Monthly Base",
+  "createdBy": "Created By",
+  "end": "end"
+}

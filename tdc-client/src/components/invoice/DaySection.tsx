@@ -3,6 +3,7 @@ import { Input } from "../UI/Input";
 import { TwoHalfPage } from "./view.style";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { invoiceInit, todayDate } from "../../common/constant";
 
 export type DaySectionProps = {
   editMode?: boolean;
@@ -13,6 +14,8 @@ export type DaySectionProps = {
 };
 export default function DaySection({ ...props }: DaySectionProps) {
   const { t } = useTranslation(["invoice"]);
+  const issueDate = props.issueDate === invoiceInit.issueDate ? todayDate : props.issueDate;
+  const dueDate = props.issueDate === invoiceInit.dueDate ? todayDate : props.issueDate;
 
   return (
     <MainContainer>
@@ -22,7 +25,7 @@ export default function DaySection({ ...props }: DaySectionProps) {
         readOnly={!props.editMode}
         label={t("issueDate")}
         type="date"
-        value={moment(props.issueDate).format("YYYY-MM-DD")}
+        value={moment(issueDate).format("YYYY-MM-DD")}
         onChange={props.handleIssueDateChange}
       />
       <Input
@@ -31,7 +34,7 @@ export default function DaySection({ ...props }: DaySectionProps) {
         readOnly={!props.editMode}
         label={t("dueDate")}
         type="date"
-        value={moment(props.dueDate).format("YYYY-MM-DD")}
+        value={moment(dueDate).format("YYYY-MM-DD")}
         onChange={props.handleDueDateChange}
       />
     </MainContainer>

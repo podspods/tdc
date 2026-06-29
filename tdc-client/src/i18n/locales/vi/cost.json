@@ -1,0 +1,21 @@
+{
+  "title": "Quản lý chi phí",
+  "days": "Ngày",
+  "hours": "Giờ",
+  "currency": "£",
+  "clearFilters": "Xóa bộ lọc",
+  "filterByNameEffectifDate": "Lọc theo tên, ngày hiệu lực",
+  "dayWord": "Tên ngày",
+  "year2026": "Năm 2026",
+  "year2027": "Năm 2027",
+  "no_end_date": "Không có ngày kết thúc",
+  "half_time": "Bán thời gian",
+  "hourWork": "Giờ làm việc",
+  "effectiveDate": "Ngày hiệu lực",
+  "createdAt": "Ngày tạo",
+  "updatedAt": "Ngày cập nhật",
+  "endDate": "Ngày kết thúc",
+  "monthlyBase": "Lương cơ bản hàng tháng",
+  "createdBy": "Người tạo",
+  "end": "Kết thúc"
+}

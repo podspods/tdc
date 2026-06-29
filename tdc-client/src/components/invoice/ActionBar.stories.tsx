@@ -2,7 +2,7 @@
 import type { Meta, StoryFn } from "@storybook/react";
 import { ThemeProvider } from "styled-components";
 import ActionBar, { type ActionBarProps } from "./ActionBar";
-import { InvoiceState } from "./types";
+import { ComponentStatus } from "./types";
 import { lightTheme } from "../../styles/theme";
 
 // Fonctions factices pour les actions (log dans la console)
@@ -25,10 +25,10 @@ export default {
       control: { type: "select" },
       options: [0, 1, 2, 3],
       mapping: {
-        0: InvoiceState.InitState,
-        1: InvoiceState.View,
-        2: InvoiceState.Edit,
-        3: InvoiceState.Create,
+        0: ComponentStatus.InitState,
+        1: ComponentStatus.View,
+        2: ComponentStatus.Edit,
+        3: ComponentStatus.Create,
       },
       description: "État actuel de la facture (0=Init, 1=View, 2=Edit, 3=Create)",
     },
@@ -55,7 +55,7 @@ const Template: StoryFn<ActionBarProps> = (args) => <ActionBar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  invoiceState: InvoiceState.InitState,
+  invoiceState: ComponentStatus.InitState,
   dummyNumber: 42,
   generatingId: 0,
   setDummyNumber: mockSetDummyNumber,
@@ -66,7 +66,7 @@ Default.args = {
 export const EditMode = Template.bind({});
 EditMode.args = {
   ...Default.args,
-  invoiceState: InvoiceState.Edit,
+  invoiceState: ComponentStatus.Edit,
   dummyNumber: 100,
   generatingId: 5,
 };
@@ -74,7 +74,7 @@ EditMode.args = {
 export const CreateMode = Template.bind({});
 CreateMode.args = {
   ...Default.args,
-  invoiceState: InvoiceState.Create,
+  invoiceState: ComponentStatus.Create,
   dummyNumber: 0,
   generatingId: 0,
 };
@@ -82,7 +82,7 @@ CreateMode.args = {
 export const PdfGenerating = Template.bind({});
 PdfGenerating.args = {
   ...Default.args,
-  invoiceState: InvoiceState.View,
+  invoiceState: ComponentStatus.View,
   dummyNumber: 99,
   generatingId: 123,
 };

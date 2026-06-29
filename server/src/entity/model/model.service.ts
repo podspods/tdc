@@ -46,3 +46,7 @@ export async function _deleteModel(fastify: FastifyInstance, id: number) {
   if (!deleted) throw new Error("Failed to delete model");
   return { message: "Model deleted successfully" };
 }
+
+export async function _getAllModelInfo(fastify: FastifyInstance, params: ModelQueryParams) {
+  return await modelRepo.findAllModelInfo(fastify, params);
+}

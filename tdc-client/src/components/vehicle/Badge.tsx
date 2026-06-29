@@ -3,7 +3,7 @@ import type { Vehicle, VehicleInfo } from "./types";
 import { useEffect, useState } from "react";
 import { Select as SelectVehicle } from "./Select";
 import type { Owner } from "../owner/types";
-import { vehicleInfoInit } from "../../common/constant";
+import { ownerInit, vehicleInfoInit } from "../../common/constant";
 import { Input } from "../UI/Input";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../common/common.styled";
@@ -23,10 +23,9 @@ export default function Badge({ ...props }: BadgeProps) {
 
   const [vehicleInfo, setVehicleInfo] = useState<VehicleInfo>(vehicleInfoInit);
   const [vehicleInfoList, setVehicleInfoList] = useState<VehicleInfo[]>([]);
-  // const [vehicle, setVehicle] = useState<Vehicle>(vehicleInit);
 
   useEffect(() => {
-    if (props.value) {
+    if (props.value && props.owner.id !== ownerInit.id) {
       fetchVehicleInfoListByOwner(props.owner.id);
       setVehicleInfo({ ...vehicleInfoInit, vehicle: props.value });
     }
@@ -34,15 +33,13 @@ export default function Badge({ ...props }: BadgeProps) {
   //--------------------------------------------------------------------------------------------------------------------------
   const fetchVehicleInfoListByOwner = async (ownerId: number) => {
     const ownerVehicleInfoList: VehicleInfo[] = await getVehicleInfoByOwnerId(ownerId);
-    console.log("fetchVehicleInfoListByOwner 37", ownerId);
-    console.log("fetchVehicleInfoListByOwner 38", ownerVehicleInfoList);
     setVehicleInfoList(ownerVehicleInfoList);
     const vehicleInfoSelected: VehicleInfo =
       ownerVehicleInfoList.find(
         (vehicleInfo) => vehicleInfo.vehicle.id === vehicleInfo.vehicle.id,
       ) || vehicleInfoInit;
     setVehicleInfo(vehicleInfoSelected);
-  }; //--------------------------------------------------------------------------------------------------------------------------
+  };
 
   //--------------------------------------------------------------------------------------------------------------------------
   const handleVehicleChange = (id: number) => {

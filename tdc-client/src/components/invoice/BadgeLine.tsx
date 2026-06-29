@@ -11,6 +11,7 @@ export type BadgeLineProps = {
   value: InvoiceLine;
   index: number;
   typeLine: number;
+  onRefresh: () => void;
   editMode?: boolean;
   onChange?: () => void;
 };
@@ -40,8 +41,9 @@ export default function BadgeLine({ ...props }: BadgeLineProps) {
     props.onChange?.();
   };
   const handleDelete = async () => {
+    console.log("handleDelete", line);
     await deleteInvoiceLine(line.id);
-    props.onChange?.();
+    props.onRefresh();
   };
   //--------------------------------------------------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------------------------------------------------

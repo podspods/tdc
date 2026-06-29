@@ -1,0 +1,21 @@
+{
+  "title": "Gestion des coûts",
+  "days": "Jours",
+  "hours": "Heures",
+  "currency": "£",
+  "clearFilters": "Effacer les filtres",
+  "filterByNameEffectifDate": "Filtrer par nom, date d'effet",
+  "dayWord": "Libellé des jours",
+  "year2026": "Année 2026",
+  "year2027": "Année 2027",
+  "no_end_date": "Pas de date de fin",
+  "half_time": "Temps partiel",
+  "hourWork": "Heures travaillées",
+  "effectiveDate": "Date d'effet",
+  "createdAt": "Créé le",
+  "updatedAt": "Mis à jour le",
+  "endDate": "Date de fin",
+  "monthlyBase": "Base mensuelle",
+  "createdBy": "Créé par",
+  "end": "Fin"
+}

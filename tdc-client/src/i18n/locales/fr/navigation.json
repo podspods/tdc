@@ -12,6 +12,11 @@
   "logout": "Déconnexion",
   "language": "Langue",
   "mainMenu": "Menu Principal",
+  "todoList": "Liste de tâches",
+  "cost": "Coût",
+  "model": "Modèle",
   "home": "Accueil",
+  "partAndLabor": "Pièce et main d'oeuvre",
+  "correspondance": "Correspondance",
   "end": "End"
 }

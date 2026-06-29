@@ -7,6 +7,7 @@ import {
   _getVehiclesByOwner,
   _getVehicleInfoByOwnerId,
   _updateVehicle,
+  _vehicleList,
 } from "./vehicle.service";
 import type { Vehicle, VehicleInfo } from "./types";
 
@@ -32,6 +33,12 @@ export async function createVehicle(vehicle: Vehicle): Promise<Vehicle> {
     return response.data;
   }
   return vehicleInit;
+}
+
+export async function updateOrCreate(vehicle: Vehicle): Promise<Vehicle> {
+  return vehicle.id === vehicleInit.id
+    ? await createVehicle(vehicle)
+    : await updateVehicle(vehicle);
 }
 
 export async function getVehicleInfoById(id: number): Promise<VehicleInfo> {
@@ -62,5 +69,14 @@ export async function getVehicleInfoByOwnerId(
   if (response.success && response.data) {
     return response.data;
   }
+  return [];
+}
+
+export async function getVehicleList(): Promise<Vehicle[]> {
+  const vehicleResponse = await _vehicleList();
+  if (vehicleResponse.success && vehicleResponse.data) {
+    return vehicleResponse.data;
+  }
+
   return [];
 }

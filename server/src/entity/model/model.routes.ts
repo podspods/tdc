@@ -3,6 +3,7 @@ import { CreateModelDto, ModelQueryParams, UpdateModelDto } from "./model.types"
 import {
   createModel,
   deleteModel,
+  getAllModelInfo,
   getAllModels,
   getModelById,
   getModelsByBrand,
@@ -27,5 +28,8 @@ export default async function modelRoutes(fastify: FastifyInstance) {
   );
   fastify.delete<{ Params: { id: string } }>("/:id", (request, reply) =>
     deleteModel(fastify, request, reply),
+  );
+  fastify.get<{ Querystring: ModelQueryParams }>("/info", (request, reply) =>
+    getAllModelInfo(fastify, request, reply),
   );
 }

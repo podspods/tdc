@@ -1,6 +1,9 @@
 import { FastifyInstance } from "fastify";
-import { Model, CreateModelDto, UpdateModelDto, ModelQueryParams } from "./model.types";
+import { Model, CreateModelDto, UpdateModelDto, ModelQueryParams, ModelInfo } from "./model.types";
 
+import { Brand } from "../brand/brand.types";
+
+// Fonctions de mapping
 function mapDbToModel(row: any): Model {
   return {
     id: row.id,
@@ -14,12 +17,23 @@ function mapDbToModel(row: any): Model {
     powerHp: row.power_hp,
     torqueNm: row.torque_nm,
     weightKg: row.weight_kg,
-    fuelCapacityLiters: row.fuel_capacity_liters ? parseFloat(row.fuel_capacity_liters) : undefined,
+    fuelCapacityLiters: row.fuel_capacity_liters,
     description: row.description,
     imageUrl: row.image_url,
-    createdBy: row.created_by,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    createdBy: row.created_by,
+  };
+}
+
+function mapDbToBrand(row: any): Brand {
+  return {
+    id: row.brand_id,
+    name: row.brand_name,
+    code: row.brand_code,
+    countryOfOrigin: row.country_of_origin,
+    createdBy: row.brand_created_by,
+    createDate: row.brand_create_date,
   };
 }
 
@@ -208,4 +222,93 @@ export async function deleteModel(fastify: FastifyInstance, id: number): Promise
   const { pg } = fastify;
   const result = await pg.query("DELETE FROM model WHERE id = $1 RETURNING id", [id]);
   return result.rowCount ? result.rowCount > 0 : false;
+}
+
+// src/entity/model/model.repository.ts
+
+// ------------------------------------------------------------------------------------------
+export async function findAllModelInfo(
+  fastify: FastifyInstance,
+  params: ModelQueryParams = {},
+): Promise<{ data: ModelInfo[]; total: number }> {
+  const { pg } = fastify;
+  const { page = 1, limit = 20, brandId, isCurrent, search, minYear, maxYear } = params;
+
+  // Construction de la clause WHERE dynamique
+  const conditions: string[] = [];
+  const values: any[] = [];
+  let idx = 1;
+
+  if (brandId !== undefined) {
+    conditions.push(`m.brand_id = $${idx++}`);
+    values.push(brandId);
+  }
+  if (isCurrent !== undefined) {
+    conditions.push(`m.is_current = $${idx++}`);
+    values.push(isCurrent);
+  }
+  if (search) {
+    conditions.push(`m.name ILIKE $${idx++}`);
+    values.push(`%${search}%`);
+  }
+  if (minYear !== undefined) {
+    conditions.push(`m.year_start >= $${idx++}`);
+    values.push(minYear);
+  }
+  if (maxYear !== undefined) {
+    conditions.push(`m.year_start <= $${idx++}`);
+    values.push(maxYear);
+  }
+
+  const whereClause = conditions.length ? ` WHERE ${conditions.join(" AND ")}` : "";
+
+  // Requête de comptage (sans LIMIT)
+  const countQuery = `
+    SELECT COUNT(*)
+    FROM model m
+    ${whereClause}
+  `;
+
+  // Requête de données avec jointure sur brand
+  let dataQuery = `
+    SELECT
+      m.*,
+      b.id AS brand_id,
+      b.name AS brand_name,
+      b.code AS brand_code,
+      b.country_of_origin,
+      b.created_by AS brand_created_by,
+      b.create_date AS brand_create_date
+    FROM model m
+    LEFT JOIN brand b ON m.brand_id = b.id
+    ${whereClause}
+    ORDER BY b.name, m.name
+  `;
+
+  let queryParams = [...values];
+
+  // Gestion de la pagination : LIMIT/OFFSET seulement si limit > 0
+  let effectiveLimit = limit;
+  const noPagination = limit !== undefined && limit <= 0;
+
+  if (!noPagination) {
+    effectiveLimit = limit ?? 20;
+    const offset = (page - 1) * effectiveLimit;
+    dataQuery += ` LIMIT $${idx} OFFSET $${idx + 1}`;
+    queryParams.push(effectiveLimit, offset);
+  }
+
+  const [countResult, dataResult] = await Promise.all([
+    pg.query(countQuery, values),
+    pg.query(dataQuery, queryParams),
+  ]);
+
+  const total = parseInt(countResult.rows[0].count, 10);
+
+  const data: ModelInfo[] = dataResult.rows.map((row: any) => ({
+    model: mapDbToModel(row),
+    brand: mapDbToBrand(row),
+  }));
+
+  return { data, total };
 }

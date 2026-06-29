@@ -1,0 +1,21 @@
+{
+  "title": "Model Managment",
+  "editModel": "Edit Model",
+  "addModel": "Add Model",
+  "brand": "Brand",
+  "name": "Name",
+  "createdBy": "Created By",
+  "yearStart": "Year Start",
+  "yearEnd": "Year End",
+  "isCurrent": "Is Current",
+  "engineDisplacement": "Engine Displacement",
+  "engineType": "engineType",
+  "powerHp": "Power Hp",
+  "torqueNm": "Torque Nm",
+  "weightKg": "Weight Kg",
+  "fuelCapacityLiters": "Fuel Capacity (L)",
+  "description": "Description",
+  "imageUrl": "Is Url",
+
+  "end": "end"
+}

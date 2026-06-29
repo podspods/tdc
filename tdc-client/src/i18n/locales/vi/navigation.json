@@ -12,6 +12,11 @@
   "logout": "Đăng xuất",
   "language": "Ngôn ngữ",
   "mainMenu": "Menu chính",
+  "todoList": "Công việc",
+  "cost": "Chi phí",
+  "model": "Mẫu xe",
   "home": "Trang chủ",
+  "partAndLabor": "Phụ tùng & công",
+  "correspondance": "Tương ứng",
   "end": "End"
 }

@@ -1,16 +1,18 @@
 import styled from "styled-components";
-import { InvoiceState, type InvoiceInfo } from "./types";
+import { type InvoiceInfo } from "./types";
 import InvoiceDate from "./InvoiceDate";
 import ActionBar from "./ActionBar";
+import type { ComponentStatus } from "../../common/commun.types";
 
 export type BadgeProps = {
   invoice: InvoiceInfo;
-  onStateChange: (state: InvoiceState, invoiceId: number) => void;
+  onStateChange: (state: ComponentStatus, invoice: InvoiceInfo) => void;
 };
 export default function Badge({ ...props }: BadgeProps) {
   //--------------------------------------------------------------------------------------------------------------------------
-  const handleAction = (state: InvoiceState) => {
-    props.onStateChange(state, props.invoice.id);
+  const handleAction = (state: ComponentStatus) => {
+    console.log("handleAction 14", state);
+    props.onStateChange(state, props.invoice);
   };
   //--------------------------------------------------------------------------------------------------------------------------
   const title: string = `invoiceId: [${props.invoice.id}]\nstatus: ${props.invoice.statusText}`;

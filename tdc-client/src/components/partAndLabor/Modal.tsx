@@ -134,7 +134,7 @@ export function Modal({ ...props }: ModalProps) {
     const newPartAndlaborNameOptionList: OptionValue[] = newCurrentPartAndLaborList.map(
       (record) => ({
         value: record.id.toString(),
-        label: record.name,
+        label: t(`partAndLaborDb:${record.code}`),
       }),
     );
     setPartAndLaborNameOptionList(newPartAndlaborNameOptionList);
@@ -218,8 +218,6 @@ export function Modal({ ...props }: ModalProps) {
   };
   //--------------------------------------------------------------------------------------------------------------------------
   const handleSave = async () => {
-    console.log("handleSave 222", invoiceLine);
-
     setIsSubmitting(true);
     if (
       codeToId(currentPartAndLabor.typeLineCode) === 0 ||
@@ -236,7 +234,6 @@ export function Modal({ ...props }: ModalProps) {
       description: currentPartAndLabor.code,
       unitPrice: await calculatePrice(currentPartAndLabor),
     };
-    console.log("handleSave newInvoiceLine 238", newInvoiceLine);
     await addInvoiceLine(newInvoiceLine);
     props.onClose?.();
     setIsSubmitting(false);
@@ -310,7 +307,7 @@ export function Modal({ ...props }: ModalProps) {
   //--------------------------------------------------------------------------------------------------------------------------
 
   return (
-    <ModalOverlay onClick={props.onClose}>
+    <ModalOverlay>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <ModalTitle>{t("title")}</ModalTitle>

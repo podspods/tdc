@@ -11,6 +11,7 @@ export type LineSectionProps = {
   editMode: boolean;
   onNewInvoiceLine?: () => void;
   setIsModalOpen?: (isOpen: boolean) => void;
+  onRefresh: () => void;
 };
 export default function LineSection({ ...props }: LineSectionProps) {
   const { t } = useTranslation(["invoice"]);
@@ -22,7 +23,8 @@ export default function LineSection({ ...props }: LineSectionProps) {
   }, [props.invoiceDisplay]);
   //--------------------------------------------------------------------------------------------------------------------------
   const handleAddLine = () => {
-    (props.setIsModalOpen ?? (() => {}))(true);
+    console.log("handleAddLine 25", 0);
+    props.setIsModalOpen?.(true);
   };
   //--------------------------------------------------------------------------------------------------------------------------
   return (
@@ -36,6 +38,8 @@ export default function LineSection({ ...props }: LineSectionProps) {
             key={lineType.id}
             lineType={lineType}
             editMode={props.editMode}
+            onRefresh={props.onRefresh}
+            setModalCreateOpen={props.setIsModalOpen}
           />
         ))}
       {invoiceDisplay.invoiceLineList.length <= 0 && props.editMode && (
@@ -43,6 +47,7 @@ export default function LineSection({ ...props }: LineSectionProps) {
           ➕
         </Button>
       )}
+
       <Summary
         invoice={invoiceDisplay.invoice}
         vatRate={10}

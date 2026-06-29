@@ -1,7 +1,6 @@
 {
-  "title": "Véhicule",
   "_below": "_below_",
-  "vehicleManagement": "Gestion des Véhicules",
+  "title": "Gestion des Véhicules",
   "newVehicle": "+ Nouveau Véhicule",
   "totalVehicles": "Total Véhicules",
   "active": "Actif",
