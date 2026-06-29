@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { Correspondance } from "../correspondance/types";
 import { headerLine, InvoiceLineInit, totalLine } from "../../common/constant";
 import type { InvoiceLine } from "../invoice/types";
-import { lineTypeSectionStyles, pdfStyles } from "./styles";
+import { lineTypeSectionStyles } from "./styles";
 import { Text, View } from "@react-pdf/renderer";
 import BadgeLine from "./BadgeLine";
 

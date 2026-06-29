@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import type { OwnerCategory, OwnerStatus } from "./types";
 
 export const ButtonGroup = styled.div`
   display: flex;

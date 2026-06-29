@@ -1,7 +1,6 @@
 import type { Correspondance } from "../correspondance/types";
 import type { Garage } from "../garage/garage.types";
-import type { Owner } from "../owner/types";
-import type { Vehicle, VehicleInfo } from "../vehicle/types";
+import type { VehicleInfo } from "../vehicle/types";
 
 export type Invoice = CreateInvoiceDto & {
   id: number;

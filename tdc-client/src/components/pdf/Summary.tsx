@@ -5,7 +5,7 @@ import { summaryValueInit } from "../../common/constant";
 import type { Invoice, InvoiceLine, SummaryValue } from "../invoice/types";
 import { Text, View } from "@react-pdf/renderer";
 import { calculateSumary } from "../invoice/helper";
-import { lineTypeSectionStyles, summaryStyles } from "./styles";
+import { summaryStyles } from "./styles";
 import { formatNumber } from "../../common/common";
 
 export type SummaryProps = {

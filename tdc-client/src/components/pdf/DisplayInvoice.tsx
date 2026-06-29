@@ -1,5 +1,5 @@
 import { Document, Font, Page, Text, View } from "@react-pdf/renderer";
-import { invoiceStyles, pageStyles, pdfStyles } from "./styles";
+import { invoiceStyles, pageStyles } from "./styles";
 import type { InvoiceDisplay } from "../invoice/types";
 import Garage from "./Garage";
 import Owner from "./Owner";
@@ -10,12 +10,6 @@ import Agreement from "./Agreement";
 import regularFont from "../../assets/fonts/BeVietnamPro-Regular.ttf";
 import italicFont from "../../assets/fonts/BeVietnamPro-Italic.ttf";
 import boldFont from "../../assets/fonts/BeVietnamPro-Bold.ttf?url";
-// import emojiFont from "../../assets/fonts/NotoColorEmoji-Regular.ttf?url";
-
-// Font.register({
-//   family: "Emoji",
-//   fonts: [{ src: emojiFont, fontWeight: 400, fontStyle: "normal" }],
-// });
 
 Font.register({
   family: "Be Vietnam Pro",

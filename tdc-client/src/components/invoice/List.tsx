@@ -3,7 +3,6 @@ import { type InvoiceInfo } from "./types";
 import { _getAllInvoices, _getInvoiceById, _getInvoicesInfoList } from "./service";
 import { useTranslation } from "react-i18next";
 import { _getGarageById } from "../garage/garage.service";
-import { invoiceInfoInit } from "../../common/constant";
 import styled from "styled-components";
 import Badge from "./Badge";
 import { Button, FilterBar, SearchInput } from "../../common/common.styled";
@@ -41,17 +40,6 @@ export default function List({ ...props }: ListProps) {
     });
   }, [invoiceInfoList, searchTerm]);
 
-  //--------------------------------------------------------------------------------------------------------------------------
-
-  // const fetchGarage = async () => {
-  //   const idGarage = getSelectedGarageId() || defaulIdGarage;
-  //   if (idGarage) {
-  //     const response = await _getGarageById(idGarage);
-  //     if (response.success) {
-  //       setCurrentGarage(response?.data || garageInit);
-  //     }
-  //   }
-  // };
   //--------------------------------------------------------------------------------------------------------------------------
   const fetchInvoices = async () => {
     // setLoading(true);

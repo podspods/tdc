@@ -1,9 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import type {
-  Correspondance,
-  CreateCorrespondanceDto,
-  UpdateCorrespondanceDto,
-} from "../components/correspondance/types";
+import { useEffect, useMemo, useState } from "react";
+import type { Correspondance } from "../components/correspondance/types";
 
 import {
   _getAllCorrespondances,
@@ -11,26 +7,13 @@ import {
   _updateCorrespondance,
   _deleteCorrespondance,
 } from "../components/correspondance/service"; // adjust path if needed
-import { correspondanceInit } from "../common/constant";
 import { useTranslation } from "react-i18next";
-import {
-  Button,
-  FilterBar,
-  SearchInput,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "../common/common.styled";
+import { Button, FilterBar, SearchInput } from "../common/common.styled";
 import Modal from "../components/correspondance/Modal";
 import Mobil from "../components/correspondance/Mobil";
-import { DesktopTable } from "../common/mobil.syled";
 import Desktop from "../components/correspondance/Desktop";
 
-export type CorrespondanceProps = {};
-export default function Correspondance({ ...props }: CorrespondanceProps) {
+export default function Correspondance() {
   const { t } = useTranslation(["correspondance"]);
 
   const [items, setItems] = useState<Correspondance[]>([]);
@@ -38,7 +21,6 @@ export default function Correspondance({ ...props }: CorrespondanceProps) {
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<Correspondance | null>(null);
-  const [formData, setFormData] = useState<Correspondance>(correspondanceInit);
 
   const [filterSubjectCode, setFilterSubjectCode] = useState<string>("");
   const [filterCode, setFilterCode] = useState<string>("");
@@ -85,7 +67,6 @@ export default function Correspondance({ ...props }: CorrespondanceProps) {
   //--------------------------------------------------------------------------------------------------------------------------
 
   const resetForm = () => {
-    setFormData(correspondanceInit);
     setEditingItem(null);
   };
 
@@ -96,72 +77,22 @@ export default function Correspondance({ ...props }: CorrespondanceProps) {
 
   const openEditModal = (item: Correspondance) => {
     setEditingItem(item);
-    setFormData({
-      id: item.id,
-      subjectCode: item.subjectCode,
-      code: item.code,
-      valueStr: item.valueStr,
-      valueNum: item.valueNum,
-      description: item.description || "",
-      sortOrder: item.sortOrder ?? undefined,
-      createdBy: item.createdBy,
-      createdAt: item.createdAt,
-    });
+    // setFormData({
+    //   id: item.id,
+    //   subjectCode: item.subjectCode,
+    //   code: item.code,
+    //   valueStr: item.valueStr,
+    //   valueNum: item.valueNum,
+    //   description: item.description || "",
+    //   sortOrder: item.sortOrder ?? undefined,
+    //   createdBy: item.createdBy,
+    //   createdAt: item.createdAt,
+    // });
     setModalOpen(true);
   };
 
   //--------------------------------------------------------------------------------------------------------------------------
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Validation
-    if (!formData.subjectCode || !formData.code || !formData.valueStr || !formData.createdBy) {
-      alert("Please fill in all required fields (subjectCode, code, value, createdBy)");
-      return;
-    }
-
-    try {
-      if (editingItem) {
-        const updateData: UpdateCorrespondanceDto = {
-          subjectCode: formData.subjectCode,
-          code: formData.code,
-          valueStr: formData.valueStr,
-          valueNum: formData.valueNum,
-          description: formData.description,
-          sortOrder: formData.sortOrder,
-        };
-        const response = await _updateCorrespondance(editingItem.id, updateData);
-        if (response.success) {
-          await fetchCorrespondances();
-          setModalOpen(false);
-          resetForm();
-        } else {
-          alert(response.message || "Update failed");
-        }
-      } else {
-        const createData: CreateCorrespondanceDto = {
-          subjectCode: formData.subjectCode,
-          code: formData.code,
-          valueStr: formData.valueStr,
-          valueNum: formData.valueNum,
-          description: formData.description,
-          sortOrder: formData.sortOrder,
-          createdBy: formData.createdBy,
-        };
-        const response = await _createCorrespondance(createData);
-        if (response.success) {
-          await fetchCorrespondances();
-          setModalOpen(false);
-          resetForm();
-        } else {
-          alert(response.message || "Creation failed");
-        }
-      }
-    } catch (err) {
-      console.error(err);
-      alert("An error occurred while saving");
-    }
-  };
   //--------------------------------------------------------------------------------------------------------------------------
 
   const handleDelete = async (id: number) => {

@@ -36,7 +36,7 @@ const DropdownItem = styled.button<{ $active: boolean }>`
   background-color: ${({ $active, theme }) => ($active ? theme.colors.background : "transparent")};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.backgroundHover};
+    background-color: ${({ theme }) => theme.colors.background.primary};
   }
 `;
 
@@ -45,7 +45,7 @@ const Flag = styled.span`
 `;
 
 export function LanguageSelector() {
-  const { i18n, t } = useTranslation("navigation");
+  const { i18n } = useTranslation("navigation");
   const [isOpen, setIsOpen] = useState(false);
 
   const currentLanguage =

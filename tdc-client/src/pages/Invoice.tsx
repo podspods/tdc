@@ -7,7 +7,7 @@ import {
 } from "../components/invoice/service";
 import { useState } from "react";
 import { _getOwnerById } from "../components/owner/service";
-import { _getVehicleById } from "../components/vehicle/vehicle.service";
+import { _getVehicleById } from "../components/vehicle/service";
 import { invoiceInit, ownerInit } from "../common/constant";
 import { _getGarageById } from "../components/garage/garage.service";
 import List from "../components/invoice/List";

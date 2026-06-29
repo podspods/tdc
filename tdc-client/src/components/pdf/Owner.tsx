@@ -1,5 +1,5 @@
 import { Text, View } from "@react-pdf/renderer";
-import { ownerStyles, pdfStyles } from "./styles";
+import { ownerStyles } from "./styles";
 import type { Owner } from "../owner/types";
 
 export type OwnerProps = {
@@ -22,40 +22,3 @@ export default function Owner({ ...props }: OwnerProps) {
     </View>
   );
 }
-
-// export const localStyles = StyleSheet.create({
-
-//   name: {
-//     fontSize: theme.fontSize.base,
-//     fontWeight: 700,
-//   },
-
-// })
-
-// const Name = styled.div`
-//   font-size: ${({ theme }) => `${theme.fontSize.base}`};
-//   font-weight: 700;
-// `;
-// const Address = styled.div`
-//   font-size: ${({ theme }) => `${theme.fontSize.xs}`};
-// `;
-// const City = styled(Address)``;
-// const Phone = styled(Address)``;
-
-// const MainContainer = styled.div`
-//   text-align: left;
-//   font-size: ${({ theme }) => `${theme.fontSize.base}`};
-//   color: ${({ theme }) => theme.colors.text.primary};
-//   padding: ${({ theme }) => theme.spacing.md};
-//   border-radius: ${({ theme }) => theme.borderRadius.md};
-//   border: 1px solid black;
-//   border-color: ${({ theme }) => theme.colors.text.primary};
-//   width: "100%";
-// `;
-
-// const Row = styled.div`
-//   display: flex;
-//   flex-direction: row;
-
-//   width: "100%";
-// `;

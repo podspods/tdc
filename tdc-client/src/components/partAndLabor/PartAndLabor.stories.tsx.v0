@@ -1,0 +1,35 @@
+// frontend/src/components/partAndLabor/PartAndLabor.stories.tsx
+import { Meta, StoryFn } from "@storybook/react";
+import { partAndLaborInit } from "../../common/constant";
+import type { PartAndLabor } from "./types";
+
+const mockPartAndLabor: PartAndLabor = {
+  ...partAndLaborInit,
+  id: 1,
+  typeLineCode: "TA",
+  categoryCode: "MA",
+  subCategoryCode: "EN",
+  brandCode: "DU",
+  duration: 60,
+  skillLevel: 2,
+  cost: 100,
+  margin: 30,
+  code: "TA-MA-EN-DU-1",
+  name: "Oil Change - Ducati",
+  description: "Complete oil change service for Ducati motorcycles",
+  createdBy: "admin",
+};
+
+export default {
+  title: "Components/PartAndLabor",
+  decorators: [(Story) => <Story />],
+} as Meta;
+
+const Template: StoryFn = () => (
+  <div>
+    <h1>Part And Labor</h1>
+    <pre>{JSON.stringify(mockPartAndLabor, null, 2)}</pre>
+  </div>
+);
+
+export const Default = Template.bind({});

@@ -3,7 +3,7 @@ import { Button, FilterBar, SearchInput } from "../../common/common.styled";
 import type { ComponentStatus } from "../../common/commun.types";
 import styled from "styled-components";
 import { useMemo, useState } from "react";
-import type { Model, ModelInfo } from "./types";
+import type { ModelInfo } from "./types";
 import Badge from "./Badge";
 
 export type ListProps = {

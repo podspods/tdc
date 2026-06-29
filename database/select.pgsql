@@ -124,4 +124,5 @@ select * from model;
 
      select * from correspondance  where code = 2;
 
-     select * from brand;
+     select name from brand;
+     select *  from model;

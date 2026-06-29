@@ -1,5 +1,4 @@
 // src/pages/CostPage.tsx
-import { useTranslation } from "react-i18next";
 import { MainContainer } from "../common/common.styled";
 import List from "../components/cost/List";
 import type { Cost } from "../components/cost/types";
@@ -10,7 +9,6 @@ import { ComponentStatus } from "../common/commun.types";
 import Modal from "../components/cost/Modal";
 
 export default function Cost() {
-  const { t } = useTranslation(["cost"]);
   const [cost, setCost] = useState<Cost>(costInit);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [costList, setCostList] = useState<Cost[]>([]);

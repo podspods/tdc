@@ -6,8 +6,7 @@ import View from "../components/partAndLabor/View";
 import { useTranslation } from "react-i18next";
 import { ModalCreate } from "../components/partAndLabor/ModalCreate";
 
-export type PartAndLaborProps = {};
-export default function PartAndLabor({ ...props }: PartAndLaborProps) {
+export default function PartAndLabor() {
   const { t } = useTranslation(["partAndLabor"]);
 
   const [isModalOpen, setModalopen] = useState<boolean>(false);

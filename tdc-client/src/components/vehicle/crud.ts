@@ -8,7 +8,7 @@ import {
   _getVehicleInfoByOwnerId,
   _updateVehicle,
   _vehicleList,
-} from "./vehicle.service";
+} from "./service";
 import type { Vehicle, VehicleInfo } from "./types";
 
 export async function getVehicleById(id: number): Promise<Vehicle> {

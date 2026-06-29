@@ -2,8 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Text, View } from "@react-pdf/renderer";
 import { agreementStyles } from "./styles";
 
-export type AgreementProps = {};
-export default function Agreement({ ...props }: AgreementProps) {
+export default function Agreement() {
   const { t } = useTranslation(["invoice"]);
 
   return (
@@ -26,13 +25,3 @@ export default function Agreement({ ...props }: AgreementProps) {
     </View>
   );
 }
-
-// const GarageRepresentative = styled(LeftSide)`
-//   padding: ${({ theme }) => `${theme.spacing.sm} `};
-//   background-color: ${({ theme }) => theme.colors.background.white};
-//   border: 1px solid red;
-//   border-radius: ${({ theme }) => theme.spacing.sm};
-//   min-height: 10rem;
-// `;
-
-// const Customer = styled(GarageRepresentative)``;

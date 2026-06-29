@@ -15,6 +15,7 @@ export type BadgeProps = {
   listMode?: boolean;
   setOwner?: (owner: Owner) => void;
   onNewVehicle?: () => void;
+  onChange?: (ownerId: number) => void;
 
   onAction?: (state: ComponentStatus, owner: Owner) => void;
 };
@@ -49,7 +50,10 @@ export default function Badge({ ...props }: BadgeProps) {
     const idSelected = Number(event.target.value);
     const newOwner: Owner = ownerList.find((record) => record.id === idSelected) || ownerInit;
 
-    if (newOwner.id !== ownerInit.id) props.setOwner?.(newOwner);
+    if (newOwner.id !== ownerInit.id) {
+      props.setOwner?.(newOwner);
+      props.onChange?.(newOwner.id);
+    }
   };
   //--------------------------------------------------------------------------------------------------------------------------
 

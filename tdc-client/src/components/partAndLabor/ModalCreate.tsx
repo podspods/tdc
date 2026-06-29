@@ -373,7 +373,7 @@ export function ModalCreate({ ...props }: ModalCreateProps) {
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <ModalTitle>{t("partAndLaborDb:title")}</ModalTitle>
-          <Button variant="secondary" onClick={props.onClose}>
+          <Button $variant="secondary" onClick={props.onClose}>
             ✖
           </Button>
         </ModalHeader>

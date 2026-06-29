@@ -1,5 +1,5 @@
 // components/UI/FloatingLabelSelect.tsx
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import type { OptionValue } from "../../common/commun.types";
 import { defaultPlaceHolder } from "../../common/constant";
@@ -47,7 +47,7 @@ type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
 };
 
 export function Select({ ...props }: SelectProps) {
-  const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState(false);
   // const hasValue = value !== undefined && value !== "";
   // const isFloating = isFocused || hasValue;
 

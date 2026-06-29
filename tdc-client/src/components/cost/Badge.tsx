@@ -2,8 +2,6 @@ import ActionBar from "../invoice/ActionBar";
 import type { ComponentStatus } from "../../common/commun.types";
 import styled from "styled-components";
 import type { Cost } from "./types";
-import { Select } from "../UI/Select";
-import { Input } from "../UI/Input";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { formatNumber } from "../../common/common";

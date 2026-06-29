@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const HeaderContainer = styled.header`
-  background-color: ${({ theme }) => theme.colors.white};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
+  background-color: ${({ theme }) => theme.colors.background.primary};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.text.black};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   display: flex;
   align-items: center;
@@ -30,7 +30,7 @@ export const MenuButton = styled.button`
   border-radius: ${({ theme }) => theme.borderRadius.md};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.gray100};
+    background-color: ${({ theme }) => theme.colors.background.primary};
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -41,7 +41,7 @@ export const MenuButton = styled.button`
 export const Logo = styled.div`
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     font-size: ${({ theme }) => theme.fontSize.xl};
@@ -51,7 +51,7 @@ export const Logo = styled.div`
 export const Title = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: 500;
-  color: ${({ theme }) => theme.colors.gray600};
+  color: ${({ theme }) => theme.colors.text.primary};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     font-size: ${({ theme }) => theme.fontSize.lg};
@@ -68,7 +68,7 @@ export const Avatar = styled.div`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.text.primary};
   color: white;
   display: flex;
   align-items: center;

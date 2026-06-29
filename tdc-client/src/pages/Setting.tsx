@@ -6,8 +6,7 @@ import type { OptionValue } from "../common/commun.types";
 import { garage2Option, saveSelectedGarageId } from "../common/common";
 import { Button } from "../common/common.styled";
 
-export type SettingProps = {};
-export default function Setting({ ...props }: SettingProps) {
+export default function Setting() {
   const [garageList, setGarageList] = useState<Garage[]>([]);
   const [optionList, setOptionList] = useState<OptionValue[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +26,6 @@ export default function Setting({ ...props }: SettingProps) {
     }
     setLoading(false);
   };
-
   //--------------------------------------------------------------------------------------------------------------------------
   const handlClick = () => {
     setRload((prev) => prev + 1);
@@ -41,8 +39,6 @@ export default function Setting({ ...props }: SettingProps) {
     saveSelectedGarageId(currentGarageId);
   };
   //--------------------------------------------------------------------------------------------------------------------------
-  //--------------------------------------------------------------------------------------------------------------------------
-
   useEffect(() => {
     loadGarages();
   }, [reload]);
@@ -51,7 +47,7 @@ export default function Setting({ ...props }: SettingProps) {
   return (
     <>
       <h1>
-        Setting {reload} - {currentGarageId}
+        Setting {reload} - {currentGarageId} {garageList.length} {loading}
       </h1>
       <Button onClick={handlClick}>reload</Button>
       <Select label="garage" options={optionList} onChange={handeChange} />

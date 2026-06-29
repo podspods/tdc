@@ -41,7 +41,11 @@ export type BadgeProps = {
 export default function Badge({ ...props }: BadgeProps) {
   return (
     <>
-      <h1>Badge</h1>
+      <InfoGroup>
+        <h1>Badge</h1>
+        <Value>{props.value.toString()}</Value>
+        <Label>{props.label} </Label>
+      </InfoGroup>
     </>
   );
 }

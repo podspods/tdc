@@ -7,6 +7,7 @@ export default function Stats({ ...props }: StatsProps) {
   return (
     <>
       <h1>Stats</h1>
+      <p>{props.stats.active} </p>
     </>
   );
 }

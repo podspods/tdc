@@ -1,7 +1,5 @@
 import ReactMarkdown from "react-markdown";
 
-export type ToDoListProps = {};
-
 const markdownText = `
 
 - liste des tâches 
@@ -33,7 +31,7 @@ console.log('Code bloc');
 
 `;
 
-export default function ToDoList({ ...props }: ToDoListProps) {
+export default function ToDoList() {
   return (
     <>
       <h1>ToDoList</h1>

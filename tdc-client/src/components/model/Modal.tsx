@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { brandInit, modelInit } from "../../common/constant";
 import { _createModel, _updateModel } from "./service";
-import type { Model, CreateModelDto, UpdateModelDto } from "./types";
+import type { Model } from "./types";
 import {
   ModalOverlay,
   ModalContent,

@@ -3,8 +3,7 @@ import { LeftSide, LineTitle, MainSubject, TwoHalfPage } from "./view.style";
 import styled from "styled-components";
 import { LineContainer } from "../../common/common.styled";
 
-export type AgreementProps = {};
-export default function Agreement({ ...props }: AgreementProps) {
+export default function Agreement() {
   const { t } = useTranslation(["invoice"]);
 
   return (

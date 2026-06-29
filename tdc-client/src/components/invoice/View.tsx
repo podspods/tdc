@@ -14,7 +14,7 @@ import { Modal as ModalOwner } from "../owner/Modal";
 import { Modal as ModalVehicle } from "../vehicle/Modal";
 import DisplayInvoice from "./DisplayInvoice";
 import { useEffect, useState } from "react";
-import type { Vehicle, VehicleInfo } from "../vehicle/types";
+import type { VehicleInfo } from "../vehicle/types";
 import { ComponentStatus, type ModalIsOpen } from "../../common/commun.types";
 import { fetchInvoiceDisplay } from "./helper";
 
@@ -61,11 +61,7 @@ export default function View({ ...props }: ViewProps) {
   const handleModalVehicleOpen = (isOpen: boolean) => {
     setModalOpen((prev) => ({ ...prev, vehicule: isOpen }));
   };
-  //--------------------------------------------------------------------------------------------------------------------------
-  const handleNewVehicle = () => {
-    const newModalIsOpenInit: ModalIsOpen = { ...modalIsOpenInit, vehicule: true };
-    setModalOpen(newModalIsOpenInit);
-  };
+
   //--------------------------------------------------------------------------------------------------------------------------
   const handleNewInvoiceLine = () => {
     const newModalIsOpenInit: ModalIsOpen = { ...modalIsOpenInit, invoiceLine: true };
@@ -82,14 +78,14 @@ export default function View({ ...props }: ViewProps) {
   };
   //--------------------------------------------------------------------------------------------------------------------------
 
-  const handleSetVehicle = (newVehicle: Vehicle) => {
-    if (invoiceDisplay.vehicleInfo.vehicle.id !== newVehicle.id) {
-      const newVehicleInfo: VehicleInfo = { ...invoiceDisplay.vehicleInfo, vehicle: newVehicle };
-      const newInvoiceDisplay: InvoiceDisplay = { ...invoiceDisplay, vehicleInfo: newVehicleInfo };
+  // const handleSetVehicle = (newVehicle: Vehicle) => {
+  //   if (invoiceDisplay.vehicleInfo.vehicle.id !== newVehicle.id) {
+  //     const newVehicleInfo: VehicleInfo = { ...invoiceDisplay.vehicleInfo, vehicle: newVehicle };
+  //     const newInvoiceDisplay: InvoiceDisplay = { ...invoiceDisplay, vehicleInfo: newVehicleInfo };
 
-      setInvoiceDisplay(newInvoiceDisplay);
-    }
-  };
+  //     setInvoiceDisplay(newInvoiceDisplay);
+  //   }
+  // };
 
   //--------------------------------------------------------------------------------------------------------------------------
   const handleModalClose = () => {

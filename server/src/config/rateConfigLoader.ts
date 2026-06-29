@@ -142,7 +142,11 @@ class RateConfigLoader {
 
     try {
       const rawData = fs.readFileSync(this.configPath, "utf-8");
-      this.config = JSON.parse(rawData);
+      const parsed = JSON.parse(rawData);
+      if (!parsed || typeof parsed !== "object") {
+        throw new Error("Invalid configuration format");
+      }
+      this.config = parsed as RateConfig;
       console.log("✅ Rate configuration loaded successfully");
       return this.config;
     } catch (error) {
