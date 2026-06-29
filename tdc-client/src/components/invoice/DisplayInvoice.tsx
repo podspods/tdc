@@ -59,7 +59,7 @@ export default function DisplayInvoice({ ...props }: DisplayInvoiceProps) {
   const handleOwnerChange = async (ownerId: number) => {
     // ???????????????????????????????????????????????,
 
-    const newInvoiceNewGarage: Invoice = { ...invoiceDisplay.invoice, ownerId: ownerId };
+    const newInvoiceNewGarage: Invoice = { ...invoiceDisplay.invoice, : ownerId };
     const invoiceNumber = generateInvoiceNumber(newInvoiceNewGarage);
 
     const newInvoice: Invoice = { ...newInvoiceNewGarage, invoiceNumber: invoiceNumber };
